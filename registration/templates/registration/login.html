@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block main %}
+<h2>ログイン</h2>
+{% include "registration/_form.html" with submit_label="ログイン" %}
+<p><a href="{% url 'signup' %}">サインアップ</a></p>
+{% endblock %}

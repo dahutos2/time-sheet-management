@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    'registration',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog',
+    'anymail',
 ]
 
 MIDDLEWARE = [
@@ -124,3 +126,26 @@ STATIC_URL = '/assets/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+LOGIN_URL = "/login/"
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/login/"
+
+# 暗号化されたhttpsを使うようにする
+#ECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+#SECURE_SSL_REDIRECT = False
+#SESSION_COOKIE_SECURE = True
+#CSRF_COOKIE_SECURE = True
+
+AUTH_USER_MODEL = 'registration.User'
+
+FRONTEND_URL = "http://127.0.0.1:8000"
+
+ANYMAIL = {
+"MAILGUN_API_KEY": "b575fbec0f240346622e7590363b8e13-a0cfb957-d4c040eb",
+"MAILGUN_SENDER_DOMAIN": 'dahutos2.django.com',
+}
+EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
+
+DEFAULT_FROM_EMAIL = "hondo@example.com"
+SERVER_EMAIL = "server@example.com"
