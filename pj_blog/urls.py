@@ -8,8 +8,8 @@ from registration import views
 
 from django.contrib.auth.models import Group
 
-admin.site.site_title = '匿名ブログ 内部管理サイト'
-admin.site.site_header = '匿名ブログ 内部管理サイト'
+admin.site.site_title = '管理'
+admin.site.site_header = 'システム管理サイト'
 admin.site.index_title = 'メニュー'
 admin.site.unregister(Group)
 admin.site.disable_action('delete_selected')
@@ -21,6 +21,6 @@ urlpatterns = [
     path("", login_required(index_view), name="index"),
     path('blog/', include("blog.urls")),
     path('', include("django.contrib.auth.urls")),
-    #path("signup/", views.SignUpView.as_view(), name="signup"),
+    path("sign-up/", views.SignUpView.as_view(), name="signup"),
     #path('activate/<uidb64>/<token>/', views.ActivateView.as_view(), name='activate'),
 ]
