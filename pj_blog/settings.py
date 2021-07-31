@@ -31,7 +31,7 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
-    'registration',
+    #'registration',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -58,7 +58,7 @@ ROOT_URLCONF = 'pj_blog.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -127,6 +127,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/login/"
@@ -137,14 +139,15 @@ LOGOUT_REDIRECT_URL = "/login/"
 #SESSION_COOKIE_SECURE = True
 #CSRF_COOKIE_SECURE = True
 
-AUTH_USER_MODEL = 'registration.User'
+#AUTH_USER_MODEL = 'registration.User'
 
-FRONTEND_URL = "http://127.0.0.1:8000"
+#FRONTEND_URL = "http://127.0.0.1:8000"
 
 ANYMAIL = {
 "MAILGUN_API_KEY": "b575fbec0f240346622e7590363b8e13-a0cfb957-d4c040eb",
-"MAILGUN_SENDER_DOMAIN": 'dahutos2.django.com',
+"MAILGUN_SENDER_DOMAIN": 'sandbox10812175d4864f2bad21ab4d3154ab9b.mailgun.org',
 }
+
 EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
 
 DEFAULT_FROM_EMAIL = "hondo@example.com"

@@ -2,4 +2,4 @@ django
 gunicorn
 whitenoise
 dj-database-url
-"django-anymail[mailgun]"
+django-anymail[mailgun]
