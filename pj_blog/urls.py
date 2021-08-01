@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 
 from django.views.generic import TemplateView
 
-from registration import views
+from blog import views
 
 from django.contrib.auth.models import Group
 

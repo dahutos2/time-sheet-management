@@ -31,14 +31,13 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    'blog',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'registration',
-    'blog',
     'anymail',
 ]
 
@@ -139,7 +138,7 @@ LOGOUT_REDIRECT_URL = "/login/"
 #SESSION_COOKIE_SECURE = True
 #CSRF_COOKIE_SECURE = True
 
-AUTH_USER_MODEL = 'registration.User'
+AUTH_USER_MODEL = 'blog.User'
 
 FRONTEND_URL = "https://127.0.0.1:8000"
 

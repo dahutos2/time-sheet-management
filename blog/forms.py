@@ -1,13 +1,12 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
+from .models import User
 from django.urls import reverse_lazy
 from django.conf import settings
 
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-
-User = get_user_model()
 
 subject = "登録確認"
 message_template = """
@@ -33,6 +32,7 @@ class SignUpForm(UserCreationForm):
         user.email = self.cleaned_data["email"]
         user.save()
         return user
+
 
 #    def save(self, commit=True):
         # commit=Falseだと、DBに保存されない
