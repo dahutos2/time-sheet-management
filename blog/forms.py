@@ -7,25 +7,18 @@ from django.conf import settings
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes, force_text
 from django import forms
-from .models import Post
+from .models import Post, Schedule
 
 class SimpleScheduleForm(forms.ModelForm):
     """シンプルなスケジュール登録用フォーム"""
     class Meta:
-        time_list=((1,'9:00'),(2,'10:00'),(3,'11:00'),(4,'12:00'),(5,'13:00'),
-             (6,'14:00'),(7,'15:00',),(8,'16:00'),(9,'17:00'),(10,'18:00'),
-             (11,'19:00'),(12,'20:00'),(13,'21:00'),(14,'22:00'),(15,'23:00'),
-             (16,'24:00')
-            )
-        model = Post
-        fields = ('start_time', 'end_time','date')
+        model = Schedule
+        fields = ('start_time','end_time','date')
         widgets = {
             'start_time': forms.Select(
-                choices=time_list,
                 attrs={'class': 'form-control'},
                 ),
             'end_time': forms.Select(
-                choices=time_list,
                 attrs={'class': 'form-control'},
                 ),
             'date': forms.HiddenInput,

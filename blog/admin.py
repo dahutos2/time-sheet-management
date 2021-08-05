@@ -11,12 +11,25 @@ class UserAdmin(UserAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     pass
 
+@admin.register(models.Start)
+class CategoryAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(models.End)
+class CategoryAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(models.Schedule)
+class ScheduleAdmin(admin.ModelAdmin):
+    pass
+
+
 from django import forms
 
 @admin.register(models.Post)
 class PostAdmin(admin.ModelAdmin):
     
-    list_display = ('id', 'category','date','start_time','end_time', 'created', 'updated',)
+    list_display = ('id', 'category', 'created', 'updated',)
     list_select_related = ('category', )
     list_editable = ( 'category',)
     search_fields = ('category__name', 'created', 'updated',)
