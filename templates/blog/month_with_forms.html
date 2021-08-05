@@ -1,0 +1,68 @@
+<html lang="ja">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <title>カレンダー</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="/">一括</a>
+        </nav>
+    <style>
+        table {
+            table-layout: fixed;
+        }
+
+    </style>
+<a href="{% url 'month_with_forms' month_previous.year month_previous.month  %}">前月</a>
+{{ month_current | date:"Y年m月" }}
+<a href="{% url 'month_with_forms' month_next.year month_next.month %}">次月</a>
+
+ <form action="" method="POST">
+{{ month_formset.management_form }}
+<table class="table">
+    <thead>
+    <tr>
+    {% for w in week_names %}
+        {% if w == '土' %}
+        <td class="table-primary">
+        {% elif w == '日' %}
+        <td class="table-success">
+        {% else %}
+        <th>
+        {% endif %}      
+        {{ w }}</th>
+        {% endfor %}
+    </tr>
+        </thead>
+        <tbody>
+        {% for week_day_forms in month_day_forms %}
+        <tr>
+            {% for day, forms in week_day_forms.items %}
+                <td>
+                <div>
+                {% if month_current.month != day.month %}
+                    {{ day | date:"m/d" }}
+                {% else %}
+                    {{ day.day }}
+                {% endif %}
+                 {{ forms.non_field_errors }}
+                    {% for field in forms %}
+                        {{ field.as_p }}
+                    {% endfor %}
+                </div>
+                </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% csrf_token %}
+        <button type="submit" class="btn btn-primary">送信</button>
+    </form>

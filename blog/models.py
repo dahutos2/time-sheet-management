@@ -2,7 +2,9 @@ from django.db import models
 from django.apps.config import AppConfig
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import AbstractUser,UserManager
-
+import datetime
+from django.utils import timezone
+from django.urls import reverse_lazy
 
 class UserManager(UserManager):
     pass
@@ -11,25 +13,13 @@ class User(AbstractUser):
     email = models.EmailField('メールアドレス', unique=True)
     class Meta:
         verbose_name = verbose_name_plural = _('アカウント')
-#    def get_first_name(self):
-#        return self.__str__()
-
-#    first_name = get_first_name
-
-#    def get_last_name(self):
-#        return self.__str__()
-
-#    last_name = get_last_name
-
-#    date_joined = str(first_name) + str(last_name)
-
 
 
 class Category(models.Model):
     name = models.CharField(
     max_length=255,
-    blank=False,
-    null=False,
+    blank=True,
+    null=True,
     unique=True)
 
     def __str__(self):
@@ -37,22 +27,6 @@ class Category(models.Model):
 
     class Meta:
         verbose_name = verbose_name_plural = _('カテゴリー')
-
-
-class Tag(models.Model):
-    name = models.CharField(
-        max_length=255,
-        blank=False,
-        null=False,
-        unique=True)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = verbose_name_plural = _('タグ')
-
-from django.urls import reverse_lazy
 
 class Post(models.Model):
     created = models.DateTimeField(
@@ -70,20 +44,33 @@ class Post(models.Model):
         null=False,
         verbose_name="最終更新日",
         )
-
-    title = models.CharField(
-        max_length=255,
-        blank=False,
-        null=False,
-        verbose_name="タイトル",
-        )
-
     body = models.TextField(
         blank=True,
         null=False,
-        verbose_name="本文",
-        help_text="HTMLは使えません。",
+        verbose_name="備考",
         )
+        
+    time_list=((1,'9:00'),(2,'10:00'),(3,'11:00'),(4,'12:00'),(5,'13:00'),
+             (6,'14:00'),(7,'15:00',),(8,'16:00'),(9,'17:00'),(10,'18:00'),
+             (11,'19:00'),(12,'20:00'),(13,'21:00'),(14,'22:00'),(15,'23:00'),
+             (16,'24:00')
+            )
+            
+    start_time = models.CharField('開始',
+        null=True,
+        blank=True,
+        choices=time_list,
+        max_length=255,
+        )
+        
+    end_time = models.CharField('終了',
+        null=True,
+        blank=True,
+        choices=time_list,
+        max_length=255,)
+        
+    date = models.DateTimeField('日付',
+        null=True)
 
     category = models.ForeignKey(
         Category,
@@ -91,22 +78,11 @@ class Post(models.Model):
         verbose_name="カテゴリ",
         )
 
-    tags = models.ManyToManyField(
-        Tag,
-        blank=True,
-        verbose_name="タグ",
-        )
-
-    published = models.BooleanField(
-        default=True,
-        verbose_name="公開する",
-        )
-
     def __str__(self):
-        return self.title
-
+        return self.category
+    
     def get_absolute_url(self):
-        return reverse_lazy("detail", args=[self.id])
+        return reverse_lazy("index")
 
     class Meta:
         verbose_name = verbose_name_plural = _('投稿')

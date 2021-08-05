@@ -1,12 +1,19 @@
 # ListViewとDetailViewを取り込み
 from django.views.generic import ListView, DetailView
-
+import datetime
+from django.shortcuts import redirect, render
+from django.views import generic
+from . import mixins
 from .models import Post
 from .models import User
-from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
-
+import datetime
+from django.shortcuts import redirect, render
+from django.views import generic
+from . import mixins
+from .forms import SimpleScheduleForm
 from .forms import SignUpForm
+from django.views.generic.edit import CreateView
 
 from django.views.generic import TemplateView
 #from .forms import activate_user
@@ -16,33 +23,32 @@ class Index(ListView):
     # 一覧するモデルを指定 -> `object_list`で取得可能
     model = Post
 
-# DetailViewは詳細を簡単に作るためのView
-class Detail(DetailView):
-    # 詳細表示するモデルを指定 -> `object`で取得可能
-    model = Post
-
-from django.views.generic.edit import CreateView
-
 # CreateViewは新規作成画面を簡単に作るためのView
+class MonthWithFormsCalendar(mixins.MonthWithFormsMixin,CreateView):
+    """フォーム付きの月間カレンダーを表示するビュー"""
+    template_name = 'blog/month_with_forms.html'
+    model = Post
+    date_field = 'date'
+    form_class = SimpleScheduleForm
+    
+    def get(self,request, **kwargs):
+        context = self.get_month_calendar()
+        return render(request,self.template_name,context,)
+        
+    def post(self, request, **kwargs):
+        context = self.get_month_calendar()
+        formset = context['month_formset']
+        if formset.is_valid():
+            formset.save()
+        return redirect('/blog/create/',)
+
 class Create(CreateView):
     model = Post
 
     # 編集対象にするフィールド
-    fields = ["title", "body", "category", "tags",]
-
-from django.views.generic.edit import UpdateView
-
-class Update(UpdateView):
-    model = Post
-    fields = ["title", "body", "category", "tags",]
-
-from django.views.generic.edit import DeleteView
-
-class Delete(DeleteView):
-    model = Post
-
-    # 削除したあとに移動する先（トップページ）
-    success_url = "/"
+    fields = ["category", "body",]
+    
+    
 
 class SignUpView(CreateView):
     form_class = SignUpForm

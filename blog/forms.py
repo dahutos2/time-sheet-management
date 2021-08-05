@@ -6,21 +6,31 @@ from django.conf import settings
 
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes, force_text
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django import forms
+from .models import Post
 
-subject = "登録確認"
-message_template = """
-ご登録ありがとうございます。
-以下URLをクリックして登録を完了してください。
-
-"""
-
-def get_activate_url(user):
-    uid = urlsafe_base64_encode(force_bytes(user.pk))
-    token = default_token_generator.make_token(user)
-    return settings.FRONTEND_URL + "/activate/{}/{}/".format(uid, token)
-
-
+class SimpleScheduleForm(forms.ModelForm):
+    """シンプルなスケジュール登録用フォーム"""
+    class Meta:
+        time_list=((1,'9:00'),(2,'10:00'),(3,'11:00'),(4,'12:00'),(5,'13:00'),
+             (6,'14:00'),(7,'15:00',),(8,'16:00'),(9,'17:00'),(10,'18:00'),
+             (11,'19:00'),(12,'20:00'),(13,'21:00'),(14,'22:00'),(15,'23:00'),
+             (16,'24:00')
+            )
+        model = Post
+        fields = ('start_time', 'end_time','date')
+        widgets = {
+            'start_time': forms.Select(
+                choices=time_list,
+                attrs={'class': 'form-control'},
+                ),
+            'end_time': forms.Select(
+                choices=time_list,
+                attrs={'class': 'form-control'},
+                ),
+            'date': forms.HiddenInput,
+        }
+        
 class SignUpForm(UserCreationForm):
     class Meta:
         model = User
