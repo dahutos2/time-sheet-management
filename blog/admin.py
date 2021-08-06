@@ -11,18 +11,6 @@ class UserAdmin(UserAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(models.Start)
-class CategoryAdmin(admin.ModelAdmin):
-    pass
-
-@admin.register(models.End)
-class CategoryAdmin(admin.ModelAdmin):
-    pass
-
-@admin.register(models.Schedule)
-class ScheduleAdmin(admin.ModelAdmin):
-    pass
-
 
 from django import forms
 
@@ -52,6 +40,5 @@ class BlogAdminSite(AdminSite):
 
 
 mypage_site = BlogAdminSite(name="mypage")
-
 mypage_site.register(models.Post)
 mypage_site.register(models.Category)

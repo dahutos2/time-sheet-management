@@ -97,9 +97,9 @@ class MonthWithFormsMixin(MonthCalendarMixin):
             empty_list.append(empty_form)
 
         # スケジュールがある各日に、そのスケジュールの更新用フォームを配置
-        for bound_form in formset.initial_forms:
-            instance = bound_form.instance
-            date = getattr(instance, self.date_field)
+        #for bound_form in formset.initial_forms:
+         #   instance = bound_form.instance
+          #  date = getattr(instance, self.date_field)
             #day_forms[date].append(bound_form)
 
         # day_forms辞書を、周毎に分割する。[{1日: 1日のフォーム...}, {8日: 8日のフォーム...}, ...]

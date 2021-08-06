@@ -20,6 +20,7 @@
         }
 
     </style>
+    <p>{{ category }}</p>
 <a href="{% url 'month_with_forms' month_previous.year month_previous.month  %}">前月</a>
 {{ month_current | date:"Y年m月" }}
 <a href="{% url 'month_with_forms' month_next.year month_next.month %}">次月</a>
@@ -51,7 +52,6 @@
                 {% else %}
                     {{ day.day }}
                 {% endif %}
-                 {{ forms.non_field_errors }}
                     {% for field in forms %}
                         {{ field.as_p }}
                     {% endfor %}

@@ -4,7 +4,7 @@ import datetime
 from django.shortcuts import redirect, render
 from django.views import generic
 from . import mixins
-from .models import Post, User, Schedule
+from .models import Post, User
 from django.urls import reverse_lazy
 import datetime
 from django.shortcuts import redirect, render
@@ -26,10 +26,11 @@ class Index(ListView):
 class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.View):
     """フォーム付きの月間カレンダーを表示するビュー"""
     template_name = 'blog/month_with_forms.html'
-    model = Post, Schedule
+    model = Post
     date_field = 'date'
     form_class = SimpleScheduleForm
-    
+    fields = ('category',)
+        
     def get(self,request, **kwargs):
         context = self.get_month_calendar()
         return render(request,self.template_name,context,)
