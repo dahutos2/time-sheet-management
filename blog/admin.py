@@ -9,26 +9,30 @@ class UserAdmin(UserAdmin):
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
         (_('Personal info'), {'fields': ('full_name', 'email',)}),
+        (_('Post data'),{'fields':('post',)}),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
-                                       'groups', 'user_permissions')}),
+                                       'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
-    list_display = ('username', 'email', 'full_name', 'is_staff')
-    search_fields = ('username', 'full_name', 'email')
-    filter_horizontal = ('groups', 'user_permissions',)
+    list_display = ('username', 'email', 'full_name', 'is_staff','post_summary')
+    search_fields = ('username', 'post')
+    filter_horizontal = ('post', 'user_permissions',)
+    
+    def post_summary(self, obj):
+        qs = obj.post.all()
+        label = ', '.join(map(str, qs))
+        return label
 
 from django import forms
 
 @admin.register(models.Post)
 class PostAdmin(admin.ModelAdmin):
     
-    list_display = ('id','user','date', 'created', 'updated',)
-    list_select_related = ('user', )
-    list_editable = ('user', 'date')
-    search_fields = ( 'user', 'date', 'created', 'updated',)
-    ordering = ('-updated', '-created')
-    list_filter = ('created', 'updated',)
-
+    list_display = ('date',)
+    search_fields = ( 'date',)
+    ordering = ('-date',)
+    list_filter = ('date',)
+    
 
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.admin import AdminSite

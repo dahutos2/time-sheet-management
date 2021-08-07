@@ -18,6 +18,7 @@ from django.views.generic import TemplateView
 #from .forms import activate_user
 
 # ListViewは一覧を簡単に作るためのView
+
 class Index(ListView):
     # 一覧するモデルを指定 -> `object_list`で取得可能
     model = Post
@@ -26,7 +27,7 @@ class Index(ListView):
 class Detail(DetailView):
     # 詳細表示するモデルを指定 -> `object`で取得可能
     model = Post
-
+    
 from django.views.generic.edit import UpdateView
 
 class Update(UpdateView):
