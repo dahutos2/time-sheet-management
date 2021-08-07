@@ -11,6 +11,7 @@ class UserManager(UserManager):
 
 class User(AbstractUser):
     email = models.EmailField('メールアドレス', unique=True)
+    full_name = models.CharField('氏名', null=True, max_length=255,)
     class Meta:
         verbose_name = verbose_name_plural = _('アカウント')
 
@@ -50,17 +51,18 @@ class Post(models.Model):
         null=False,
         verbose_name="最終更新日",
         )
-    body = models.TextField(
-        blank=True,
-        null=False,
-        verbose_name="備考",
-        )
         
     date = models.DateField('日付',
         unique=True)
         
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name="ユーザー",
+        )
+        
     def __str__(self):
-        return self.body
+        return self.date
     
     def get_absolute_url(self):
         return reverse_lazy("index")

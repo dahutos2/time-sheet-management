@@ -26,12 +26,14 @@ class SimpleScheduleForm(forms.ModelForm):
 class SignUpForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ("username", "email", "password1", "password2")
+        fields = ("username","full_name","password1", "password2")
+        
+        password1= forms.CharField(
+            help_text='パスワードは最低 8 文字以上必要です。',)
 
     def save(self, commit=True):
         # commit=Falseだと、DBに保存されない
         user = super().save(commit=False)
-        user.email = self.cleaned_data["email"]
         user.save()
         return user
 
