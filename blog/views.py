@@ -22,6 +22,25 @@ class Index(ListView):
     # 一覧するモデルを指定 -> `object_list`で取得可能
     model = Post
 
+# DetailViewは詳細を簡単に作るためのView
+class Detail(DetailView):
+    # 詳細表示するモデルを指定 -> `object`で取得可能
+    model = Post
+
+from django.views.generic.edit import UpdateView
+
+class Update(UpdateView):
+    model = Post
+    fields = ["date", "start_time", "end_time",]
+
+from django.views.generic.edit import DeleteView
+
+class Delete(DeleteView):
+    model = Post
+
+    # 削除したあとに移動する先（トップページ）
+    success_url = "/"
+
 # CreateViewは新規作成画面を簡単に作るためのView
 class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.View):
     """フォーム付きの月間カレンダーを表示するビュー"""
@@ -29,28 +48,24 @@ class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.View):
     model = Post
     date_field = 'date'
     form_class = SimpleScheduleForm
-    fields = ('category',)
         
     def get(self,request, **kwargs):
         context = self.get_month_calendar()
         return render(request,self.template_name,context,)
         
     def post(self,request, **kwargs):
-        context = self.get_month_calendar()
-        formset = context['month_formset']
-        if formset.is_valid():
-            formset.save()
-            
-        return redirect('/blog/create/',)
+        start_time = request.POST.get('start_time',False)
+        end_time = request.POST.get('end_time',False)
+        date = request.POST.get('date',)
+        if start_time:
+            if end_time:
+                context = {date:(start_time,end_time)}
+                context_qs = context.save(commit=False)
+                context_qs.user_id = request.user_id
+                context_qs.save()
 
-class Create(CreateView):
-    model = Post
-
-    # 編集対象にするフィールド
-    fields = ["category", "body",]
-    
-    
-
+        return redirect('/blog/',)
+        
 class SignUpView(CreateView):
     form_class = SignUpForm
     success_url = reverse_lazy('login')

@@ -21,8 +21,7 @@ class SimpleScheduleForm(forms.ModelForm):
             'end_time': forms.Select(
                 attrs={'class': 'form-control'},
                 ),
-            'date': forms.HiddenInput,
-        }
+            'date': forms.HiddenInput,}
         
 class SignUpForm(UserCreationForm):
     class Meta:

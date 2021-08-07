@@ -7,22 +7,15 @@ from django.contrib.auth.admin import UserAdmin
 class UserAdmin(UserAdmin):
     pass
 
-@admin.register(models.Category)
-class CategoryAdmin(admin.ModelAdmin):
-    pass
-
-
 from django import forms
 
 @admin.register(models.Post)
 class PostAdmin(admin.ModelAdmin):
     
-    list_display = ('id', 'category', 'created', 'updated',)
-    list_select_related = ('category', )
-    list_editable = ( 'category',)
-    search_fields = ('category__name', 'created', 'updated',)
+    list_display = ('id', 'created', 'updated',)
+    search_fields = ( 'created', 'updated',)
     ordering = ('-updated', '-created')
-    list_filter = ('category','created', 'updated',)
+    list_filter = ('created', 'updated',)
 
 
 from django.contrib.auth.forms import AuthenticationForm
@@ -41,4 +34,4 @@ class BlogAdminSite(AdminSite):
 
 mypage_site = BlogAdminSite(name="mypage")
 mypage_site.register(models.Post)
-mypage_site.register(models.Category)
+mypage_site.register(models.User)

@@ -14,17 +14,6 @@ class User(AbstractUser):
     class Meta:
         verbose_name = verbose_name_plural = _('アカウント')
 
-
-class Category(models.Model):
-    name = models.CharField(
-    max_length=255,
-    blank=True,
-    null=True,
-    unique=True)
-
-    def __str__(self):
-        return self.name
-
 class Post(models.Model):
     time_list=(('1','9:00'),('2','10:00'),('3','11:00'),('4','12:00'),('5','13:00'),
              ('6','14:00'),('7','15:00'),('8','16:00'),('9','17:00'),('10','18:00'),
@@ -67,16 +56,11 @@ class Post(models.Model):
         verbose_name="備考",
         )
         
-    category = models.ForeignKey(
-        Category,
-        on_delete=models.CASCADE,
-        verbose_name="カテゴリ",
-        )
     date = models.DateField('日付',
         unique=True)
         
     def __str__(self):
-        return self.category
+        return self.body
     
     def get_absolute_url(self):
         return reverse_lazy("index")

@@ -20,7 +20,6 @@
         }
 
     </style>
-    <p>{{ category }}</p>
 <a href="{% url 'month_with_forms' month_previous.year month_previous.month  %}">前月</a>
 {{ month_current | date:"Y年m月" }}
 <a href="{% url 'month_with_forms' month_next.year month_next.month %}">次月</a>
@@ -63,5 +62,7 @@
         </tbody>
     </table>
     {% csrf_token %}
-        <button type="submit" class="btn btn-primary">送信</button>
+        <input type="submit" class="btn btn-primary" value="送信"/>
     </form>
+    
+    
