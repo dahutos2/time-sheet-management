@@ -29,8 +29,8 @@ class Post(models.Model):
         
     date = models.DateField('日付',)
         
-    def __str__(self):
-        return str(self.date)
+    def __date__(self):
+        return self.date
     
     class Meta:
         verbose_name = verbose_name_plural = _('シフト')

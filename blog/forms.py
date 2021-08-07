@@ -22,13 +22,6 @@ class SimpleScheduleForm(forms.ModelForm):
                 attrs={'class': 'form-control'},
                 ),
             'date': forms.HiddenInput,}
-        #def clean_data(self):
-        #    date = self.cleaned_data['date']
-        #    start_time = self.cleaned_data['start_time']
-        #    end_time = self.cleaned_data['end_time']
-        #    if (start_time or end_time)== '':
-                
-         #       return date, start_time, end_time
         
 class SignUpForm(UserCreationForm):
     class Meta:
