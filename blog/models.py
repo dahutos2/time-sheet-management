@@ -19,8 +19,7 @@ class Post(models.Model):
         blank=True,
         null=True,
         choices=time_list,
-        max_length=255,
-        )
+        max_length=255,)
         
     end_time = models.CharField('終了',
         blank=True,
@@ -28,11 +27,10 @@ class Post(models.Model):
         choices=time_list,
         max_length=255,)
         
-    date = models.DateField('日付',
-        unique=True)
+    date = models.DateField('日付',)
         
     def __str__(self):
-        return self.date
+        return str(self.date)
     
     class Meta:
         verbose_name = verbose_name_plural = _('シフト')
@@ -48,6 +46,7 @@ class User(AbstractUser):
     
     post = models.ManyToManyField(
         Post,
+        null=True,
         blank=True,
         verbose_name="シフト",
         )

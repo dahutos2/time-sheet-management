@@ -15,14 +15,14 @@ class UserAdmin(UserAdmin):
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
     list_display = ('username', 'email', 'full_name', 'is_staff','post_summary')
-    search_fields = ('username', 'post')
-    filter_horizontal = ('post', 'user_permissions',)
+    search_fields = ('username',)
+    filter_horizontal = ('user_permissions','post',)
     
     def post_summary(self, obj):
         qs = obj.post.all()
         label = ', '.join(map(str, qs))
         return label
-
+    
 from django import forms
 
 @admin.register(models.Post)

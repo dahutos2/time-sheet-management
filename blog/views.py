@@ -55,7 +55,7 @@ class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.View):
         return render(request,self.template_name,context,)
         
     def post(self,request, **kwargs):
-        start_time = request.POST.get('start_time',False)
+        start_time = request.form
         end_time = request.POST.get('end_time',False)
         date = request.POST.get('date',)
         if start_time:

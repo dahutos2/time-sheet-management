@@ -4,7 +4,10 @@
 <h2>{{ object.date }}</h2>
 <p><time>{{ object.updated|localize }}</time></p>
 <div>
-    {{ object.date }}{{ object.start_time }}{{ object.end_time }}
+    {{ object.date }}
+    <p>{{ object.get_start_time_display }}
+    〜
+    {{ object.get_end_time_display }}</p>
 </div>
 <p><a href="{% url 'update' object.pk %}">編集</a></p>
 
