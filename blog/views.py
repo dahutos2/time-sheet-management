@@ -53,18 +53,15 @@ class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.View):
     def get(self,request, **kwargs):
         context = self.get_month_calendar()
         return render(request,self.template_name,context,)
+    
+    def post(self,request):
+        form = SimpleScheduleForm(request.POST)
+        timeset = {form['start_time']:form['end_time']}
+        formset = {form['date']: [s,e] for s,e in timeset.items()}
+        print(formset)
+        Post.objects.bulk_create(formset)
+        Post.objects.bulk_create(formset).user = request.user
         
-    def post(self,request, **kwargs):
-        start_time = request.form
-        end_time = request.POST.get('end_time',False)
-        date = request.POST.get('date',)
-        if start_time:
-            if end_time:
-                context = {date:(start_time,end_time)}
-                context_qs = context.save(commit=False)
-                context_qs.user_id = request.user_id
-                context_qs.save()
-
         return redirect('/blog/',)
         
 class SignUpView(CreateView):
