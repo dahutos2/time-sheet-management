@@ -22,13 +22,13 @@ class SimpleScheduleForm(forms.ModelForm):
                 attrs={'width': 'auto'},
                 ),
             'date': forms.HiddenInput,}
-    def save(self):
-        super.clean()
-        date = self.cleaned_data['date']
-        start_time = self.cleaned_data['start_time']
-        end_time = self.cleaned_data['end_time']
+        def save(self):
+            super().clean()
+            date = self.cleaned_data['date']
+            start_time = self.cleaned_data['start_time']
+            end_time = self.cleaned_data['end_time']
         
-        return date, start_time, end_time
+            return date, start_time, end_time
         
 class SignUpForm(UserCreationForm):
     class Meta:

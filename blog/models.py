@@ -14,7 +14,7 @@ class Post(models.Model):
              ('11','19:00'),('12','20:00'),('13','21:00'),('14','22:00'),('15','23:00'),
              ('16','24:00')
             )
-        
+    full_name = models.CharField('氏名', null=True, max_length=255,)  
     start_time = models.CharField('開始',
         blank=True,
         null=True,
@@ -29,8 +29,8 @@ class Post(models.Model):
         
     date = models.DateField('日付',)
         
-    def __date__(self):
-        return self.date
+    def __str__(self):
+        return str(self.date)
     
     class Meta:
         verbose_name = verbose_name_plural = _('シフト')
@@ -52,7 +52,7 @@ class User(AbstractUser):
         )
         
     def get_absolute_url(self):
-        return reverse_lazy("index")
+        return reverse_lazy("/")
         
     def __str__(self):
         return self.full_name

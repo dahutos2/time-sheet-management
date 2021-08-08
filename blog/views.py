@@ -17,12 +17,6 @@ from django.views.generic.edit import CreateView
 from django.views.generic import TemplateView
 #from .forms import activate_user
 
-# ListViewは一覧を簡単に作るためのView
-
-class Index(ListView):
-    # 一覧するモデルを指定 -> `object_list`で取得可能
-    model = Post
-
 # DetailViewは詳細を簡単に作るためのView
 class Detail(DetailView):
     # 詳細表示するモデルを指定 -> `object`で取得可能
@@ -33,7 +27,7 @@ from django.views.generic.edit import UpdateView
 class Update(UpdateView):
     model = Post
     fields = ["date", "start_time", "end_time",]
-    success_url = "/blog/"
+    success_url = "/"
 
 from django.views.generic.edit import DeleteView
 
@@ -41,7 +35,7 @@ class Delete(DeleteView):
     model = Post
 
     # 削除したあとに移動する先（トップページ）
-    success_url = "/blog/"
+    success_url = "/"
 
 # CreateViewは新規作成画面を簡単に作るためのView
 class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.View):
@@ -57,15 +51,25 @@ class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.View):
     
     def post(self, request, **kwaegs):
         context = self.get_month_calendar()
-        form = context['month_formset']
-        print(form[:44])
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.user = request.user
-            post.save()
-            User.post.add(post)
+        form_list = context['month_formset']
+        for form in form_list:
+            if form.is_valid():
+                start_time = form.cleaned_data.get('start_time')
+                end_time = form.cleaned_data.get('end_time')
+                date = form.cleaned_data.get('date')
+                if not (start_time and end_time) == None:
+                    post = Post.objects.create(start_time=start_time,
+                        end_time=end_time,date=date,
+                        )
+                    post_qs = Post.objects.get(start_time=start_time,
+                        end_time=end_time,date=date,
+                        #full_name=full_name
+                        )
+                    post_qs.user_set.add(request.user)
+
             
-        return redirect('/blog/')
+            
+        return redirect('/')
     
 class SignUpView(CreateView):
     form_class = SignUpForm

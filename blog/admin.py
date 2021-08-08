@@ -22,16 +22,20 @@ class UserAdmin(UserAdmin):
         qs = obj.post.all()
         label = ', '.join(map(str, qs))
         return label
+        
+        class Meta:
+            verbose_name = verbose_name_plural = _('シフト')
+        
     
 from django import forms
 
 @admin.register(models.Post)
 class PostAdmin(admin.ModelAdmin):
     
-    list_display = ('date',)
-    search_fields = ( 'date',)
+    list_display = ('date','full_name',)
+    search_fields = ( 'date','full_name')
     ordering = ('-date',)
-    list_filter = ('date',)
+    list_filter = ('date','full_name')
     
 
 from django.contrib.auth.forms import AuthenticationForm

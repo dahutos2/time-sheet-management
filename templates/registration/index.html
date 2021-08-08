@@ -1,8 +1,17 @@
 {% extends "registration/base.html" %}
 {% block main %}
-<h2>会員ページ</h2>
+<h1>会員ページ</h1>
 <p>{{ user.full_name }}さん、こんにちは！</p>
 
+<h3>シフト一覧</h3>
+<p>
+{% for post in user.post.all %}
+<li><a href="{% url 'detail' post.id %}">{{ post.date|date:"Y/m/d" }}</a>
+<a>{{ post.get_start_time_display }}〜{{ post.get_end_time_display }}</a></li>
+{% endfor %}</p>
+
+
+<p><a href="{% url 'month_with_forms' %}">新規投稿</a></p>
 <p><a href="{% url 'logout' %}">ログアウト</a></p>
 <p><a href="{% url 'password_change' %}">パスワードの変更</a></p>
 <p><a href="{% url 'password_reset' %}">パスワードを忘れた場合</a></p>
