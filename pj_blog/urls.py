@@ -28,5 +28,4 @@ urlpatterns = [
     path('update/<pk>', views.Update.as_view(), name="update"),
     path('delete/<pk>', views.Delete.as_view(), name="delete"),
     path('mypage/', mypage_site.urls),
-    #path('activate/<uidb64>/<token>/', views.ActivateView.as_view(), name='activate'),
 ]

@@ -33,7 +33,7 @@ class SimpleScheduleForm(forms.ModelForm):
 class SignUpForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ("username","full_name","password1", "password2")
+        fields = ("username","full_name","email","password1", "password2")
         
         password1= forms.CharField(
             help_text=('パスワードは最低 8 文字以上必要です。',
@@ -46,33 +46,3 @@ class SignUpForm(UserCreationForm):
         user = super().save(commit=False)
         user.save()
         return user
-
-
-#    def save(self, commit=True):
-        # commit=Falseだと、DBに保存されない
-#        user = super().save(commit=False)
-#        user.email = self.cleaned_data["email"]
-
-        # 確認するまでログイン不可にする
-#        user.is_active = False
-
-#        if commit:
-#            user.save()
-#            activate_url = get_activate_url(user)
-#            message = message_template + activate_url
-#            user.email_user(subject, message)
-#        return user
-
-#def activate_user(uidb64, token):
-    #try:
-        #uid = urlsafe_base64_decode(uidb64).decode()
-        #user = User.objects.get(pk=uid)
-    #except Exception:
-        #return False
-
-    #if default_token_generator.check_token(user, token):
-        #user.is_active = True
-        #user.save()
-        #return True
-
-    #return False
