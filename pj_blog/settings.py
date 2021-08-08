@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '&gu!13y)u^5buhjiw15602$g@ufj(eh6s6=b16td+5()gul!&7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["schedule-shift-dahutos.herokuapp.com"]
 
 
 # Application definition
@@ -143,7 +143,7 @@ LOGOUT_REDIRECT_URL = "/login/"
 
 AUTH_USER_MODEL = 'blog.User'
 
-FRONTEND_URL = "https://127.0.0.1:8000"
+FRONTEND_URL = "https://schedule-shift-dahutos.herokuapp.com"
 
 ANYMAIL = {
 "MAILGUN_API_KEY": "b575fbec0f240346622e7590363b8e13-a0cfb957-d4c040eb",
