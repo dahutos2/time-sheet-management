@@ -1,4 +1,4 @@
-<form method="post">
+<form method="post" lang="ja">
     {% csrf_token %}
     {% for field in form %}
       <p>
@@ -10,7 +10,7 @@
         {% for error in field.errors %}
           <p style="color: red">{{ error }}</p>
         {% endfor %}
-      </p>
+      
     {% endfor %}
     <div></div>
     <input type="submit" value="{{ submit_label }}" />

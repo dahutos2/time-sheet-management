@@ -33,6 +33,7 @@ from django.views.generic.edit import UpdateView
 class Update(UpdateView):
     model = Post
     fields = ["date", "start_time", "end_time",]
+    success_url = "/blog/"
 
 from django.views.generic.edit import DeleteView
 
@@ -40,7 +41,7 @@ class Delete(DeleteView):
     model = Post
 
     # 削除したあとに移動する先（トップページ）
-    success_url = "/"
+    success_url = "/blog/"
 
 # CreateViewは新規作成画面を簡単に作るためのView
 class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.View):
@@ -49,27 +50,23 @@ class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.View):
     model = Post
     date_field = 'date'
     form_class = SimpleScheduleForm
-    success_url = '/blog/'
-        
+
     def get(self, request, **kwargs):
         context = self.get_month_calendar()
         return render(request,self.template_name,context,)
     
-    
     def post(self, request, **kwaegs):
-            form_post = SimpleScheduleForm(request.POST)
-            print(form_post)
-            if not form['start_time'] == '':
-                if not form['end_time'] == '':
-                    if form['date'].is_valid:
-                        date = clean_data
-                        start_time = form['start_time'].value
-                        end_time = form['end_time'].value
-                        formset = Post.objects.create(date=date,
-                            start_time=start_time,end_time=end_time,)
-                        formset.user = request.user
-                        User.post.add(formset)
-        
+        context = self.get_month_calendar()
+        form = context['month_formset']
+        print(form[:44])
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.user = request.user
+            post.save()
+            User.post.add(post)
+            
+        return redirect('/blog/')
+    
 class SignUpView(CreateView):
     form_class = SignUpForm
     success_url = reverse_lazy('login')
