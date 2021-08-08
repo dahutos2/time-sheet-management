@@ -12,7 +12,7 @@ admin.site.site_title = '管理'
 admin.site.site_header = 'システム管理サイト'
 admin.site.index_title = 'メニュー'
 admin.site.unregister(Group)
-admin.site.disable_action('delete_selected')
+#admin.site.disable_action('delete_selected')
 # 実はページを表示するだけならこのように1行で書くことが出来ます。
 index_view = TemplateView.as_view(template_name="registration/index.html")
 

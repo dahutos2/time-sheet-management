@@ -15,27 +15,34 @@ class UserAdmin(UserAdmin):
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
     list_display = ('username', 'email', 'full_name', 'is_staff','post_summary')
-    search_fields = ('username',)
+    search_fields = ('username','post__date')
+    ordering = ('username',)
     filter_horizontal = ('user_permissions','post',)
-    
+   
+#MtoMを結合し、一つの文字列へ
     def post_summary(self, obj):
         qs = obj.post.all()
         label = ', '.join(map(str, qs))
         return label
-        
-        class Meta:
-            verbose_name = verbose_name_plural = _('シフト')
-        
+#表示を変更    
+    post_summary.short_description = 'シフト'
+#N＋1問題対策であらかじめ取得
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.prefetch_related('post')
     
 from django import forms
+
 
 @admin.register(models.Post)
 class PostAdmin(admin.ModelAdmin):
     
-    list_display = ('date','full_name',)
-    search_fields = ( 'date','full_name')
+    list_display = ('id','date','start_time','end_time')
+    list_display_links = ('id',)
+    list_editable = ('date','start_time','end_time')
+    search_fields = ( 'date',)
     ordering = ('-date',)
-    list_filter = ('date','full_name')
+    list_filter = ('date',)
     
 
 from django.contrib.auth.forms import AuthenticationForm

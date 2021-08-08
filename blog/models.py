@@ -14,7 +14,6 @@ class Post(models.Model):
              ('11','19:00'),('12','20:00'),('13','21:00'),('14','22:00'),('15','23:00'),
              ('16','24:00')
             )
-    full_name = models.CharField('氏名', null=True, max_length=255,)  
     start_time = models.CharField('開始',
         blank=True,
         null=True,
@@ -39,7 +38,7 @@ class UserManager(UserManager):
     pass
 
 class User(AbstractUser):
-    email = models.EmailField('メールアドレス', unique=True)
+    email = models.EmailField('メールアドレス', unique=False)
     full_name = models.CharField('氏名', null=True, max_length=255,)
     class Meta:
         verbose_name = verbose_name_plural = _('アカウント')
