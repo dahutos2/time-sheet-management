@@ -17,7 +17,12 @@ from django.views.generic.edit import CreateView
 from django.views.generic import TemplateView
 #from .forms import activate_user
 
+class Index(ListView):
+    # 一覧するモデルを指定 -> `object_list`で取得可能
+    template_name="registration/index.html"
+    model = Post
 # DetailViewは詳細を簡単に作るためのView
+
 class Detail(DetailView):
     # 詳細表示するモデルを指定 -> `object`で取得可能
     model = Post
@@ -59,16 +64,7 @@ class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.View):
                 date = form.cleaned_data.get('date')
                 if not (start_time and end_time) == None:
                     post = Post.objects.create(start_time=start_time,
-                        end_time=end_time,date=date,
-                        )
-                    post_qs = Post.objects.get(start_time=start_time,
-                        end_time=end_time,date=date,
-                        #full_name=full_name
-                        )
-                    post_qs.user_set.add(request.user)
-
-            
-            
+                        end_time=end_time,date=date,name=request.user)
         return redirect('/')
     
 class SignUpView(CreateView):

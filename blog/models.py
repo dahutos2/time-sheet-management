@@ -6,7 +6,21 @@ import datetime
 from django.utils import timezone
 from django.urls import reverse_lazy
 
+class UserManager(UserManager):
+    pass
 
+class User(AbstractUser):
+    email = models.EmailField('メールアドレス', unique=False, blank=True)
+    full_name = models.CharField('氏名', null=True, max_length=255,)
+    class Meta:
+        verbose_name = verbose_name_plural = _('アカウント')
+        
+    def get_absolute_url(self):
+        return reverse_lazy("/")
+        
+    def __str__(self):
+        return str(self.full_name)
+        
 
 class Post(models.Model):
     time_list=(('1','9:00'),('2','10:00'),('3','11:00'),('4','12:00'),('5','13:00'),
@@ -27,6 +41,12 @@ class Post(models.Model):
         max_length=255,)
         
     date = models.DateField('日付',)
+    
+    name = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT,
+        verbose_name="ユーザー",
+        )
         
     def __str__(self):
         return str(self.date)
@@ -34,25 +54,4 @@ class Post(models.Model):
     class Meta:
         verbose_name = verbose_name_plural = _('シフト')
 
-class UserManager(UserManager):
-    pass
-
-class User(AbstractUser):
-    email = models.EmailField('メールアドレス', unique=False)
-    full_name = models.CharField('氏名', null=True, max_length=255,)
-    class Meta:
-        verbose_name = verbose_name_plural = _('アカウント')
     
-    post = models.ManyToManyField(
-        Post,
-        null=True,
-        blank=True,
-        verbose_name="シフト",
-        )
-        
-    def get_absolute_url(self):
-        return reverse_lazy("/")
-        
-    def __str__(self):
-        return self.full_name
-        

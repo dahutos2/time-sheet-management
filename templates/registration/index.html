@@ -5,9 +5,11 @@
 
 <h3>シフト一覧</h3>
 <p>
-{% for post in user.post.all %}
+{% for post in object_list %}
+{% if post.name == user %}
 <li><a href="{% url 'detail' post.id %}">{{ post.date|date:"Y/m/d" }}</a>
 <a>{{ post.get_start_time_display }}〜{{ post.get_end_time_display }}</a></li>
+{% endif %}
 {% endfor %}</p>
 
 

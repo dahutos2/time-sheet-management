@@ -4,45 +4,43 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 
+
+class PostInline(admin.TabularInline):
+    model = models.Post
+    fields = ('date', 'start_time','end_time')
+    extra = 1
+
 @admin.register(models.User)
 class UserAdmin(UserAdmin):
-    fieldsets = (
+    inlines = [PostInline]
+    fieldsets =(
         (None, {'fields': ('username', 'password')}),
         (_('Personal info'), {'fields': ('full_name', 'email',)}),
-        (_('シフト'),{'fields':('post',)}),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
                                        'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
-    list_display = ('username', 'email', 'full_name', 'is_staff','post_summary')
-    search_fields = ('username','post__date')
+    list_display = ('username', 'email', 'full_name', 'is_staff')
+    search_fields = ('username',)
     ordering = ('username',)
-    filter_horizontal = ('user_permissions','post',)
-   
-#MtoMを結合し、一つの文字列へ
-    def post_summary(self, obj):
-        qs = obj.post.all()
-        label = ', '.join(map(str, qs))
-        return label
-#表示を変更    
-    post_summary.short_description = 'シフト'
-#N＋1問題対策であらかじめ取得
-    def get_queryset(self, request):
-        qs = super().get_queryset(request)
-        return qs.prefetch_related('post')
+    filter_horizontal = ('user_permissions',)
     
+    def has_delete_permission(self,request,obj=None):
+        return False
+   
 from django import forms
 
 
 @admin.register(models.Post)
 class PostAdmin(admin.ModelAdmin):
     
-    list_display = ('id','date','start_time','end_time')
+    list_display = ('id','date','start_time','end_time','name')
+    list_select_related = ('name',)
     list_display_links = ('id',)
-    list_editable = ('date','start_time','end_time')
-    search_fields = ( 'date',)
+    list_editable = ('date','start_time','end_time','name')
+    search_fields = ( 'date','name')
     ordering = ('-date',)
-    list_filter = ('date',)
+    list_filter = ('date','name')
     
 
 from django.contrib.auth.forms import AuthenticationForm
