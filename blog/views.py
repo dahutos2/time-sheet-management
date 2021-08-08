@@ -57,16 +57,18 @@ class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.View):
     
     
     def post(self, request, **kwaegs):
-        form = SimpleScheduleForm(request.POST)
-        if not form['start_time'] == '':
-            if not form['end_time'] == '':
-                date = form['date']
-                start_time = form['start_time'].value
-                end_time = form['end_time'].value
-                formset = Post(date=date,start_time=start_time,end_time=end_time)
-                print(formset)
-                formset.user = request.user
-                formset.create()
+            form_post = SimpleScheduleForm(request.POST)
+            print(form_post)
+            if not form['start_time'] == '':
+                if not form['end_time'] == '':
+                    if form['date'].is_valid:
+                        date = clean_data
+                        start_time = form['start_time'].value
+                        end_time = form['end_time'].value
+                        formset = Post.objects.create(date=date,
+                            start_time=start_time,end_time=end_time,)
+                        formset.user = request.user
+                        User.post.add(formset)
         
 class SignUpView(CreateView):
     form_class = SignUpForm
