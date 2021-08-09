@@ -16,10 +16,10 @@ class SimpleScheduleForm(forms.ModelForm):
         fields = ('start_time','end_time','date',)
         widgets = {
             'start_time': forms.Select(
-                attrs={'width': 'auto'},
+                attrs={'width': 'auto',},
                 ),
             'end_time': forms.Select(
-                attrs={'width': 'auto'},
+                attrs={'width': 'auto',},
                 ),
             'date': forms.HiddenInput,}
         def save(self):
