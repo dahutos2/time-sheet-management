@@ -17,10 +17,10 @@ class Index(ListView):
     # 一覧するモデルを指定 -> `object_list`で取得可能
     template_name="registration/index.html"
     model = Post
-    ordering = '-date'
     
     def get_queryset(self):
-        query_set = Post.objects.filter(name=self.request.user)
+        query_set = Post.objects.filter(
+            name=self.request.user).order_by('-date')
         
         return query_set
     
@@ -28,11 +28,11 @@ class IndexPost(ListView):
     # 一覧するモデルを指定 -> `object_list`で取得可能
     template_name="blog/post_list.html"
     model = Post
-    ordering = '-date'
     paginate_by = 10
     
     def get_queryset(self):
-        query_set = Post.objects.filter(name=self.request.user)
+        query_set = Post.objects.filter(
+            name=self.request.user).order_by('-date')
         
         return query_set
     
