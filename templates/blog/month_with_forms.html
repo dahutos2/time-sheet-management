@@ -22,9 +22,9 @@
 <a href="{% url 'month_with_forms' month_next.year month_next.month %}">次月</a>
 <form action="" method="POST">
 {{ month_formset.management_form }}
-<table class="table">
+<table class="table" width="auto">
     <thead>
-    <tr width="auto">
+    <tr>
     {% for w in week_names %}
         {% if w == '土' %}
         <td class="table-primary">
