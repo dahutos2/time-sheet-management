@@ -17,8 +17,16 @@ class Index(ListView):
     # 一覧するモデルを指定 -> `object_list`で取得可能
     template_name="registration/index.html"
     model = Post
+    ordering = '-date'
 # DetailViewは詳細を簡単に作るためのView
 
+class IndexPost(ListView):
+    # 一覧するモデルを指定 -> `object_list`で取得可能
+    template_name="blog/post_list.html"
+    model = Post
+    ordering = '-date'
+    paginate_by = 10
+    
 class Detail(DetailView):
     # 詳細表示するモデルを指定 -> `object`で取得可能
     model = Post

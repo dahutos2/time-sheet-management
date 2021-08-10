@@ -44,8 +44,13 @@ class Post(models.Model):
     
     name = models.ForeignKey(
         User,
-        on_delete=models.PROTECT,
+        on_delete=models.CASCADE,
         verbose_name="ユーザー",
+        )
+        
+    published = models.BooleanField(
+        default=True,
+        verbose_name="編集",
         )
         
     def __str__(self):

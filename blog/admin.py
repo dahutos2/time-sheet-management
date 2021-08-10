@@ -30,18 +30,46 @@ class UserAdmin(UserAdmin):
    
 from django import forms
 
+class PublishedListFilter(admin.SimpleListFilter):
+    title = '編集'
+    parameter_name = 'published'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('True', '編集可'),
+            ('False', '編集不可')
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() == 'True':
+            return queryset.filter(is_active=True)
+        elif self.value() == 'False':
+            return queryset.filter(is_active=False)
+        else:
+            return queryset.all()
 
 @admin.register(models.Post)
 class PostAdmin(admin.ModelAdmin):
     
-    list_display = ('id','date','start_time','end_time','name')
+    list_display = ('id','date','start_time','end_time','name','published')
     list_select_related = ('name',)
     list_display_links = ('id',)
     list_editable = ('date','start_time','end_time','name')
-    search_fields = ['date','name__full_name']
+    #search_fields = ['date','name__full_name']
     ordering = ('-date',)
-    list_filter = ('date','name')
-    
+    list_filter = ('date','name__full_name',PublishedListFilter)
+    actions = ["publish", "unpublish"]
+
+    def publish(self, request, queryset):
+        queryset.update(published=True)
+
+    publish.short_description = "編集可"
+
+    def unpublish(self, request, queryset):
+        queryset.update(published=False)
+
+    unpublish.short_description = "編集不可"
+
 
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.admin import AdminSite

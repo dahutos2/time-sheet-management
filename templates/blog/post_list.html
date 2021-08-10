@@ -1,0 +1,11 @@
+{% extends "blog/base.html" %}
+
+{% block main %}
+<div class="container">
+<h3>シフト一覧</h3>
+<hr>
+  {% include "blog/posts.html" %}
+  {% include "blog/pagination.html" %}
+</div>
+<p><a href="{% url 'month_with_forms' %}">新規投稿</a></p>
+{% endblock %}
