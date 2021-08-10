@@ -14,6 +14,7 @@
     <style>
         table {
             table-layout: auto;
+            width: auto;
         }
 
     </style>
@@ -22,7 +23,7 @@
 <a href="{% url 'month_with_forms' month_next.year month_next.month %}">次月</a>
 <form action="" method="POST">
 {{ month_formset.management_form }}
-<table class="table" width="auto">
+<table class="table">
     <thead>
     <tr>
     {% for w in week_names %}
