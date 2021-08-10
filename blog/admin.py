@@ -3,6 +3,9 @@ from . import models
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
+from rangefilter.filters import DateRangeFilter
+import datetime
+
 
 
 class PostInline(admin.TabularInline):
@@ -57,8 +60,11 @@ class PostAdmin(admin.ModelAdmin):
     list_editable = ('date','start_time','end_time','name')
     #search_fields = ['date','name__full_name']
     ordering = ('-date',)
-    list_filter = ('date','name__full_name',PublishedListFilter)
+    list_filter = (('date', DateRangeFilter),'name__full_name',PublishedListFilter)
     actions = ["publish", "unpublish"]
+    
+    def get_rangefilter_date_default(self, request):
+        return (datetime.date.today, datetime.date.today)
 
     def publish(self, request, queryset):
         queryset.update(published=True)
