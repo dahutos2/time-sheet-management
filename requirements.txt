@@ -7,3 +7,4 @@ pillow
 python-dotenv
 psycopg2-binary==2.8.6
 mysqlclient
+django-admin-rangefilter
