@@ -45,9 +45,9 @@ class PublishedListFilter(admin.SimpleListFilter):
 
     def queryset(self, request, queryset):
         if self.value() == 'True':
-            return queryset.filter(is_active=True)
+            return queryset.filter(published=True)
         elif self.value() == 'False':
-            return queryset.filter(is_active=False)
+            return queryset.filter(published=False)
         else:
             return queryset.all()
 
@@ -60,7 +60,7 @@ class PostAdmin(admin.ModelAdmin):
     list_editable = ('date','start_time','end_time','name')
     #search_fields = ['date','name__full_name']
     ordering = ('-date',)
-    list_filter = (('date', DateRangeFilter),'name__full_name',PublishedListFilter)
+    list_filter = (('date', DateRangeFilter), PublishedListFilter, 'name__full_name')
     actions = ["publish", "unpublish"]
     
     def get_rangefilter_date_default(self, request):
