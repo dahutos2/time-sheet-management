@@ -23,7 +23,17 @@ class Index(ListView):
             name=self.request.user).order_by('-date')
         
         return query_set
+ 
+class Complite(ListView):
+    # 一覧するモデルを指定 -> `object_list`で取得可能
+    template_name="blog/post_complite.html"
+    model = Post
     
+    def post(self, request):
+        post = Post.objects.all().update(published=False)
+        
+        return redirect('/')
+
 class IndexPost(ListView):
     # 一覧するモデルを指定 -> `object_list`で取得可能
     template_name="blog/post_list.html"
