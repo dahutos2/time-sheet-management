@@ -30,7 +30,7 @@ class Complite(ListView):
     model = Post
     
     def post(self, request):
-        post = Post.objects.all().update(published=False)
+        post = Post.objects.filter(name=request.user).update(published=False)
         
         return redirect('/')
 
