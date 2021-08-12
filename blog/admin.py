@@ -57,8 +57,8 @@ class PublishedListFilter(admin.SimpleListFilter):
 @admin.register(models.Post)
 class PostAdmin(admin.ModelAdmin):
     
-    list_display = ('id','date','start_time','end_time','name','published')
     list_select_related = ('name',)
+    list_display = ('id','date','start_time','end_time','name','published')
     list_display_links = ('id',)
     list_editable = ('date','start_time','end_time','name')
     #search_fields = ['date','name__full_name']
