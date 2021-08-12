@@ -28,11 +28,10 @@ class SimpleScheduleForm(forms.ModelForm):
             if Post.objects.filter(date=date).count() != 0:
                 raise forms.ValidationError(
                 "この日付は存在します。"
-                )   
-                
-        def save(self):
-            super().clean()
-            date = self.cleaned_data['date']
+                )    
+            return date
+        
+        def clean_end_time(self):
             start_time = self.cleaned_data['start_time']
             end_time = self.cleaned_data['end_time']
             
@@ -40,7 +39,7 @@ class SimpleScheduleForm(forms.ModelForm):
                 raise forms.ValidationError(
                     '数値が不正です。')
         
-            return date, start_time, end_time
+            return end_time
         
 class SignUpForm(UserCreationForm):
     class Meta:
