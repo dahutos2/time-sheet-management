@@ -49,8 +49,11 @@
                 {% else %}
                     {{ day.day }}
                 {% endif %}
+                    <br>
                     {% for field in forms %}
+                    <a>開始</a>
                             {{ field.start_time }}
+                    <a>終了</a>
                             {{ field.end_time }}
                             {{ field.date }}
                     {% endfor %}
