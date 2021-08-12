@@ -22,6 +22,7 @@ urlpatterns = [
     path("", login_required(views.Index.as_view()), name="index"),
     path('', include("django.contrib.auth.urls")),
     path("sign-up/", views.SignUpView.as_view(), name="signup"),
+    path('user_update/<slug:pk>', views.UserUpdate.as_view(), name="user_update"),
     path('month_with_forms/', views.MonthWithFormsCalendar.as_view(), name="month_with_forms"),
     path('month_with_forms/<int:year>/<int:month>/', views.MonthWithFormsCalendar.as_view(), name="month_with_forms"),
     path('index/', views.IndexPost.as_view(), name="index_post"),
