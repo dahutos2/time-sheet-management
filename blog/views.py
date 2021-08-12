@@ -12,6 +12,8 @@ from . import mixins
 from .forms import SimpleScheduleForm
 from .forms import SignUpForm
 from django.views.generic.edit import CreateView
+from django.http import HttpResponse
+from django.views.generic.edit import UpdateView
 
 class Index(ListView):
     # 一覧するモデルを指定 -> `object_list`で取得可能
@@ -33,6 +35,17 @@ class Complite(ListView):
         post = Post.objects.filter(name=request.user).update(published=False)
         
         return redirect('/')
+
+class UserUpdate(UpdateView):
+    template_name="registration/user_form.html"
+    model = User
+    fields = ["full_name","email"]
+    success_url = "/"  
+    
+    def get(self, request, **kwargs):
+        if not User.objects.get(id=self.kwargs['pk'])==request.user:
+            return HttpResponse('不正なアクセスです。')
+        return super().get(request)
 
 class IndexPost(ListView):
     # 一覧するモデルを指定 -> `object_list`で取得可能
@@ -57,8 +70,6 @@ class Detail(DetailView):
         if not Post.objects.get(id=self.kwargs['pk']).published:
             return HttpResponse('不正なアクセスです。')
         return super().get(request)
-    
-from django.views.generic.edit import UpdateView
 
 class Update(UpdateView):
     model = Post
