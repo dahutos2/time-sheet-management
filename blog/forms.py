@@ -44,7 +44,7 @@ class SimpleScheduleForm(forms.ModelForm):
 class SignUpForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ("username","full_name","email","password1", "password2")
+        fields = ("username","full_name","password1", "password2")
         
         password1= forms.CharField(
             help_text=('パスワードは最低 8 文字以上必要です。',
