@@ -4,8 +4,10 @@
 <a>{{ user.full_name }}さん、こんにちは！</a>
 <p><a href="{% url 'user_update' user.id %}">アカウントの編集</a></p>
 
-<h3>シフト一覧(上位１０件)</h3><a href="{% url 'index_post'  %}">その他シフト</a>
+<h3>シフト一覧(上位１０件)</h3>
 <br>
+<a href="{% url 'index_post'  %}">その他シフト</a>
+<p>
 {% for post in object_list|slice:":10" %}
 {% if post.published == True %}
 <li><a href="{% url 'detail' post.id %}">{{ post.date|date:"Y/m/d" }}</a>
