@@ -28,8 +28,11 @@ class UserAdmin(UserAdmin):
     ordering = ('username',)
     filter_horizontal = ('user_permissions',)
     
-    def has_delete_permission(self,request,obj=None):
-        return False
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if 'delete_selected' in actions:
+            del actions['delete_selected']
+        return actions
    
 from django import forms
 
