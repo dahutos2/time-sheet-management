@@ -11,7 +11,7 @@ import datetime
 class PostInline(admin.TabularInline):
     model = models.Post
     fields = ('date', 'start_time','end_time')
-    extra = 1
+    extra = 0
 
 @admin.register(models.User)
 class UserAdmin(UserAdmin):
