@@ -51,20 +51,40 @@ class Detail(DetailView):
     # 詳細表示するモデルを指定 -> `object`で取得可能
     model = Post
     
+    def get(self, request, **kwargs):
+        if not Post.objects.get(id=self.kwargs['pk']).name==request.user:
+            return HttpResponse('不正なアクセスです。')
+        if not Post.objects.get(id=self.kwargs['pk']).published:
+            return HttpResponse('不正なアクセスです。')
+        return super().get(request)
+    
 from django.views.generic.edit import UpdateView
 
 class Update(UpdateView):
     model = Post
     fields = ["date", "start_time", "end_time",]
     success_url = "/"
+    
+    def get(self, request, **kwargs):
+        if not Post.objects.get(id=self.kwargs['pk']).name==request.user:
+            return HttpResponse('不正なアクセスです。')
+        if not Post.objects.get(id=self.kwargs['pk']).published:
+            return HttpResponse('不正なアクセスです。')
+        return super().get(request)
 
 from django.views.generic.edit import DeleteView
 
 class Delete(DeleteView):
     model = Post
-
     # 削除したあとに移動する先（トップページ）
     success_url = "/"
+    
+    def get(self, request, **kwargs):
+        if not Post.objects.get(id=self.kwargs['pk']).name==request.user:
+            return HttpResponse('不正なアクセスです。')
+        if not Post.objects.get(id=self.kwargs['pk']).published:
+            return HttpResponse('不正なアクセスです。')
+        return super().get(request)
 
 # CreateViewは新規作成画面を簡単に作るためのView
 class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.View):
