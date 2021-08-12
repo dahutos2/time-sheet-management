@@ -73,7 +73,7 @@ class Detail(DetailView):
 
 class Update(UpdateView):
     model = Post
-    fields = ["date", "start_time", "end_time",]
+    fields = ["start_time", "end_time",]
     success_url = "/"
     
     def get(self, request, **kwargs):
