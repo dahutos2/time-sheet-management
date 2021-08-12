@@ -22,11 +22,23 @@ class SimpleScheduleForm(forms.ModelForm):
                 'width': 'auto',
             }),
             'date': forms.HiddenInput,}
+        
+        def clean_date(self):
+            date = self.cleaned_data['date']
+            if Post.objects.filter(date=date).count() != 0:
+                raise forms.ValidationError(
+                "この日付は存在します。"
+                )   
+                
         def save(self):
             super().clean()
             date = self.cleaned_data['date']
             start_time = self.cleaned_data['start_time']
             end_time = self.cleaned_data['end_time']
+            
+            if start_time>=end_time:
+                raise forms.ValidationError(
+                    '数値が不正です。')
         
             return date, start_time, end_time
         
