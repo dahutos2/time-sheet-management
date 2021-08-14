@@ -45,7 +45,7 @@
                 <td>
                 <div>
                 {% if month_current.month != day.month %}
-                    {{ day | date:"m/d" }}
+                    <font size="7">{{ day | date:"m/d" }}</font>
                 {% else %}
                     <b><font size="7">{{ day.day }}</font></b>
                 {% endif %}
