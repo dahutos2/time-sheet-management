@@ -47,7 +47,7 @@
                 {% if month_current.month != day.month %}
                   {{ day | date:"m/d" }}
                 {% else %}
-                    <b><font size="7">{{ day.day }}</font></b>
+                    <b><font size="5">{{ day.day }}</font></b>
                 {% endif %}
                     <br>
                     {% for field in forms %}
