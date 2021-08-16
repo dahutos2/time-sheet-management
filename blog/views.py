@@ -120,8 +120,10 @@ class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.View):
                 date = form.cleaned_data.get('date')
                 if not (start_time and end_time) == None:
                     if Post.objects.filter(date=date).count() != 0:
+                        context["helptext_day"] = '同じ日付があります。'
                         return render(request,self.template_name,context,)
                     elif start_time>=end_time:
+                        context["helptext_int"] = '不正な数値があります。'
                         return render(request,self.template_name,context,)
                     else:
                         post = Post.objects.create(start_time=start_time,
