@@ -123,7 +123,7 @@ class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.View):
                         context["helptext_day"] = '同じ日付があります。'
                         return render(request,self.template_name,context,)
                     elif start_time>=end_time:
-                        context["helptext_int"] = '不正な時間があります。'
+                        context["helptext_"] = '不正な時間があります。'
                         return render(request,self.template_name,context,)
                     else:
                         post = Post.objects.create(start_time=start_time,
