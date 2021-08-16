@@ -6,7 +6,7 @@
 <table border="1" class="table table-striped">
 <tr>
 <th>シフト一覧(上位１０件)</th>
-<th><a href="{% url 'index_post'  %}">その他</a></th>
+<th><a href="{% url 'index_post'  %}">全て</a></th>
 </tr>
 {% for post in object_list|slice:":10" %}
 <tr>
