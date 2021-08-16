@@ -114,16 +114,19 @@ class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.View):
         form_list = context['month_formset']
         for form in form_list:
             if form.is_valid():
+                print(form.cleaned_data)
                 start_time = form.cleaned_data.get('start_time')
                 end_time = form.cleaned_data.get('end_time')
                 date = form.cleaned_data.get('date')
                 if not (start_time and end_time) == None:
-                    post = Post.objects.create(start_time=start_time,
-                        end_time=end_time,date=date,name=request.user)
-            #else:
-                #return render(request,self.template_name,context,)
-        return redirect('/')
-    
+                    if Post.objects.filter(date=date).count() != 0:
+                        return render(request,self.template_name,context,)
+                    elif start_time>=end_time:
+                        return render(request,self.template_name,context,)
+                    else:
+                        post = Post.objects.create(start_time=start_time,
+                            end_time=end_time,date=date,name=request.user)
+
 class SignUpView(CreateView):
     form_class = SignUpForm
     success_url = reverse_lazy('login')
