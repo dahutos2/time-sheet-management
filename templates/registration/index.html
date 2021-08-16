@@ -3,21 +3,25 @@
 <h1>会員ページ</h1>
 <a>{{ user.full_name }}さん、こんにちは！</a>
 <p><a href="{% url 'user_update' user.id %}">アカウントの編集</a></p>
-
-<h3>シフト一覧(上位１０件)</h3>
-<br>
-<a href="{% url 'index_post'  %}">その他シフト</a>
-<p>
+<table border="1" class="table table-striped">
+<tr>
+<th>シフト一覧(上位１０件)</th>
+<th><a href="{% url 'index_post'  %}">その他</a></th>
+</tr>
 {% for post in object_list|slice:":10" %}
+<tr>
 {% if post.published == True %}
-<li><a href="{% url 'detail' post.id %}">{{ post.date|date:"Y/m/d" }}</a>
+<td>{{ post.date|date:"Y/m/d" }}
 {% else %}
-<li><a>{{ post.date|date:"Y/m/d" }}</a>
+{{ post.date|date:"Y/m/d" }}
 {% endif %}
-<a>{{ post.get_start_time_display }}〜{{ post.get_end_time_display }}</a></li>
+{{ post.get_start_time_display }}〜{{ post.get_end_time_display }}</td>
+<td><a href="{% url 'detail' post.id %}">詳細</a></td>
 {% empty %}
-<p>シフトがありません</p>
+<td>シフトがありません</td><td></td>
 {% endfor %}
+</tr>
+</table>
 <p>
 <p><a href="{% url 'month_with_forms' %}">シフト提出</a></p>
 <p><a href="{% url 'complite' %}">完了</a>
