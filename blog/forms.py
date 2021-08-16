@@ -22,16 +22,6 @@ class SimpleScheduleForm(forms.ModelForm):
                 'width': 'auto',
             }),
             'date': forms.HiddenInput,}
-        def clean(self):
-            cleaned_data = super().clean()
-            date = cleaned_data.get('date')
-            start_time = cleaned_data.get('start_time')
-            end_time = cleaned_data.get('end_time')
-            if Post.objects.filter(date=date).count() != 0:
-                raise forms.ValidationError("この日付は存在します。" )
-            if start_time>=end_time:
-                raise forms.ValidationError('数値が不正です。')
-            return cleaned_data
 class SignUpForm(UserCreationForm):
     class Meta:
         model = User
