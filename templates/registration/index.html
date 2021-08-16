@@ -10,13 +10,13 @@
 </tr>
 {% for post in object_list|slice:":10" %}
 <tr>
-{% if post.published == True %}
 <td>{{ post.date|date:"Y/m/d" }}
-{% else %}
-{{ post.date|date:"Y/m/d" }}
-{% endif %}
 {{ post.get_start_time_display }}〜{{ post.get_end_time_display }}</td>
+{% if post.published == True %}
 <td><a href="{% url 'detail' post.id %}">詳細</a></td>
+{% else %}
+<td></td>
+{% endif %}
 {% empty %}
 <td>シフトがありません</td><td></td>
 {% endfor %}
