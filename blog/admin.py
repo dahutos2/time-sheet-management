@@ -60,7 +60,7 @@ class PostAdmin(admin.ModelAdmin):
     list_select_related = ('name',)
     list_display = ('id','date','start_time','end_time','name','published')
     list_display_links = ('id',)
-    list_editable = ('date','start_time','end_time','name')
+    #list_editable = ('date','start_time','end_time','name')
     #search_fields = ['date','name__full_name']
     ordering = ('-date',)
     list_filter = (('date', DateRangeFilter), PublishedListFilter, 'name__full_name')
