@@ -23,6 +23,8 @@
 </tr>
 </table>
 <p>
-<p><a href="{% url 'month_with_forms' %}">シフト提出</a></p>
-<p><a href="{% url 'complite' %}">シフト完了</a>
+<div class="btn-group">
+<p><a class="btn  btn-primary" href="{% url 'month_with_forms' %}">シフト提出</a>
+<a class="btn  btn-danger" href="{% url 'complite' %}">シフト完了</a>
+</div>
 {% endblock %}
