@@ -128,7 +128,7 @@ class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.View):
                     else:
                         post = Post.objects.create(start_time=start_time,
                             end_time=end_time,date=date,name=request.user)
-                        return redirect('/')
+        return redirect('/')
 
 class SignUpView(CreateView):
     form_class = SignUpForm
