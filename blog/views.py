@@ -114,7 +114,6 @@ class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.View):
         form_list = context['month_formset']
         for form in form_list:
             if form.is_valid():
-                print(form.cleaned_data)
                 start_time = form.cleaned_data.get('start_time')
                 end_time = form.cleaned_data.get('end_time')
                 date = form.cleaned_data.get('date')
