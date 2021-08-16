@@ -2,7 +2,7 @@
 {% block main %}
 <h1>会員ページ</h1>
 <p><a>{{ user.full_name }}さん、こんにちは！</a>
-<a href="{% url 'user_update' user.id %}">アカウントの編集</a></p>
+<a href="{% url 'user_update' user.id %}">編集</a></p>
 <table border="1" class="table table-striped">
 <tr>
 <th>シフト一覧(上位１０件)</th>
