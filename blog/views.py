@@ -112,6 +112,7 @@ class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.View):
     def post(self, request, **kwaegs):
         context = self.get_month_calendar()
         form_list = context['month_formset']
+        forms = []
         for form in form_list:
             if form.is_valid():
                 start_time = form.cleaned_data.get('start_time')
@@ -125,8 +126,14 @@ class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.View):
                         context["helptext_time"] = '指定時間が間違ってます。'
                         return render(request,self.template_name,context,)
                     else:
-                        post = Post.objects.create(start_time=start_time,
-                            end_time=end_time,date=date,name=request.user)
+                        forms.append([start_time,end_time,date])
+        for formset in forms:
+            start_time = formset[0]
+            end_time = formset[1]
+            date = formset[2]
+            Post.objects.create(start_time=start_time,
+                                end_time=end_time,date=date,name=request.user)
+                            
         return redirect('/')
 
 class SignUpView(CreateView):
