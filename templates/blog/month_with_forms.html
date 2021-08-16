@@ -43,7 +43,8 @@
 <a href="{% url 'month_with_forms' month_next.year month_next.month %}">次月</a></font>
 <br>
 {% if helptext_day or helptext_time %}
-<a  class="badge badge-danger text-light"><font size="7">{{ helptext_day }}{{ helptext_time }}</font></a>
+<a  class="text-danger"><font size="5" face="serif">
+    <b><u><i>{{ helptext_day }}{{ helptext_time }}</i></u></b></font></a>
 {% endif %}
 <form action="" method="POST">
 {{ month_formset.management_form }}
