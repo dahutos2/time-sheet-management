@@ -122,7 +122,7 @@ class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.View):
                     if Post.objects.filter(date=date).count() != 0:
                         context["helptext_day"] = '同じ日付があります。'
                         return render(request,self.template_name,context,)
-                    elif start_time>=end_time:
+                    elif int(start_time)>=int(end_time):
                         context["helptext_time"] = '不正な時間があります。'
                         return render(request,self.template_name,context,)
                     else:
