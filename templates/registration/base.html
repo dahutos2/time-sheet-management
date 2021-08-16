@@ -9,9 +9,22 @@
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="/">マイページ</a>
-            <a class="text-danger" href="{% url 'logout' %}">ログアウト</a>
-        </nav>
+    <a class="navbar-brand" href="/">マイページ</a>
+    <button class="navbar-toggler" type="button"
+      data-toggle="collapse"
+      data-target="#navmenu1"
+      aria-controls="navmenu1"
+      aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navmenu1">
+       <div class="navbar-nav">
+          <a class="nav-item nav-link" href="{% url 'index_post'  %}">シフト一覧</a>
+      <a class="nav-item nav-link" href="{% url 'logout' %"><font color="red">ログアウト</font></a>
+    </div>
+  </div>
+</nav>
         <div class="container mt-4">
             <div class="row">
         <div class="col-12 col-md-6 col-lg-4">
