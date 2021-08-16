@@ -41,6 +41,7 @@
 <font size="7"><a href="{% url 'month_with_forms' month_previous.year month_previous.month  %}">前月</a>
 {{ month_current | date:"Y年m月" }}
 <a href="{% url 'month_with_forms' month_next.year month_next.month %}">次月</a></font>
+<a>{{ helptext_day }}{{ helptext_time }}</a>
 <form action="" method="POST">
 {{ month_formset.management_form }}
 <table class="table">
