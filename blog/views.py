@@ -120,8 +120,8 @@ class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.View):
                 if not (start_time and end_time) == None:
                     post = Post.objects.create(start_time=start_time,
                         end_time=end_time,date=date,name=request.user)
-            else:
-                return render(request,self.template_name,context,)
+            #else:
+                #return render(request,self.template_name,context,)
         return redirect('/')
     
 class SignUpView(CreateView):
