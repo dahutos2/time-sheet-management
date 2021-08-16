@@ -4,7 +4,7 @@
 <li class="card-text"><a>{{ post.date|date:"Y/m/d" }}
 {{ post.get_start_time_display }}〜{{ post.get_end_time_display }}</a>
 {% if post.published == True %}
-<p>
+<br>
 <a class="text-right" href="{% url 'detail' post.id %}">詳細</a>
 {% endif %}
  </div>
