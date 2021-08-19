@@ -69,8 +69,10 @@
             {% for day, forms in week_day_forms.items %}
                 <td>
                 <div>
+            {% if day.weekday == 5 %}
+                <ul class="table-primary">
                 {% if month_current.month != day.month %}
-                  {{ day | date:"m/d" }}
+                    {{ day | date:"m/d" }}
                 {% else %}
                     <b><font size="5">{{ day.day }}</font></b>
                 {% endif %}
@@ -81,9 +83,39 @@
                     <a>終了</a>
                             {{ field.end_time }}
                             {{ field.date }}
-                            {{ field.end_time.errors }}
-                            {{ field.date.errors }}
                     {% endfor %}
+                </ul>
+            {% elif day.weekday == 6 %}
+                <ul class="table-success">
+                {% if month_current.month != day.month %}
+                    {{ day | date:"m/d" }}
+                {% else %}
+                    <b><font size="5">{{ day.day }}</font></b>
+                {% endif %}
+                    <br>
+                    {% for field in forms %}
+                    <a>開始</a>
+                            {{ field.start_time }}
+                    <a>終了</a>
+                            {{ field.end_time }}
+                            {{ field.date }}
+                    {% endfor %}
+                </ul>
+            {% else %}
+                {% if month_current.month != day.month %}
+                    {{ day | date:"m/d" }}
+                {% else %}
+                    <b><font size="5">{{ day.day }}</font></b>
+                {% endif %}
+                    <br>
+                    {% for field in forms %}
+                    <a>開始</a>
+                            {{ field.start_time }}
+                    <a>終了</a>
+                            {{ field.end_time }}
+                            {{ field.date }}
+                    {% endfor %}
+            {% endif %}}
                </div>
                 </td>
             {% endfor %}
