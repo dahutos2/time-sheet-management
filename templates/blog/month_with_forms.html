@@ -31,13 +31,6 @@
     </div>
   </div>
 </nav>
-    <style>
-        table {
-            table-layout: auto;
-            width: auto;
-        }
-
-    </style>
 {% load tag_library %}
 <font size="7"><a href="{% url 'month_with_forms' month_previous.year month_previous.month  %}">前月</a>
 {{ month_current | date:"Y年m月" }}
