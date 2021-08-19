@@ -33,7 +33,7 @@ class Complite(ListView):
     
     def post(self, request):
         post = Post.objects.filter(name=request.user).update(published=False)
-        print(request.user,'が完了しました。')
+        print(request.user,'がシフトを完了しました。')
         
         return redirect('/')
 
@@ -134,7 +134,7 @@ class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.View):
             date = formset[2]
             Post.objects.create(start_time=start_time,
                                 end_time=end_time,date=date,name=request.user)
-                            
+        print(request.user,'がシフトを提出しました。')                    
         return redirect('/')
 
 class SignUpView(CreateView):
