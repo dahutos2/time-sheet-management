@@ -71,7 +71,7 @@
             <td class='text-center'>
             {% endif %}
                 {% if month_current.month != day.month %}
-                     {{ day | date:"m/d" }}
+                     <font size="5">{{ day | date:"m/d" }}</font>
                 {% else %}
                      <b><font size="5">{{ day.day }}</font></b>
                 {% endif %}
