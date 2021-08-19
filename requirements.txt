@@ -2,10 +2,8 @@ django
 gunicorn
 whitenoise
 dj-database-url
-django-anymail[mailgun]
 pillow
 python-dotenv
 psycopg2-binary==2.8.6
-mysqlclient
 django-admin-rangefilter
 jpholiday
