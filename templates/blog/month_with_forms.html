@@ -47,11 +47,11 @@
     <tr>
     {% for w in week_names %}
         {% if w == '土' %}
-        <th class="table-primary">
+        <th class="table-primary text-center">
         {% elif w == '日' %}
-        <th class="table-success">
+        <th class="table-success text-center">
         {% else %}
-        <th>
+        <th class="text-center">
         {% endif %}      
         {{ w }}</th>
         {% endfor %}
@@ -62,13 +62,13 @@
         <tr>
             {% for day, forms in week_day_forms.items %}
             {% if day|jpholiday %}
-                     <td class='table-warning'>
+                     <td class='table-warning text-center'>
             {% elif day.weekday == 6 %}
-                     <td class='table-success'>
+                     <td class='table-success text-center'>
             {% elif day.weekday == 5 %}
-                     <td class='table-primary'>
+                     <td class='table-primary text-center'>
             {% else %}
-            <td>
+            <td class='text-center'>
             {% endif %}
                 {% if month_current.month != day.month %}
                      {{ day | date:"m/d" }}
