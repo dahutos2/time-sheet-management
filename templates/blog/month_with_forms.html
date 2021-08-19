@@ -47,9 +47,9 @@
     <tr>
     {% for w in week_names %}
         {% if w == '土' %}
-        <td class="table-primary">
+        <th class="table-primary">
         {% elif w == '日' %}
-        <td class="table-success">
+        <th class="table-success">
         {% else %}
         <th>
         {% endif %}      
@@ -61,38 +61,32 @@
         {% for week_day_forms in month_day_forms %}
         <tr>
             {% for day, forms in week_day_forms.items %}
+            {% if day|jpholiday %}
+                     <td class='table-warning'>
+            {% elif day.weekday == 6 %}
+                     <td class='table-success'>
+            {% elif day.weekday == 5 %}
+                     <td class='table-primary'>
+            {% else %}
             <td>
-            <div>
+            {% endif %}
                 {% if month_current.month != day.month %}
-                    {% if day|jpholiday %}
-                     <a class='text-warning'>{{ day | date:"m/d" }}</a>
-                    {% elif day.weekday == 6 %}
-                     <a class='text-success'>{{ day | date:"m/d" }}</a>
-                    {% elif day.weekday == 5 %}
-                     <a class='text-primary'>{{ day | date:"m/d" }}</a>
-                    {% else %}
                      {{ day | date:"m/d" }}
-                    {% endif %}
                 {% else %}
-                    {% if day|jpholiday %}
-                     <a class='text-warning'><b><font size="5">{{ day.day }}</font></b></a>
-                    {% elif day.weekday == 6 %}
-                     <a class='text-success'><b><font size="5">{{ day.day }}</font></b></a>
-                    {% elif day.weekday == 5 %}
-                     <a class='text-primary'><b><font size="5">{{ day.day }}</font></b></a>
-                    {% else %}
                      <b><font size="5">{{ day.day }}</font></b>
-                    {% endif %}
                 {% endif %}
                     <br>
                     {% for field in forms %}
-                    <a>開始</a>
+                    <br>
+                    開始
+                    <br>
                             {{ field.start_time }}
-                    <a>終了</a>
+                    <br>
+                    終了
+                    <br>
                             {{ field.end_time }}
                             {{ field.date }}
                     {% endfor %}
-               </div>
                 </td>
             {% endfor %}
         </tr>
