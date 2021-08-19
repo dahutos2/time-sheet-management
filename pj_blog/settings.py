@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'anymail',
     'rangefilter',
 ]
 
@@ -148,15 +147,8 @@ LOGOUT_REDIRECT_URL = "/login/"
 #CSRF_COOKIE_SECURE = True
 
 AUTH_USER_MODEL = 'blog.User'
-
-FRONTEND_URL = "https://schedule-shift-dahutos.herokuapp.com"
-
-ANYMAIL = {
-"MAILGUN_API_KEY": "b575fbec0f240346622e7590363b8e13-a0cfb957-d4c040eb",
-"MAILGUN_SENDER_DOMAIN": 'sandbox10812175d4864f2bad21ab4d3154ab9b.mailgun.org',
-}
-
-EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
-
-DEFAULT_FROM_EMAIL = "hondo@example.com"
-SERVER_EMAIL = "server@example.com"
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'dahutos2'
+EMAIL_HOST_PASSWORD = 'pbonspuxakfennjg'
+EMAIL_USE_TLS = True
