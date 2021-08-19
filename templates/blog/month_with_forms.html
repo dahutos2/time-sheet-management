@@ -42,7 +42,7 @@
 {% endif %}
 <form action="" method="POST">
 {{ month_formset.management_form }}
-<table class="table" border="1">
+<table class="table table-bordered">
     <thead>
     <tr>
     {% for w in week_names %}
@@ -51,7 +51,7 @@
         {% elif w == '日' %}
         <th class="table-danger text-center">
         {% else %}
-        <th class="text-center">
+        <th class="table-info text-center">
         {% endif %}      
         {{ w }}</th>
         {% endfor %}
