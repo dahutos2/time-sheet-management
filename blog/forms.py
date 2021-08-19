@@ -22,13 +22,6 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = ("username","full_name","password1", "password2")
-        
-        help_text = {
-            'username': '従業員番号を入力してください。',
-            'password1': ('パスワードは最低 8 文字以上必要です。',
-                       'パスワードを他の個人情報と類似させすぎてはなりません。',
-                       'パスワードは、一般的に使用されるパスワードにすることはできません。',
-                       'パスワードを完全に数値にすることはできません。'),}
 
     def save(self, commit=True):
         # commit=Falseだと、DBに保存されない
