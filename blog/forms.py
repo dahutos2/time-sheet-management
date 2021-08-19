@@ -23,7 +23,7 @@ class SignUpForm(UserCreationForm):
         model = User
         fields = ("username","full_name","password1", "password2")
         
-         help_text = {
+        help_text = {
             'username': '従業員番号を入力してください。',
             'password1': ('パスワードは最低 8 文字以上必要です。',
                        'パスワードを他の個人情報と類似させすぎてはなりません。',
