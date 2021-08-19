@@ -70,8 +70,8 @@
             {% for day, forms in week_day_forms.items %}
             <td>
                 <div>
-            {% if day.weekday == 5 %}
-                <ul class="table-primary">
+            {% if day|jpholiday %}
+                <ul class="table-danger">
                 {% if month_current.month != day.month %}
                     {{ day | date:"m/d" }}
                 {% else %}
@@ -102,8 +102,8 @@
                             {{ field.date }}
                     {% endfor %}
                 </ul>
-            {% elif day|jpholiday %}
-                <ul class="table-danger">
+            {% elif day.weekday == 5 %}
+                <ul class="table-primary">
                 {% if month_current.month != day.month %}
                     {{ day | date:"m/d" }}
                 {% else %}
@@ -119,6 +119,7 @@
                     {% endfor %}
                 </ul>
             {% else %}
+                <ul class="table-light">
                 {% if month_current.month != day.month %}
                     {{ day | date:"m/d" }}
                 {% else %}
@@ -132,6 +133,7 @@
                             {{ field.end_time }}
                             {{ field.date }}
                     {% endfor %}
+                </ul>
             {% endif %}
                </div>
                 </td>
