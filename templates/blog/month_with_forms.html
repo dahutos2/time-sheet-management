@@ -38,12 +38,13 @@
         }
 
     </style>
+{% load tag_library %}
 <font size="7"><a href="{% url 'month_with_forms' month_previous.year month_previous.month  %}">前月</a>
 {{ month_current | date:"Y年m月" }}
 <a href="{% url 'month_with_forms' month_next.year month_next.month %}">次月</a></font>
 <br>
 {% if helptext_day or helptext_time %}
-<a  class="text-danger"><font size="5" face="serif">
+<a class="text-danger"><font size="5" face="serif">
     <b><u><i>{{ helptext_day }}{{ helptext_time }}</i></u></b></font></a>
 {% endif %}
 <form action="" method="POST">
@@ -67,7 +68,7 @@
         {% for week_day_forms in month_day_forms %}
         <tr>
             {% for day, forms in week_day_forms.items %}
-                <td>
+            <td>
                 <div>
             {% if day.weekday == 5 %}
                 <ul class="table-primary">
@@ -87,6 +88,22 @@
                 </ul>
             {% elif day.weekday == 6 %}
                 <ul class="table-success">
+                {% if month_current.month != day.month %}
+                    {{ day | date:"m/d" }}
+                {% else %}
+                    <b><font size="5">{{ day.day }}</font></b>
+                {% endif %}
+                    <br>
+                    {% for field in forms %}
+                    <a>開始</a>
+                            {{ field.start_time }}
+                    <a>終了</a>
+                            {{ field.end_time }}
+                            {{ field.date }}
+                    {% endfor %}
+                </ul>
+            {% elif day|jpholiday %}
+                <ul class="table-danger">
                 {% if month_current.month != day.month %}
                     {{ day | date:"m/d" }}
                 {% else %}
