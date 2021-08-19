@@ -69,13 +69,27 @@
         <tr>
             {% for day, forms in week_day_forms.items %}
             <td>
-                <div>
-            {% if day|jpholiday %}
-                <ul class="table-danger">
+            <div>
                 {% if month_current.month != day.month %}
-                    {{ day | date:"m/d" }}
+                    {% if day|jpholiday %}
+                     <a class='text-dager'>{{ day | date:"m/d" }}</a>
+                    {% elif day.weekday == 6 %}
+                     <a class='text-success'>{{ day | date:"m/d" }}</a>
+                    {% elif day.weekday == 5 %}
+                     <a class='text-primary'>{{ day | date:"m/d" }}</a>
+                     {% else %}
+                     {{ day | date:"m/d" }}
+                    {% endif %}
                 {% else %}
-                    <b><font size="5">{{ day.day }}</font></b>
+                    {% if day|jpholiday %}
+                     <a class='text-dager'><b><font size="5">{{ day.day }}</font></b></a>
+                    {% elif day.weekday == 6 %}
+                     <a class='text-success'><b><font size="5">{{ day.day }}</font></b></a>
+                    {% elif day.weekday == 5 %}
+                     <a class='text-primary'><b><font size="5">{{ day.day }}</font></b></a>
+                    {% else %}
+                     <b><font size="5">{{ day.day }}</font></b>
+                    {% endif %}
                 {% endif %}
                     <br>
                     {% for field in forms %}
@@ -85,56 +99,6 @@
                             {{ field.end_time }}
                             {{ field.date }}
                     {% endfor %}
-                </ul>
-            {% elif day.weekday == 6 %}
-                <ul class="table-success">
-                {% if month_current.month != day.month %}
-                    {{ day | date:"m/d" }}
-                {% else %}
-                    <b><font size="5">{{ day.day }}</font></b>
-                {% endif %}
-                    <br>
-                    {% for field in forms %}
-                    <a>開始</a>
-                            {{ field.start_time }}
-                    <a>終了</a>
-                            {{ field.end_time }}
-                            {{ field.date }}
-                    {% endfor %}
-                </ul>
-            {% elif day.weekday == 5 %}
-                <ul class="table-primary">
-                {% if month_current.month != day.month %}
-                    {{ day | date:"m/d" }}
-                {% else %}
-                    <b><font size="5">{{ day.day }}</font></b>
-                {% endif %}
-                    <br>
-                    {% for field in forms %}
-                    <a>開始</a>
-                            {{ field.start_time }}
-                    <a>終了</a>
-                            {{ field.end_time }}
-                            {{ field.date }}
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <ul class="table-light">
-                {% if month_current.month != day.month %}
-                    {{ day | date:"m/d" }}
-                {% else %}
-                    <b><font size="5">{{ day.day }}</font></b>
-                {% endif %}
-                    <br>
-                    {% for field in forms %}
-                    <a>開始</a>
-                            {{ field.start_time }}
-                    <a>終了</a>
-                            {{ field.end_time }}
-                            {{ field.date }}
-                    {% endfor %}
-                </ul>
-            {% endif %}
                </div>
                 </td>
             {% endfor %}
