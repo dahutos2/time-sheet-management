@@ -64,6 +64,9 @@ TEMPLATES = [
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
+            'libraries': {
+                'tag_library': 'templatetags.tag_library'
+                },
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
