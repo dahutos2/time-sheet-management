@@ -84,8 +84,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.admin import AdminSite
 
 class BlogAdminSite(AdminSite):
-    site_header = 'マイページ'
-    site_title = 'マイページ'
+    site_header = '確認'
+    site_title = '確認'
     index_title = 'ホーム'
     site_url = None
     login_form = AuthenticationForm
