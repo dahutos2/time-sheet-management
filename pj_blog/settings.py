@@ -139,6 +139,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/login/"
+AUTH_USER_MODEL = 'blog.User'
 
 # 暗号化されたhttpsを使うようにする
 #ECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -146,7 +147,6 @@ LOGOUT_REDIRECT_URL = "/login/"
 #SESSION_COOKIE_SECURE = True
 #CSRF_COOKIE_SECURE = True
 
-AUTH_USER_MODEL = 'blog.User'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'dahutos2'
