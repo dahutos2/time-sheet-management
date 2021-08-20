@@ -1,6 +1,8 @@
 <form method="post" lang="ja">
     {% csrf_token %}
-    <a id="error">{{ form.non_field_errors }}</a>
+    {% if form.non_field_errors }}
+        <a id="error">{{ form.non_field_errors }}</a>
+    {% endif %}
     {% for field in form %}
       <p>
         {{ field.label_tag }}<br>
