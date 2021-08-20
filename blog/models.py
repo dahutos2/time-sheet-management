@@ -10,7 +10,7 @@ class UserManager(UserManager):
     pass
 
 class User(AbstractUser):
-    email = models.EmailField('メールアドレス', unique=False, blank=True)
+    email = models.EmailField('メールアドレス', unique=True, blank=True)
     full_name = models.CharField('氏名', null=True, max_length=255,)
     class Meta:
         verbose_name = verbose_name_plural = _('アカウント')
