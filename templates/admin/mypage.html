@@ -14,15 +14,15 @@
 <td>
 {% if object == user %}
 　{% if object.is_authenticated %}
-<li>{{ object }}⭐️⭐️</li>
+{{ object }}⭐️⭐️
 　{% else %}
-<li>{{ object }}</li>
+{{ object }}
 　{% endif %}
 {% else %}
 　{% if object.is_authenticated %}
-<li>{{ object }}⭐️</li>
+{{ object }}⭐️
   {% else %}
-  <li>{{ object }}</li>
+  { object }}
   {% endif %}
 {% endif %}
 </td>
