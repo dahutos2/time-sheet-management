@@ -22,6 +22,7 @@
 {% endfor %}
 </tr>
 </table>
+<p>
 <table>
 <thead>シフト未完了者一覧</thead>
   <tr>
@@ -36,16 +37,12 @@
 {% else %}
 <td></td><td></td>
 {% endif %}
-{% empty %}
-<td>０人です。</td><td></td>
 {% endfor %}
 </tr>
 </table>
+<p>
 <table>
 <thead>シフト未提出者一覧</thead>
-    <tr>
-  <th>名前</th>
-    </tr>
 {% for object in object_list %}
   <tr>
 {% if object.related_user|editable:"True" == 0 %}
@@ -57,8 +54,6 @@
  {% else %} 
   
 {% endif %}
-  {% empty %}
-<td>０人です。</td>
 {% endfor %}
   </tr>
 </table>
