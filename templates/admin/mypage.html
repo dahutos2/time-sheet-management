@@ -6,24 +6,28 @@
 確認
 {% endblock %}
 {% block content %}
-<table class="table table-bordered">
+<table>
   <thead>名前一覧</thead>
   <tbody>
-    {% for object in object_list %}
     <tr>
-      {% if object == user %}
-      <td class='table-primary'>
-      {% else %}
-      <td class='table-danger'>
-      {% endif %}
-        {% if object.is_authenticated %}
-        <li>{{ object }}⭐️</li>
-        {% else %}
-        <li>{{ object }}</li>
-        {% endif %}
-        </td>
-    </tr>
+{% for object in object_list %}
+<td>
+{% if object == user %}
+　{% if object.is_authenticated %}
+<li>{{ object }}⭐️⭐️</li>
+　{% else %}
+<li>{{ object }}</li>
+　{% endif %}
+{% else %}
+　{% if object.is_authenticated %}
+<li>{{ object }}⭐️</li>
+  {% else %}
+  <li>{{ object }}</li>
+  {% endif %}
+{% endif %}
+</td>
 {% endfor %}
- </tbody>
+</tr>
+</tbody>
 </table>
 {% endblock %}
