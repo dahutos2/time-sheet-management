@@ -47,6 +47,7 @@
   <th>名前</th>
     </tr>
 {% for object in object_list %}
+  <tr>
 {% if object.related_user|editable:"True" == 0 %}
   {% if object.related_user|editable:"False" == 0 %}
 <td>{{ object }}</td>
