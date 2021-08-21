@@ -15,18 +15,22 @@
 <td>
 {% if object == user %}
 　{% if object.is_authenticated %}
-{{ object }}⭐️⭐️ シフト数: <b><font size='4'>{{ object.related_user.all.count }}</font></b>
+{{ object }}⭐️⭐️ シフト数:（直近３ヶ月）編集可<b><font size='4'>{{ object.related_user|editable:"True" }}</font></b>,
+編集不可<b><font size='4'>{{ object.related_user|editable:"False" }}</font></b>
 <p>最終ログイン: <b>{{ object.last_login }}</b>, 作成日: <b>{{ object.date_joined }}</b>
 　{% else %}
-{{ object }} シフト数: <b><font size='4'>{{ object.related_user.all.count }}</font></b>
+{{ object }} シフト数:（直近３ヶ月）編集可<b><font size='4'>{{ object.related_user|editable:"True" }}</font></b>,
+編集不可<b><font size='4'>{{ object.related_user|editable:"False" }}</font></b>
   <p>最終ログイン: <b>{{ object.last_login }}</b>, 作成日: <b>{{ object.date_joined }}</b>
 　{% endif %}
 {% else %}
 　{% if object.is_authenticated %}
-{{ object }}⭐️ シフト数: <b><font size='4'>{{ object.related_user.all.count }}</font></b>
+{{ object }}⭐️ シフト数:（直近３ヶ月）編集可<b><font size='4'>{{ object.related_user|editable:"True" }}</font></b>,
+編集不可<b><font size='4'>{{ object.related_user|editable:"False" }}</font></b>
   <p>最終ログイン: <b>{{ object.last_login }}</b>, 作成日: <b>{{ object.date_joined }}</b>
   {% else %}
-  { object }} シフト数: <b><font size='4'>{{ object.related_user.all.count }}</font></b>
+  { object }} シフト数:（直近３ヶ月）編集可<b><font size='4'>{{ object.related_user|editable:"True" }}</font></b>,
+編集不可<b><font size='4'>{{ object.related_user|editable:"False" }}</font></b>
   <p>最終ログイン: <b>{{ object.last_login }}</b>, 作成日: <b>{{ object.date_joined }}</b>
   {% endif %}
 {% endif %}
