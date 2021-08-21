@@ -88,7 +88,7 @@ class BlogAdminSite(AdminSite):
     site_title = '確認'
     index_title = 'ホーム'
     site_url = '/dahutos-admin/'
-    index_template = 'admin/app_index.html'
+    index_template = 'admin/mypage.html'
     login_form = AuthenticationForm
 
     def has_permission(self, request):
