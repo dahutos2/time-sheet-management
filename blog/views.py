@@ -29,6 +29,15 @@ class Index(ListView):
             name=self.request.user).order_by('-date')
         
         return query_set
+
+class Mypage(ListView):
+    template_name = 'admin/mypage.html'
+    model = User
+
+    def get(self, request, **kwargs):
+        if not request.user.is_superuser:
+            return redirect('/dahutos-admin/')
+        return super().get(request)
  
 class Complite(ListView):
     # 一覧するモデルを指定 -> `object_list`で取得可能
@@ -112,6 +121,8 @@ class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.View):
 
     def get(self, request, **kwargs):
         context = self.get_month_calendar()
+        if not request.user.is_authenticated:
+            return redirect('/')
         return render(request,self.template_name,context,)
     
     def post(self, request, **kwaegs):
