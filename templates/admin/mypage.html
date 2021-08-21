@@ -21,19 +21,36 @@
 {% endfor %}
 </tbody>
 </table>
-シフト未完了者一覧
-<p>
+<table>
+<thead>シフト未完了者一覧</thead>
+<tbody>
 {% for object in object_list %}
+<tr>
+<td>
 {% if not object.related_user|editable:"True" == 0 %}
-<li>{{ object }}　編集可 <b><font size='4'>{{ object.related_user|editable:"True" }}</font></b></li>
+<p>{{ object }}　編集可 <b><font size='4'>{{ object.related_user|editable:"True" }}</font></b>
+{% else %}
+０人です。
 {% endif %}
+</td>
+</tr>
 {% endfor %}
- シフト未提出者一覧
-<p>
+</tbody>
+</table>
+<table>
+<thead>シフト未提出者一覧</thead>
+<tbody>
 {% for object in object_list %}
-{% if object.related_user|editable:"True" and object.related_user|editable:"False" == 0 %}
-<li>{{ object }}　編集可 <b><font size='4'>{{ object.related_user|editable:"True" }}</font></b>,
-     編集不可 <b><font size='4'>{{ object.related_user|editable:"False" }}</font></b></li>
+<tr>
+<td>
+{% if not object.related_user|editable:"True" and object.related_user|editable:"False" %}
+<p>{{ object }}
+{% else %}
+０人です。
 {% endif %}
+</td>
+</tr>
 {% endfor %}
+</tbody>
+</table>
 {% endblock %}
