@@ -29,6 +29,7 @@
 <td>
 {% if not object.related_user|editable:"True" == 0 %}
 <p>{{ object }}　編集可 <b><font size='4'>{{ object.related_user|editable:"True" }}</font></b>
+{% endif %}
 </td>
 {% endfor %}
   </tr>
