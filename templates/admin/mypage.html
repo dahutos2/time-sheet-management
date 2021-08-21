@@ -24,29 +24,29 @@
 <table>
 <thead>シフト未完了者一覧</thead>
 <tbody>
-  <tr>
 {% for object in object_list %}
+<tr>
 <td>
 {% if not object.related_user|editable:"True" == 0 %}
 <p>{{ object }}　編集可 <b><font size='4'>{{ object.related_user|editable:"True" }}</font></b>
 {% endif %}
 </td>
+</tr>
 {% endfor %}
-  </tr>
 </tbody>
 </table>
 <table>
 <thead>シフト未提出者一覧</thead>
 <tbody>
-  <tr>
 {% for object in object_list %}
+<tr>
 <td>
 {% if not object.related_user|editable:"True" and object.related_user|editable:"False" %}
 <p>{{ object }}
 {% endif %}
 </td>
+</tr>
 {% endfor %}
-   </tr>
 </tbody>
 </table>
 {% endblock %}
