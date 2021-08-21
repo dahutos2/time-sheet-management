@@ -96,4 +96,3 @@ class BlogAdminSite(AdminSite):
 
 mypage_site = BlogAdminSite(name="mypage")
 mypage_site.register(models.Post)
-mypage_site.register(models.User)
