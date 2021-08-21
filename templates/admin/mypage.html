@@ -15,14 +15,18 @@
 {% if object == user %}
 　{% if object.is_authenticated %}
 {{ object }}⭐️⭐️
+  <br>最終ログイン: {{ object.last_login }}, 作成日: {{ object.date_joined }}
 　{% else %}
 {{ object }}
+  <br>最終ログイン: {{ object.last_login }}, 作成日: {{ object.date_joined }}
 　{% endif %}
 {% else %}
 　{% if object.is_authenticated %}
 {{ object }}⭐️
+  <br>最終ログイン: {{ object.last_login }}, 作成日: {{ object.date_joined }}
   {% else %}
   { object }}
+  <br>最終ログイン: {{ object.last_login }}, 作成日: {{ object.date_joined }}
   {% endif %}
 {% endif %}
 </td>
