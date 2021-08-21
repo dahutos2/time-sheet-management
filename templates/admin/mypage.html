@@ -14,18 +14,18 @@
 <td>
 {% if object == user %}
 　{% if object.is_authenticated %}
-{{ object }}⭐️⭐️
+{{ object }}⭐️⭐️ シフト数: <b><font size='4'>{{ object.related_user.all.count }}</font></b>
 <p>最終ログイン: <b>{{ object.last_login }}</b>, 作成日: <b>{{ object.date_joined }}</b>
 　{% else %}
-{{ object }}
+{{ object }} シフト数: <b><font size='4'>{{ object.related_user.all.count }}</font></b>
   <p>最終ログイン: <b>{{ object.last_login }}</b>, 作成日: <b>{{ object.date_joined }}</b>
 　{% endif %}
 {% else %}
 　{% if object.is_authenticated %}
-{{ object }}⭐️
+{{ object }}⭐️ シフト数: <b><font size='4'>{{ object.related_user.all.count }}</font></b>
   <p>最終ログイン: <b>{{ object.last_login }}</b>, 作成日: <b>{{ object.date_joined }}</b>
   {% else %}
-  { object }}
+  { object }} シフト数: <b><font size='4'>{{ object.related_user.all.count }}</font></b>
   <p>最終ログイン: <b>{{ object.last_login }}</b>, 作成日: <b>{{ object.date_joined }}</b>
   {% endif %}
 {% endif %}
