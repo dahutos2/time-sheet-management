@@ -29,9 +29,9 @@
 <td>
 {% if not object.related_user|editable:"True" == 0 %}
 <p>{{ object }}　編集可 <b><font size='4'>{{ object.related_user|editable:"True" }}</font></b>
-{% else %}
-０人です。
 {% endif %}
+{% empty %}
+０人です。
 </td>
 </tr>
 {% endfor %}
@@ -45,9 +45,9 @@
 <td>
 {% if not object.related_user|editable:"True" and object.related_user|editable:"False" %}
 <p>{{ object }}
-{% else %}
-０人です。
 {% endif %}
+{% empty %}
+０人です。
 </td>
 </tr>
 {% endfor %}
