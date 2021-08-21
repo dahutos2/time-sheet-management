@@ -1,10 +1,12 @@
 {% extends 'admin/base_site.html' %}
-{% block breadcrumbs %}
-<strong></strong>
+{% block branding %}
+確認
 {% endblock %}
-{% block content_title %}
-  <strong></strong>
-  {% endblock %}
+{% block title %}
+確認
+{% endblock %}
 {% block content %}
-
+{% for object in object_list %}
+{{ object }}
+{% endfor %}
 {% endblock %}
