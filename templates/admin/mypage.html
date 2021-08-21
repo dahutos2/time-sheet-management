@@ -9,44 +9,53 @@
 {% block content %}
 <table>
   <thead>名前一覧</thead>
-  <tbody>
+  <tr>
+    <th>名前</th>
+    <th>最終ログイン</th>
+    <th>作成日</th>
+   </tr>
 {% for object in object_list %}
 <tr>
-<td>
-{{ object }}
-<p>最終ログイン: <b>{{ object.last_login }}</b>
-<p>作成日: <b>{{ object.date_joined }}</b>
-</td>
-</tr>
+<td>{{ object }}</td>
+<td><b>{{ object.last_login }}</b></td>
+<td><<b>{{ object.date_joined }}</b></td>
 {% endfor %}
-</tbody>
+</tr>
 </table>
 <table>
 <thead>シフト未完了者一覧</thead>
-<tbody>
+  <tr>
+  <th>名前</th>
+  <th>編集可</th>
+    </tr>
 {% for object in object_list %}
-<tr>
-<td>
+  <tr>
 {% if not object.related_user|editable:"True" == 0 %}
-<p>{{ object }}　編集可 <b><font size='4'>{{ object.related_user|editable:"True" }}</font></b>
+<td>{{ object }}</td>
+<td><b><font size='4'>{{ object.related_user|editable:"True" }}</font></b></td>
+{% else %}
+<td></td><td></td>
 {% endif %}
-</td>
-</tr>
+{% empty %}
+<td>０人です。</td><td></td>
 {% endfor %}
-</tbody>
-</table>
 <table>
 <thead>シフト未提出者一覧</thead>
-<tbody>
-{% for object in object_list %}
-<tr>
-<td>
-{% if not object.related_user|editable:"True" and object.related_user|editable:"False" %}
-<p>{{ object }}
-{% endif %}
-</td>
-</tr>
-{% endfor %}
-</tbody>
 </table>
+    <tr>
+  <th>名前</th>
+    </tr>
+{% for object in object_list %}
+{% if object.related_user|editable:"True" == 0 %}
+  {% if object.related_user|editable:"False" == 0 %}
+<td>{{ object }}</td>
+  {% else %}
+  <td></td>
+  {% endif %}
+ {% else %} 
+  <td></td>
+{% endif %}
+  {% empty %}
+<td>０人です。</td>
+{% endfor %}
 {% endblock %}
