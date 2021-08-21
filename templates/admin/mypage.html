@@ -7,6 +7,10 @@
 {% endblock %}
 {% block content %}
 {% for object in object_list %}
+{% if object.is_authenticated %}
+{{ object }}⭐️
+{% else %}
 {{ object }}
+{% endif %}
 {% endfor %}
 {% endblock %}
