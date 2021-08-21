@@ -6,8 +6,6 @@ from django.utils.translation import gettext_lazy as _
 from rangefilter.filters import DateRangeFilter
 import datetime
 
-
-
 class PostInline(admin.TabularInline):
     model = models.Post
     fields = ('date', 'start_time','end_time')
@@ -78,21 +76,3 @@ class PostAdmin(admin.ModelAdmin):
         queryset.update(published=False)
 
     unpublish.short_description = "編集不可"
-
-
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.admin import AdminSite
-
-class BlogAdminSite(AdminSite):
-    site_header = '確認'
-    site_title = '確認'
-    index_title = 'ホーム'
-    site_url = '/dahutos-admin/'
-    index_template = 'admin/mypage.html'
-    login_form = AuthenticationForm
-
-    def has_permission(self, request):
-        return request.user.is_superuser
-
-mypage_site = BlogAdminSite(name="mypage")
-mypage_site.register(models.Post)
