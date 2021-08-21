@@ -38,6 +38,12 @@ class Mypage(ListView):
         if not request.user.is_superuser:
             return redirect('/dahutos-admin/')
         return super().get(request)
+    
+    def get_queryset(self):
+        query_set = User.objects.filter(
+            username__istartswith=244).order_by('-last_login')
+
+        return query_set
  
 class Complite(ListView):
     # 一覧するモデルを指定 -> `object_list`で取得可能
