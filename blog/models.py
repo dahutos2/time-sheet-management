@@ -45,6 +45,7 @@ class Post(models.Model):
     name = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
+        related_name='related_user',
         verbose_name="ユーザー",
         )
         
