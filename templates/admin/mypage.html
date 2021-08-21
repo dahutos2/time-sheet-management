@@ -9,8 +9,8 @@
 <table>
   <thead>名前一覧</thead>
   <tbody>
-    <tr>
 {% for object in object_list %}
+<tr>
 <td>
 {% if object == user %}
 　{% if object.is_authenticated %}
@@ -26,8 +26,8 @@
   {% endif %}
 {% endif %}
 </td>
-{% endfor %}
 </tr>
+{% endfor %}
 </tbody>
 </table>
 {% endblock %}
