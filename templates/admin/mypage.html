@@ -8,9 +8,9 @@
 {% block content %}
 {% for object in object_list %}
 {% if object.is_authenticated %}
-{{ object }}⭐️
+<li>{{ object }}⭐️</li>
 {% else %}
-{{ object }}
+<li>{{ object }}</li>
 {% endif %}
 {% endfor %}
 {% endblock %}
