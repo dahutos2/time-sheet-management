@@ -16,7 +16,7 @@
    </tr>
 {% for object in object_list %}
 <tr>
-<td>{{ object }}</td>
+<td>{{ forloop.counter }}、{{ object }}</td>
 <td><b>{{ object.last_login }}</b></td>
 <td><b>{{ object.date_joined }}</b></td>
 {% endfor %}
@@ -66,7 +66,7 @@
    </tr>
 {% for object in object_list %}
 <tr>
-<td>{{ object }}</td>
+<td>{{ forloop.counter }}、{{ object }}</td>
 <td><b><font size='4'>{{ object.related_user|three_months|editable:"True" }}</font></b></td>
 <td><b><font size='4'>{{ object.related_user|three_months|editable:"False" }}</font></b></td>
 {% endfor %}
