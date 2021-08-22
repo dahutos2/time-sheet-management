@@ -4,9 +4,6 @@
 <p><a href="{% url 'password_reset' %}">パスワードを忘れた場合</a></p>
 {% endblock %}
 {% block extrajs %}
-    <link rel="stylesheet" type="text/css"
-          href="https://cdnjs.cloudflare.com/ajax/libs/timedropper/1.0/timedropper.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/timedropper/1.0/timedropper.min.js"></script>
     <script>
         $("#error").html(
         '<p style="color: red">ユーザー名または、<br>パスワードが間違ってます。</p>');
