@@ -1,6 +1,7 @@
 from django import template
 import datetime
 import jpholiday
+from dateutil.relativedelta import relativedelta
 register = template.Library()
 
 @register.filter(name="jpholiday")
@@ -18,8 +19,8 @@ def editable_count(object,arg):
 @register.filter(name="three_months")
 def three_months_ago(object):
     startdate = datetime.date(datetime.date.today().year,
-                datetime.date.today().month- 3, 1)
-    enddate = datetime.date.today()
+                datetime.date.today().month- 3, 1) + relativedelta(months=1)
+    enddate = datetime.date.today() + relativedelta(months=1)
     post_qs = object.filter(date__range=[startdate, enddate])
 
     return post_qs
