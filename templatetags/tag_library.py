@@ -19,7 +19,6 @@ def editable_count(object,arg):
 @register.filter(name="three_months")
 def three_months_ago(object):
     startdate = datetime.date.today() + relativedelta(months=-2)
-    enddate = datetime.date.today() + relativedelta(months=1)
-    post_qs = object.filter(date__range=[startdate, enddate])
+    post_qs = object.filter(date__gte=startdate)
 
     return post_qs
