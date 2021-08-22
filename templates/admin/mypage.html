@@ -43,11 +43,11 @@
 <p>
 <table>
 <thead>シフト未提出者一覧</thead>
+  <p>
 {% for object in object_list %}
-  <tr>
 {% if object.related_user|editable:"True" == 0 %}
   {% if object.related_user|editable:"False" == 0 %}
-<td>{{ object }}</td>
+<a>{{ object }}、</a>
   {% else %}
   
   {% endif %}
@@ -55,8 +55,8 @@
   
 {% endif %}
 {% endfor %}
-  </tr>
 </table>
+<p>
 <table>
   <thead>シフト数一覧(直近3ヶ月)</thead>
   <tr>
