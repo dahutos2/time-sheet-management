@@ -57,4 +57,19 @@
 {% endfor %}
   </tr>
 </table>
+<table>
+  <thead>シフト数一覧(直近3ヶ月)</thead>
+  <tr>
+    <th>名前</th>
+    <th>編集可</th>
+    <th>編集不可</th>
+   </tr>
+{% for object in object_list %}
+<tr>
+<td>{{ object }}</td>
+<td><b><font size='4'>{{ object.related_user|three_months|editable:"True" }}</font></b></td>
+<td><b><font size='4'>{{ object.related_user|three_months|editable:"False" }}</font></b></td>
+{% endfor %}
+</tr>
+</table>
 {% endblock %}
