@@ -7,4 +7,4 @@ python-dotenv
 psycopg2-binary==2.8.6
 django-admin-rangefilter
 jpholiday
-dateutil
+python-dateutil
