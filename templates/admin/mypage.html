@@ -13,7 +13,7 @@
             <a class="navbar-brand" href="/dahutos-admin/">管理者画面</a>
         </nav>
 <table border="1" class="table table-striped">
-  <thead>名前一覧</thead>
+  <thead><h3>名前一覧</h3></thead>
   <tr>
     <th>名前</th>
     <th>最終ログイン</th>
@@ -29,7 +29,7 @@
 </table>
 <p>
 <table border="1" class="table table-striped">
-<thead>シフト未完了者一覧</thead>
+<thead><h3>シフト未完了者一覧</h3></thead>
   <tr>
   <th>名前</th>
   <th>編集可</th>
@@ -46,7 +46,7 @@
 </tr>
 </table>
 <p>
-シフト未提出者一覧
+<h3>シフト未提出者一覧</h3>
   <p>
 {% for object in object_list %}
 {% if object.related_user|editable:"True" == 0 %}
@@ -61,7 +61,7 @@
 {% endfor %}
 <p>
 <table border="1" class="table table-striped">
-  <thead>シフト数一覧(直近3ヶ月)</thead>
+  <thead><h3>シフト数一覧(直近3ヶ月)</h3></thead>
   <tr>
     <th>名前</th>
     <th>編集可</th>
