@@ -54,7 +54,7 @@ body, html {
     height: 44px;
     font-size: 16px;
     background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 .form-signin label[type=username] {
