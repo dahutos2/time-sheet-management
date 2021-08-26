@@ -8,25 +8,24 @@
     {% if form.non_field_errors %}
         <a id="error">{{ form.non_field_errors }}</a>
     {% endif %}
+    <p>
     {% for field in form %}
-      <p>
         {% if forloop.counter == 1 %}
         <div class="username-label" >従業員番号：</div>
         <div class="text-center">
-          <label type="username" id="username" class="form-control">
+          <label id="username" type="username" class="form-control">
             {{ field }}
             </label>
             </div>
-        {% else %}
+        {% elif forloop.counter == 2 %}
         <div class="password-label" >パスワード：</div>
         <div class="text-center">
-        <label type="password" id="password" class="form-control">
+        <label id="password" type="username" class="form-control">
           {{ field }}
           </label>
           </div>
         {% endif %}
     {% endfor %}
-    <p>
     <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">ログイン</button>
     <p><a href="{% url 'password_reset' %}" class="forgot-password" >パスワードを忘れた場合</a></p>
 </form>
