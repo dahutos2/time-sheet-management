@@ -9,8 +9,7 @@ from django.urls import reverse_lazy
 from django.shortcuts import redirect, render
 from django.views import generic
 from . import mixins
-from .forms import SimpleScheduleForm
-from .forms import SignUpForm
+from .forms import SimpleScheduleForm, SignUpForm, SearchForm
 from django.views.generic.edit import CreateView
 from django.http import HttpResponse
 from django.views.generic.edit import UpdateView
@@ -23,45 +22,71 @@ class Index(ListView):
     # 一覧するモデルを指定 -> `object_list`で取得可能
     template_name="registration/index.html"
     model = Post
-    
+
     def get_queryset(self):
         query_set = Post.objects.filter(
             name=self.request.user).order_by('-date')
-        
+
         return query_set
 
 class Mypage(ListView):
     template_name = 'admin/mypage.html'
     model = User
 
+    def post(self, request, *args, **kwargs):
+        form_value = [
+            self.request.POST.get('startdate', None),
+            self.request.POST.get('enddate', None),
+        ]
+        request.session['form_value'] = form_value
+
+        return self.get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        startdate = ''
+        enddate = ''
+        if 'form_value' in self.request.session:
+            form_value = self.request.session['form_value']
+            startdate = form_value[0]
+            enddate = form_value[1]
+        default_data = {'startdate': startdate,
+                        'enddate': enddate,
+                        }
+        test_form = SearchForm(initial=default_data) # 検索フォーム
+        context['test_form'] = test_form
+        context['date_range'] = ','.join([startdate,enddate])
+
+        return context
+
     def get(self, request, **kwargs):
         if not request.user.is_superuser:
             return redirect('/dahutos-admin/')
         return super().get(request)
-    
+
     def get_queryset(self):
         query_set = User.objects.filter(
             username__istartswith=244).order_by('-last_login')
 
         return query_set
- 
+
 class Complite(ListView):
     # 一覧するモデルを指定 -> `object_list`で取得可能
     template_name="blog/post_complite.html"
     model = Post
-    
+
     def post(self, request):
         post = Post.objects.filter(name=request.user).update(published=False)
         print(request.user,'がシフトを完了しました。')
-        
+
         return redirect('/')
 
 class UserUpdate(UpdateView):
     template_name="registration/user_form.html"
     model = User
     fields = ["full_name","email"]
-    success_url = "/"  
-    
+    success_url = "/"
+
     def get(self, request, **kwargs):
         if not User.objects.get(id=self.kwargs['pk'])==request.user:
             return HttpResponse('不正なアクセスです。')
@@ -72,18 +97,18 @@ class IndexPost(ListView):
     template_name="blog/post_list.html"
     model = Post
     paginate_by = 10
-    
+
     def get_queryset(self):
         query_set = Post.objects.filter(
             name=self.request.user).order_by('-date')
-        
+
         return query_set
-    
+
 # DetailViewは詳細を簡単に作るためのView
 class Detail(DetailView):
     # 詳細表示するモデルを指定 -> `object`で取得可能
     model = Post
-    
+
     def get(self, request, **kwargs):
         if not Post.objects.get(id=self.kwargs['pk']).name==request.user:
             return HttpResponse('不正なアクセスです。')
@@ -95,7 +120,7 @@ class Update(UpdateView):
     model = Post
     fields = ["start_time", "end_time",]
     success_url = "/"
-    
+
     def get(self, request, **kwargs):
         if not Post.objects.get(id=self.kwargs['pk']).name==request.user:
             return HttpResponse('不正なアクセスです。')
@@ -109,7 +134,7 @@ class Delete(DeleteView):
     model = Post
     # 削除したあとに移動する先（トップページ）
     success_url = "/"
-    
+
     def get(self, request, **kwargs):
         if not Post.objects.get(id=self.kwargs['pk']).name==request.user:
             return HttpResponse('不正なアクセスです。')
@@ -130,7 +155,7 @@ class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.View):
         if not request.user.is_authenticated:
             return redirect('/')
         return render(request,self.template_name,context,)
-    
+
     def post(self, request, **kwaegs):
         context = self.get_month_calendar()
         form_list = context['month_formset']
@@ -155,7 +180,7 @@ class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.View):
             date = formset[2]
             Post.objects.create(start_time=start_time,
                                 end_time=end_time,date=date,name=request.user)
-        print(request.user,'がシフトを提出しました。')                    
+        print(request.user,'がシフトを提出しました。')
         return redirect('/')
 
 class SignUpView(CreateView):

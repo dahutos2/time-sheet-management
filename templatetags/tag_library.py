@@ -22,3 +22,13 @@ def three_months_ago(object):
     post_qs = object.filter(date__gte=startdate)
 
     return post_qs
+
+@register.filter(name="date_filter")
+def date_range_filter(object,args):
+    if  len(args) == 21:
+        startdate = args.split(',')[0]
+        enddate = args.split(',')[1]
+        post_qs = object.filter(date__range=[startdate,enddate])
+        return post_qs
+    else:
+        return object

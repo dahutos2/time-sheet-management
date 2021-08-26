@@ -28,3 +28,15 @@ class SignUpForm(UserCreationForm):
         user = super().save(commit=False)
         user.save()
         return user
+
+class SearchForm(forms.Form):
+    startdate = forms.CharField(
+        initial='',
+        label='開始',
+        required = False, # 必須ではない
+    )
+    enddate = forms.CharField(
+        initial='',
+        label='内容',
+        required=False,  # 必須ではない
+    )

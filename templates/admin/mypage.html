@@ -11,6 +11,18 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-info">
             <a class="navbar-brand" href="/dahutos-admin/">管理者画面</a>
         </nav>
+<form method="POST">
+  {% csrf_token %}
+  <div>
+      <label for="statdate">開始</label>
+      <input type="text" id="startdate" name="startdate">
+    </div>
+    <div>
+      <label for="enddate">終了</label>
+      <input type="text" id="enddate" name="enddate">
+    </div>
+    <input type="submit" value="検索">
+  </form>
 <table border="1" class="table table-striped">
   <thead><h3>名前一覧</h3></thead>
   <tr>
@@ -35,9 +47,9 @@
     </tr>
 {% for object in object_list %}
   <tr>
-{% if not object.related_user|editable:"True" == 0 %}
+{% if  not object.related_user|date_filter:date_range|editable:"True" == 0 %}
 <td>{{ object }}</td>
-<td><b><font size='4'>{{ object.related_user|editable:"True" }}</font></b></td>
+<td><b><font size='4'>{{ object.related_user|date_filter:date_range|editable:"True" }}</font></b></td>
 {% else %}
 
 {% endif %}
@@ -48,14 +60,14 @@
 <h3>シフト未提出者一覧</h3>
   <p>
 {% for object in object_list %}
-{% if object.related_user|editable:"True" == 0 %}
-  {% if object.related_user|editable:"False" == 0 %}
+{% if object.related_user|date_filter:date_range|editable:"True" == 0 %}
+  {% if object.related_user|date_filter:date_range|editable:"False" == 0 %}
 <a>{{ object }}、</a>
   {% else %}
-  
+
   {% endif %}
- {% else %} 
-  
+ {% else %}
+
 {% endif %}
 {% endfor %}
 <p>
