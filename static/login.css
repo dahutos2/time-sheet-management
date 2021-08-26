@@ -48,24 +48,22 @@ body, html {
 .password-label {
     color: rgb(104, 145, 162);
 }
-
 .form-signin #password {
     direction: ltr;
     height: 44px;
     font-size: 16px;
     background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));
-    margin-bottom: 25px;
 }
-
-.form-signin label[type=username] {
+.form-signin #username {
     background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));
-  },
-.form-signin label[type=password],
+}
+.form-signin label[type=username],
 .form-signin button {
     width: 100%;
     display: block;
     z-index: 1;
     position: relative;
+    margin-bottom: 20px;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
