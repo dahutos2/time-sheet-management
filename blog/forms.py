@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from .models import User
 from django.urls import reverse_lazy
 from django.conf import settings
-
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes, force_text
 from django import forms
@@ -30,13 +30,5 @@ class SignUpForm(UserCreationForm):
         return user
 
 class SearchForm(forms.Form):
-    startdate = forms.CharField(
-        initial='',
-        label='開始',
-        required = False, # 必須ではない
-    )
-    enddate = forms.CharField(
-        initial='',
-        label='内容',
-        required=False,  # 必須ではない
-    )
+    startdate = forms.DateInput()
+    enddate = forms.DateInput()

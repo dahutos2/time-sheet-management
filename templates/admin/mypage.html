@@ -11,18 +11,29 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-info">
             <a class="navbar-brand" href="/dahutos-admin/">管理者画面</a>
         </nav>
+        <table border="1" class="table table-striped">
+          {% if not range == '〜'　%}
+          <thead><h3>シフト期間</h3></thead>
+          <tr>
+            <th>{{ range }}</th>
+            </tr>
+          {% endif %}
+          </table>
+          <p>
 <form method="POST">
   {% csrf_token %}
   <div>
       <label for="statdate">開始</label>
-      <input type="date" id="startdate" name="startdate">
+      <input type="date" id="startdate" name="startdate" class="form-control" placeholder="年/月/日" >
     </div>
     <div>
       <label for="enddate">終了</label>
-      <input type="date" id="enddate" name="enddate">
+      <input type="date" id="enddate" name="enddate" class="form-control" placeholder="年/月/日" >
     </div>
-    <input type="submit" value="検索">
+    <p>
+    <input type="submit" class="btn btn-lg" value="検索">
   </form>
+    <p>
 <table border="1" class="table table-striped">
   <thead><h3>名前一覧</h3></thead>
   <tr>

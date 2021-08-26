@@ -1,11 +1,11 @@
-{% extends "registration/base1.html" %}
+{% extends "registration/base_login.html" %}
 {% block main %}
-{% include "registration/_form-5.html" with submit_label="ログイン" %}
-<p><a href="{% url 'password_reset' %}">パスワードを忘れた場合</a></p>
+{% include "registration/login_form.html" %}
 {% endblock %}
 {% block extrajs %}
     <script>
         $("#error").html(
-        '<p style="color: red">ユーザー名または、<br>パスワードが間違ってます。</p>');
+        '<p style="color: red">ユーザー名または、<br>パスワードが間違ってます。</p>'
+        );
     </script>
 {% endblock %}

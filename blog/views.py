@@ -13,9 +13,6 @@ from .forms import SimpleScheduleForm, SignUpForm, SearchForm
 from django.views.generic.edit import CreateView
 from django.http import HttpResponse
 from django.views.generic.edit import UpdateView
-from django.contrib.auth.views import PasswordContextMixin, FormView, TemplateView
-from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
-from django.contrib.auth.tokens import default_token_generator
 from django.utils.translation import ugettext_lazy as _
 
 class Index(ListView):
@@ -56,6 +53,7 @@ class Mypage(ListView):
         test_form = SearchForm(initial=default_data) # 検索フォーム
         context['test_form'] = test_form
         context['date_range'] = ','.join([startdate,enddate])
+        context['range']= '〜'.join([startdate,enddate])
 
         return context
 
@@ -187,33 +185,3 @@ class SignUpView(CreateView):
     form_class = SignUpForm
     success_url = reverse_lazy('login')
     template_name = 'registration/signup.html'
-
-class PasswordResetView(PasswordContextMixin, FormView):
-    email_template_name = 'registration/password_reset_email.html'
-    extra_email_context = None
-    form_class = PasswordResetForm
-    from_email = None
-    html_email_template_name = None
-    subject_template_name = 'registration/password_reset_subject.txt'
-    success_url = reverse_lazy('password_reset_done')
-    template_name = 'registration/password_reset_form.html'
-    title = _('Password reset')
-    token_generator = default_token_generator
-
-class PasswordResetDoneView(PasswordContextMixin, TemplateView):
-    template_name = 'registration/password_reset_done.html'
-    title = _('Password reset sent')
-
-class PasswordResetConfirmView(PasswordContextMixin, FormView):
-    form_class = SetPasswordForm
-    post_reset_login = False
-    post_reset_login_backend = None
-    reset_url_token = 'set-password'
-    success_url = reverse_lazy('password_reset_complete')
-    template_name = 'registration/password_reset_confirm.html'
-    title = _('Enter new password')
-    token_generator = default_token_generator
-
-class PasswordResetCompleteView(PasswordContextMixin, TemplateView):
-    template_name = 'registration/password_reset_complete.html'
-    title = _('Password reset complete')
