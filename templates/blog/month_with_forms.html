@@ -62,7 +62,7 @@
         <tr>
             {% for day, forms in week_day_forms.items %}
             {% if day|jpholiday %}
-                     <td class='table-warning text-center'>
+                     <td class='table-danger text-center'>
             {% elif day.weekday == 6 %}
                      <td class='table-danger text-center'>
             {% elif day.weekday == 5 %}
