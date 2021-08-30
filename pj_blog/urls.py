@@ -24,4 +24,5 @@ urlpatterns = [
     path('update/<pk>', views.Update.as_view(), name="update"),
     path('delete/<pk>', views.Delete.as_view(), name="delete"),
     path('mypage/',views.Mypage.as_view(), name="mypage"),
+    path('import/',views.ShiftImport.as_view(), name="import"),    
 ]

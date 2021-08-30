@@ -32,3 +32,6 @@ class SignUpForm(UserCreationForm):
 class SearchForm(forms.Form):
     startdate = forms.DateInput()
     enddate = forms.DateInput()
+
+class CSVUploadForm(forms.Form):
+    file = forms.FileField(label='CSVファイル')

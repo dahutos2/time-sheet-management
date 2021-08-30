@@ -4,7 +4,7 @@ import datetime
 from django.shortcuts import redirect, render
 from django.views import generic
 from . import mixins
-from .models import Post, User
+from .models import Post, User, Shift
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, render
 from django.views import generic
@@ -14,6 +14,10 @@ from django.views.generic.edit import CreateView
 from django.http import HttpResponse
 from django.views.generic.edit import UpdateView
 from django.utils.translation import ugettext_lazy as _
+import csv
+import io
+import urllib
+from .forms import CSVUploadForm
 
 class Index(ListView):
     # 一覧するモデルを指定 -> `object_list`で取得可能
@@ -186,3 +190,36 @@ class SignUpView(CreateView):
     success_url = reverse_lazy('login')
     template_name = 'registration/signup.html'
 
+class ShiftImport(generic.FormView):
+    """
+    役職テーブルの登録(csvアップロード)
+    """
+    template_name = 'admin/import.html'
+    success_url = '/dahutos-admin/'
+    form_class = CSVUploadForm
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['form_name'] = 'csvdownload'
+        return ctx
+
+    def form_valid(self, form):
+        """postされたCSVファイルを読み込み、役職テーブルに登録します"""
+        csvfile = io.TextIOWrapper(form.cleaned_data['file'])
+        reader = csv.reader(csvfile)
+        for i,row in enumerate(reader):
+            if i == 0:
+                continue
+            else:
+                print(row[1],row[2],row[3],row[4])
+                Shift.objects.create(time=row[1],
+                                 time_range=row[2],
+                                 date=row[3],
+                                 name=User.objects.get(username=row[4])
+                                 )
+        return super().form_valid(form)
+
+    def get(self, request, **kwargs):
+        if not request.user.is_superuser:
+            return redirect('/dahutos-admin/')
+        return super().get(request)

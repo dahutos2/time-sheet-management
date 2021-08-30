@@ -2,6 +2,7 @@
 
 {% block welcome-msg %}
     <strong><a href="/mypage/">{{ user }}</a></strong>
+    <strong><a href="{% url 'import'  %}">インポート</a></strong>
 {% endblock %}
 
 {% load static %}

@@ -25,13 +25,13 @@ class UserAdmin(UserAdmin):
     search_fields = ('username',)
     ordering = ('username',)
     filter_horizontal = ('user_permissions',)
-    
+
     def get_actions(self, request):
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
             del actions['delete_selected']
         return actions
-   
+
 from django import forms
 
 class PublishedListFilter(admin.SimpleListFilter):
@@ -54,7 +54,7 @@ class PublishedListFilter(admin.SimpleListFilter):
 
 @admin.register(models.Post)
 class PostAdmin(admin.ModelAdmin):
-    
+
     list_select_related = ('name',)
     list_display = ('id','date','start_time','end_time','name','published')
     list_display_links = ('id',)
@@ -63,7 +63,7 @@ class PostAdmin(admin.ModelAdmin):
     ordering = ('-date',)
     list_filter = (('date', DateRangeFilter), PublishedListFilter, 'name__full_name')
     actions = ["publish", "unpublish"]
-    
+
     def get_rangefilter_date_default(self, request):
         return (datetime.date.today, datetime.date.today)
 
@@ -76,3 +76,12 @@ class PostAdmin(admin.ModelAdmin):
         queryset.update(published=False)
 
     unpublish.short_description = "編集不可"
+
+
+@admin.register(models.Shift)
+class ShiftAdmin(admin.ModelAdmin):
+    list_select_related = ('name',)
+    list_display = ('id','time','time_range','date','name')
+    list_display_links = ('id',)
+    ordering = ('-date',)
+    list_filter = (('date', DateRangeFilter),'name__full_name')

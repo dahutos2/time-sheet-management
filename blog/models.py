@@ -14,13 +14,13 @@ class User(AbstractUser):
     full_name = models.CharField('氏名', null=True, max_length=255,)
     class Meta:
         verbose_name = verbose_name_plural = _('アカウント')
-        
+
     def get_absolute_url(self):
         return reverse_lazy("/")
-        
+
     def __str__(self):
         return str(self.full_name)
-        
+
 
 class Post(models.Model):
     time_list=(('1','9:00'),('2','10:00'),('3','11:00'),('4','12:00'),('5','13:00'),
@@ -33,31 +33,55 @@ class Post(models.Model):
         null=True,
         choices=time_list,
         max_length=255,)
-        
+
     end_time = models.CharField('終了',
         blank=True,
         null=True,
         choices=time_list,
         max_length=255,)
-        
+
     date = models.DateField('日付',)
-    
+
     name = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         related_name='related_user',
         verbose_name="ユーザー",
         )
-        
+
     published = models.BooleanField(
         default=True,
         verbose_name="編集",
         )
-        
+
     def __str__(self):
         return str(self.date)
-    
-    class Meta:
-        verbose_name = verbose_name_plural = _('シフト')
 
-    
+    class Meta:
+        verbose_name = verbose_name_plural = _('希望シフト')
+
+class Shift(models.Model):
+    time = models.CharField('勤務時間',
+        blank=False,
+        null=False,
+        max_length=255,)
+
+    time_range = models.CharField('勤務期間',
+        blank=False,
+        null=False,
+        max_length=255,)
+
+    date = models.DateField('日付',)
+
+    name = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='related_shift',
+        verbose_name="ユーザー",
+        )
+
+    def __str__(self):
+        return str(self.date)
+
+    class Meta:
+        verbose_name = verbose_name_plural = _('完成シフト')

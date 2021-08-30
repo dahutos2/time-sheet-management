@@ -6,7 +6,7 @@
 <a href="{% url 'user_update' user.id %}">編集</a></p>
 <table border="1" class="table table-striped">
 <tr>
-<th>シフト一覧(上位１０件)</th>
+<th>希望シフト一覧(上位１０件)</th>
 <th><a href="{% url 'index_post'  %}">全て</a></th>
 </tr>
 {% for post in object_list|slice:":10" %}
@@ -19,7 +19,7 @@
 <td></td>
   {% endif %}
 {% empty %}
-<td>シフトがありません</td><td></td>
+<td>希望シフトがありません</td><td></td>
 {% endfor %}
 </tr>
 </table>
