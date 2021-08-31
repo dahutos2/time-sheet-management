@@ -236,11 +236,16 @@ class ShiftImport(generic.FormView):
                 continue
             else:
                 if User.objects.filter(username=row[4]).exists():
-                    Shift.objects.create(time=row[1],
+                    if  not Shift.objects.filter(time=row[1],
                                  time_range=row[2],
                                  date=row[3],
                                  name=User.objects.get(username=row[4])
-                                 )
+                                 ).exists():
+                                 Shift.objects.create(time=row[1],
+                                    time_range=row[2],
+                                    date=row[3],
+                                    name=User.objects.get(username=row[4])
+                                    )
         return super().form_valid(form)
 
     def get(self, request, **kwargs):
