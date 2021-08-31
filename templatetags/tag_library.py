@@ -38,7 +38,7 @@ def date_range_filter(object,args):
 def day_my_shift(object,arg):
     if Shift.objects.filter(date=object,name=arg).exists():
         qs = Shift.objects.filter(date=object,name=arg)
-        qs_list = [[qs.time,qs.time_range] for qs in qs]
+        qs_list = [[qs.time_range,qs.time] for qs in qs]
         return qs_list
     else:
         return False
