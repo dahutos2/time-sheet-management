@@ -40,6 +40,9 @@
 {% if helptext_day or helptext_time %}
 <a class="text-danger"><font size="5" face="serif">
     <b><u><i>{{ helptext_day }}{{ helptext_time }}</i></u></b></font></a>
+{% elif helptext_input %}
+<a class="text-danger"><font size="5" face="serif">
+    <b><u><i>{{ helptext_input }}</i></u></b></font></a>
 {% endif %}
 <form action="" method="POST">
 {{ month_formset.management_form }}

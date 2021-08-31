@@ -194,14 +194,18 @@ class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.View):
                         return render(request,self.template_name,context,)
                     else:
                         forms.append([start_time,end_time,date])
-        for formset in forms:
-            start_time = formset[0]
-            end_time = formset[1]
-            date = formset[2]
-            Post.objects.create(start_time=start_time,
+        if forms == []:
+            context["helptext_input"] = '未入力の部分があります。'
+            return render(request,self.template_name,context,)
+        else:
+            for formset in forms:
+                start_time = formset[0]
+                end_time = formset[1]
+                date = formset[2]
+                Post.objects.create(start_time=start_time,
                                 end_time=end_time,date=date,name=request.user)
-        print(request.user,'がシフトを提出しました。')
-        return redirect('/')
+                print(request.user,'がシフトを提出しました。')
+                return redirect('/')
 
 class SignUpView(CreateView):
     form_class = SignUpForm
