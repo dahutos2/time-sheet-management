@@ -24,6 +24,12 @@ class Index(ListView):
     template_name="registration/index.html"
     model = Post
 
+    def get(self, request, **kwargs):
+        help_user = User.objects.get(username=244)
+        if request.user == help_user:
+            return redirect('/shift/')
+        return super().get(request)
+
     def get_queryset(self):
         query_set = Post.objects.filter(
             name=self.request.user).order_by('-date')
@@ -94,6 +100,12 @@ class UserUpdate(UpdateView):
             return HttpResponse('不正なアクセスです。')
         return super().get(request)
 
+    def get(self, request, **kwargs):
+        help_user = User.objects.get(username=244)
+        if request.user == help_user:
+            return redirect('/shift/')
+        return super().get(request)
+
 class IndexPost(ListView):
     # 一覧するモデルを指定 -> `object_list`で取得可能
     template_name="blog/post_list.html"
@@ -105,6 +117,12 @@ class IndexPost(ListView):
             name=self.request.user).order_by('-date')
 
         return query_set
+
+    def get(self, request, **kwargs):
+        help_user = User.objects.get(username=244)
+        if request.user == help_user:
+            return redirect('/shift/')
+        return super().get(request)
 
 # DetailViewは詳細を簡単に作るためのView
 class Detail(DetailView):
@@ -185,6 +203,12 @@ class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.View):
         print(request.user,'がシフトを提出しました。')
         return redirect('/')
 
+    def get(self, request, **kwargs):
+        help_user = User.objects.get(username=244)
+        if request.user == help_user:
+            return redirect('/shift/')
+        return super().get(request)
+
 class SignUpView(CreateView):
     form_class = SignUpForm
     success_url = reverse_lazy('login')
@@ -211,7 +235,8 @@ class ShiftImport(generic.FormView):
             if i == 0:
                 continue
             else:
-                Shift.objects.create(time=row[1],
+                if User.objects.filter(username=row[4]).exists():
+                    Shift.objects.create(time=row[1],
                                  time_range=row[2],
                                  date=row[3],
                                  name=User.objects.get(username=row[4])
@@ -222,7 +247,8 @@ class ShiftImport(generic.FormView):
         if not request.user.is_superuser:
             return redirect('/dahutos-admin/')
         return super().get(request)
-class Shift(mixins.MonthCalendarMixin,ListView):
+
+class ShiftView(mixins.MonthCalendarMixin,ListView):
     template_name = 'blog/shift.html'
     model = Shift
 

@@ -14,6 +14,24 @@
     <title>カレンダー</title>
 </head>
 <body>
+{% if user.username == '244' %}
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">欠員シフト</a>
+    <button class="navbar-toggler" type="button"
+      data-toggle="collapse"
+      data-target="#navmenu1"
+      aria-controls="navmenu1"
+      aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navmenu1">
+       <div class="navbar-nav">
+         <a class="nav-item nav-link" href="{% url 'logout' %}"><font color="red">ログアウト</font></a>
+       </div>
+     </div>
+  </nav>
+{% else %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="/">マイページ</a>
     <button class="navbar-toggler" type="button"
@@ -32,6 +50,7 @@
     </div>
   </div>
 </nav>
+{% endif %}
 {% load tag_library %}
 <div class="row">
         <div class="col-md-3">
@@ -87,9 +106,11 @@
     <th>開始〜終了</th>
     <th>勤務時間</th>
   </tr>
-  <tr>
   {% for field in date|day_my_shift:user %}
-  <td>{{ field }}</td>
+  <tr>
+    {% for object in field %}
+      <td>{{ object }}</td>
+      {% endfor %}
   {% endfor %}
 </tr>
 </table>

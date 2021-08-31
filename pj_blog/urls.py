@@ -25,6 +25,6 @@ urlpatterns = [
     path('delete/<pk>', views.Delete.as_view(), name="delete"),
     path('mypage/',views.Mypage.as_view(), name="mypage"),
     path('import/',views.ShiftImport.as_view(), name="import"),
-    path('shift/',views.Shift.as_view(), name="shift"),
-    path('shift/<int:year>/<int:month>/<int:day>/', views.Shift.as_view(), name="shift"),
+    path('shift/',views.ShiftView.as_view(), name="shift"),
+    path('shift/<int:year>/<int:month>/<int:day>/', views.ShiftView.as_view(), name="shift"),
 ]
