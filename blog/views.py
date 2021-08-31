@@ -211,7 +211,6 @@ class ShiftImport(generic.FormView):
             if i == 0:
                 continue
             else:
-                print(row[1],row[2],row[3],row[4])
                 Shift.objects.create(time=row[1],
                                  time_range=row[2],
                                  date=row[3],
@@ -223,3 +222,17 @@ class ShiftImport(generic.FormView):
         if not request.user.is_superuser:
             return redirect('/dahutos-admin/')
         return super().get(request)
+class Shift(mixins.MonthCalendarMixin,ListView):
+    template_name = 'blog/shift.html'
+    model = Shift
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        month_calendar_context = self.get_month_calendar()
+        context.update(month_calendar_context)
+        month = self.kwargs.get('month')
+        year = self.kwargs.get('year')
+        day = self.kwargs.get('day')
+        if year:
+            context['date'] = datetime.date(year=int(year), month=int(month), day=int(day))
+        return context

@@ -1,6 +1,7 @@
 from django import template
 import datetime
 import jpholiday
+from blog.models import Shift
 from dateutil.relativedelta import relativedelta
 register = template.Library()
 
@@ -32,3 +33,13 @@ def date_range_filter(object,args):
         return post_qs
     else:
         return object
+
+@register.filter(name="day_my_shift")
+def day_my_shift(object,arg):
+    if Shift.objects.filter(date=object,name=arg).exists():
+        qs = Shift.objects.filter(date=object,name=arg)
+        time = qs[0].time
+        time_range = qs[0].time_range
+        return [time_range,time]
+    else:
+        return False

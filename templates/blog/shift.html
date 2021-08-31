@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=yes" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <title>カレンダー</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">マイページ</a>
+    <button class="navbar-toggler" type="button"
+      data-toggle="collapse"
+      data-target="#navmenu1"
+      aria-controls="navmenu1"
+      aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navmenu1">
+       <div class="navbar-nav">
+         <a class="nav-item nav-link" href="{% url 'index_post'  %}">希望シフト一覧</a>
+         <a class="nav-item nav-link" href="{% url 'shift'  %}">完成シフト一覧</a>
+     <a class="nav-item nav-link" href="{% url 'logout' %}"><font color="red">ログアウト</font></a>
+    </div>
+  </div>
+</nav>
+{% load tag_library %}
+<div class="row">
+        <div class="col-md-3">
+    <a href="{% url 'shift' month_previous.year month_previous.month　month_previous.day %}">前月</a>
+{{ month_current | date:"Y年m月" }}
+<a href="{% url 'shift' month_next.year month_next.month month_next.day %}">次月</a>
+
+<table class="table" style="table-layout: fixed;">
+    <thead>
+    <tr>
+        {% for w in week_names %}
+                {% if w == '土' %}
+                    <td class="table-primary">
+                {% elif w == '日' %}
+                    <td class="table-success">
+                {% else %}
+                <th>
+                {% endif %}
+                 {{ w }}</th>
+            {% endfor %}
+    </tr>
+    </thead>
+    <tbody>
+    {% for week in month_days %}
+        <tr>
+            {% for day in week %}
+            {% if day|day_my_shift:user %}
+              <td class="table-danger">
+            {% else %}
+            <td>
+            {% endif %}
+            {% if month_current.month != day.month %}
+                 <a href="{% url 'shift' day.year day.month day.day %}">{{ day | date:"m/d" }}</a>
+            {% else %}
+                <a href="{% url 'shift' day.year day.month day.day %}">{{ day.day }}</a>
+            {% endif %}
+                </td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<hr>
+{% if date %}
+<table border="1" class="table table-striped">
+  <tr>
+<th>{{ date|date:"Y/m/d" }}({{ date | date:"l"}})
+  </table>
+{% endif %}
+{% if date|day_my_shift:user %}
+<table border="1" class="table table-striped">
+  <tr>
+    <th>開始〜終了</th>
+    <th>勤務時間</th>
+  </tr>
+  <tr>
+  {% for field in date|day_my_shift:user %}
+  <td>{{ field }}</td>
+  {% endfor %}
+</tr>
+</table>
+{% else %}
+{% endif %}
+    </div>
+</div>
