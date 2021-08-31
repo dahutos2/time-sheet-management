@@ -74,7 +74,7 @@ class Mypage(ListView):
 
     def get_queryset(self):
         query_set = User.objects.filter(
-            username__istartswith=244).order_by('-last_login')
+            username__istartswith=244).order_by('-last_login').exclude(username=244)
 
         return query_set
 
@@ -98,9 +98,6 @@ class UserUpdate(UpdateView):
     def get(self, request, **kwargs):
         if not User.objects.get(id=self.kwargs['pk'])==request.user:
             return HttpResponse('不正なアクセスです。')
-        return super().get(request)
-
-    def get(self, request, **kwargs):
         help_user = User.objects.get(username=244)
         if request.user == help_user:
             return redirect('/shift/')
@@ -174,6 +171,9 @@ class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.View):
         context = self.get_month_calendar()
         if not request.user.is_authenticated:
             return redirect('/')
+        help_user = User.objects.get(username=244)
+        if request.user == help_user:
+            return redirect('/shift/')
         return render(request,self.template_name,context,)
 
     def post(self, request, **kwaegs):
@@ -202,12 +202,6 @@ class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.View):
                                 end_time=end_time,date=date,name=request.user)
         print(request.user,'がシフトを提出しました。')
         return redirect('/')
-
-    def get(self, request, **kwargs):
-        help_user = User.objects.get(username=244)
-        if request.user == help_user:
-            return redirect('/shift/')
-        return super().get(request)
 
 class SignUpView(CreateView):
     form_class = SignUpForm

@@ -42,3 +42,12 @@ def day_my_shift(object,arg):
         return qs_list
     else:
         return False
+
+@register.filter(name="day_admin_shift")
+def day_admin_shift(object):
+    if Shift.objects.filter(date=object).exists():
+        qs = Shift.objects.filter(date=object)
+        qs_list = [[qs.name,qs.time_range,qs.time] for qs in qs]
+        return qs_list
+    else:
+        return False

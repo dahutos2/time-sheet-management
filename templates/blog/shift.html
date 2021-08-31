@@ -94,13 +94,31 @@
     </tbody>
 </table>
 <hr>
-{% if date %}
+ {% if date %}
 <table border="1" class="table table-striped">
   <tr>
 <th>{{ date|date:"Y/m/d" }}({{ date | date:"l"}})
   </table>
-{% endif %}
-{% if date|day_my_shift:user %}
+ {% endif %}
+{% if user.is_staff %}
+ {% if date|day_admin_shift %}
+<table border="1" class="table table-striped">
+  <tr>
+    <th>名前</th>
+    <th>開始〜終了</th>
+    <th>勤務時間</th>
+  </tr>
+  {% for field in date|day_admin_shift %}
+  <tr>
+    {% for object in field %}
+      <td>{{ object }}</td>
+      {% endfor %}
+  {% endfor %}
+</tr>
+ {% else %}
+ {% endif %}
+{% else %}
+ {% if date|day_my_shift:user %}
 <table border="1" class="table table-striped">
   <tr>
     <th>開始〜終了</th>
@@ -114,7 +132,8 @@
   {% endfor %}
 </tr>
 </table>
-{% else %}
+ {% else %}
+ {% endif %}
 {% endif %}
     </div>
 </div>
