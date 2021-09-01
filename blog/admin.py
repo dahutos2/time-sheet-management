@@ -5,6 +5,9 @@ from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 from rangefilter.filters import DateRangeFilter
 import datetime
+from import_export import resources, fields
+from import_export.admin import ExportMixin
+from import_export.formats import base_formats
 
 class PostInline(admin.TabularInline):
     model = models.Post
@@ -52,14 +55,25 @@ class PublishedListFilter(admin.SimpleListFilter):
         else:
             return queryset.all()
 
+class PostResource(resources.ModelResource):
+    # Modelに対するdjango-import-exportの設定
+    start_time = fields.Field(
+            attribute='get_start_time_display',
+    )
+    end_time = fields.Field(
+            attribute='get_end_time_display',
+    )
+    class Meta:
+        model = models.Post
+        fields = ['date', 'name__username','start_time','end_time']
+        export_order = ['date', 'name__username','start_time','end_time']
+
 @admin.register(models.Post)
-class PostAdmin(admin.ModelAdmin):
+class PostAdmin(ExportMixin,admin.ModelAdmin):
 
     list_select_related = ('name',)
     list_display = ('id','date','start_time','end_time','name','published')
     list_display_links = ('id',)
-    #list_editable = ('date','start_time','end_time','name')
-    #search_fields = ['date','name__full_name']
     ordering = ('-date',)
     list_filter = (('date', DateRangeFilter), PublishedListFilter, 'name__full_name')
     actions = ["publish", "unpublish"]
@@ -77,6 +91,13 @@ class PostAdmin(admin.ModelAdmin):
 
     unpublish.short_description = "編集不可"
 
+    # django-import-exportsの設定
+    resource_class = PostResource
+    #formats = [base_formats.CSV]
+    def get_export_filename(self, request, queryset, file_format):
+        filename = "%s.%s" % ("jolly_data_write",
+                              file_format.get_extension())
+        return filename
 
 @admin.register(models.Shift)
 class ShiftAdmin(admin.ModelAdmin):

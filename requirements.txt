@@ -8,3 +8,4 @@ psycopg2-binary==2.8.6
 django-admin-rangefilter
 jpholiday
 python-dateutil
+django-import-export
