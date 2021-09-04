@@ -81,6 +81,19 @@
     {% for week in month_days %}
         <tr>
             {% for day in week %}
+          {% if user.is_staff %}
+            {% if day|day_shift_help %}
+              <td class="table-danger">
+            {% else %}
+            <td>
+            {% endif %}
+            {% if month_current.month != day.month %}
+               <a href="{% url 'shift' day.year day.month day.day %}">{{ day | date:"m/d" }}</a>
+            {% else %}
+              <a href="{% url 'shift' day.year day.month day.day %}">{{ day.day }}</a>
+            {% endif %}
+              </td>
+          {% else %}
             {% if day|day_my_shift:user %}
               <td class="table-danger">
             {% else %}
@@ -92,6 +105,7 @@
                 <a href="{% url 'shift' day.year day.month day.day %}">{{ day.day }}</a>
             {% endif %}
                 </td>
+          {% endif %}
             {% endfor %}
         </tr>
     {% endfor %}

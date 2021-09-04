@@ -1,7 +1,7 @@
 from django import template
 import datetime
 import jpholiday
-from blog.models import Shift
+from blog.models import Shift, User
 from dateutil.relativedelta import relativedelta
 register = template.Library()
 
@@ -49,5 +49,13 @@ def day_admin_shift(object):
         qs = Shift.objects.filter(date=object)
         qs_list = [[qs.name,qs.time_range,qs.time] for qs in qs]
         return qs_list
+    else:
+        return False
+
+@register.filter(name="day_shift_help")
+def day_shift_help(object):
+    help = User.objects.get(username=244)
+    if Shift.objects.filter(date=object,name=help).exists():
+        return True
     else:
         return False
