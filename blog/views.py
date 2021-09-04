@@ -204,8 +204,8 @@ class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.View):
                 date = formset[2]
                 Post.objects.create(start_time=start_time,
                                 end_time=end_time,date=date,name=request.user)
-                print(request.user,'がシフトを提出しました。')
-                return redirect('/')
+            print(request.user,'がシフトを提出しました。')
+            return redirect('/')
 
 class SignUpView(CreateView):
     form_class = SignUpForm
