@@ -13,16 +13,12 @@
         {% if forloop.counter == 1 %}
         <div class="username-label" >従業員番号：</div>
         <div class="text-center">
-          <label id="username" type="username" class="form-control">
-            {{ field }}
-            </label>
+            <a id="username">{{ field }}</a>
             </div>
         {% elif forloop.counter == 2 %}
         <div class="password-label" >パスワード：</div>
         <div class="text-center">
-        <label id="password" type="username" class="form-control">
-          {{ field }}
-          </label>
+          <a id="password">{{ field }}</a>
           </div>
         {% endif %}
     {% endfor %}

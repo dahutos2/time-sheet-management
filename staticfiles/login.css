@@ -10,7 +10,7 @@ body, html {
   }
 
 .card-container.card {
-    max-width: 350px;
+    max-width: 100%;
     padding: 40px 40px;
 }
 
@@ -50,17 +50,15 @@ body, html {
 }
 
 .form-signin #password {
-    direction: ltr;
-    height: 44px;
-    font-size: 16px;
     background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
-
-.form-signin label[type=username] {
+.form-signin #username {
     background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));
-  },
-.form-signin label[type=password],
+    margin-bottom: 10px;
+}
+.form-signin input[type="text"][name="username"],
+.form-signin input[type="password"][name="password"],
 .form-signin button {
     width: 100%;
     display: block;
@@ -71,6 +69,8 @@ body, html {
     box-sizing: border-box;
 }
 
+.form-signin input[type="text"][name="username"]:focus,
+.form-signin input[type="password"][name="password"]:focus,
 .form-signin .form-control:focus {
     border-color: rgb(104, 145, 162);
     outline: 0;
