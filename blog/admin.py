@@ -65,8 +65,8 @@ class PostResource(resources.ModelResource):
     )
     class Meta:
         model = models.Post
-        fields = ['date', 'name__username','start_time','end_time']
-        export_order = ['date', 'name__username','start_time','end_time']
+        fields = ['date', 'name__username','name__full_name','start_time','end_time']
+        export_order = ['date', 'name__username','name__full_name','start_time','end_time']
 
 @admin.register(models.Post)
 class PostAdmin(ExportMixin,admin.ModelAdmin):
@@ -95,7 +95,7 @@ class PostAdmin(ExportMixin,admin.ModelAdmin):
     resource_class = PostResource
     #formats = [base_formats.CSV]
     def get_export_filename(self, request, queryset, file_format):
-        filename = "%s.%s" % ("jolly_data_write",
+        filename = "%s.%s" % ("jolly_data",
                               file_format.get_extension())
         return filename
 
