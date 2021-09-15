@@ -1,8 +1,10 @@
 {% extends 'admin/base_site.html' %}
-
+{% block title %}
+システム管理サイト
+{% endblock %}
 {% block welcome-msg %}
-    <strong><a href="/mypage/">{{ user }}/</a></strong>
-    <strong><a href="{% url 'import'  %}">インポート/</a></strong>
+    <a href="/mypage/">{{ user }}/</a>
+    <a href="{% url 'import'  %}">インポート/</a>
 {% endblock %}
 
 {% load static %}
