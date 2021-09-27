@@ -1,7 +1,9 @@
 {% load tag_library %}
+{% load static %}
 <html>
     <head>
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+      <link rel="stylesheet" type="text/css" href="{% static 'mypage.css' %}" />
       <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
@@ -12,29 +14,25 @@
             <a class="navbar-brand" href="/dahutos-admin/">管理者画面</a>
         </nav>
         <div class="container mt-4">
-        <table border="1" class="table table-striped">
-          {% if not range == '〜'　%}
-          <thead><h3>シフト期間</h3></thead>
-          <tr>
-            <th>{{ range }}</th>
-            </tr>
-          {% endif %}
-          </table>
-          <p>
-<form method="POST">
-  {% csrf_token %}
-  <div>
-      <label for="statdate">開始</label>
-      <input type="date" id="startdate" name="startdate" class="form-control" placeholder="年/月/日" >
-    </div>
-    <div>
-      <label for="enddate">終了</label>
-      <input type="date" id="enddate" name="enddate" class="form-control" placeholder="年/月/日" >
-    </div>
-    <p>
-    <input type="submit" class="btn btn-info btn-lg" value="検索">
-  </form>
-    <p>
+          <table class="table text-center">
+            {% if not range == '〜'　%}
+            <tr class="table-info">
+              <th>{{ range }}</th><th></th>
+              </tr>
+            {% endif %}
+            <tr class="table-info">
+            <th>
+            <form method="POST">
+              {% csrf_token %}
+                  <input type="date" class="form_desigh" id="startdate" name="startdate"　placeholder="年/月/日" >
+                  〜
+                  <input type="date" class="form_desigh" id="enddate" name="enddate" placeholder="年/月/日" >
+                  <th>
+                <input type="submit" class="btn btn-info btn-lg" value="検索">
+              </form>
+              </th>
+              </tr>
+              </table>
 <table border="1" class="table table-striped">
   <thead><h3>名前一覧</h3></thead>
   <tr>
