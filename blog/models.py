@@ -61,15 +61,18 @@ class Post(models.Model):
         verbose_name = verbose_name_plural = _('希望シフト')
 
 class Shift(models.Model):
-    time = models.CharField('勤務時間',
-        blank=False,
-        null=False,
-        max_length=255,)
 
-    time_range = models.CharField('勤務期間',
-        blank=False,
-        null=False,
-        max_length=255,)
+    start_time = models.TimeField('開始時間',
+        default=datetime.time(0, 0, 0))
+
+    end_time = models.TimeField('終了時間',
+        default=datetime.time(0, 0, 0))
+
+    time = models.TimeField('休憩時間',
+            default=datetime.time(0, 0))
+
+    description = models.TextField('メモ',
+        blank=True)
 
     date = models.DateField('日付',)
 

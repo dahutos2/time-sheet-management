@@ -27,4 +27,6 @@ urlpatterns = [
     path('import/',views.ShiftImport.as_view(), name="import"),
     path('shift/',views.ShiftView.as_view(), name="shift"),
     path('shift/<int:year>/<int:month>/<int:day>/', views.ShiftView.as_view(), name="shift"),
+    path('shift/update/<pk>', views.ShiftUpdate.as_view(), name="shift_update"),
+    path('shift/index/', views.ShiftIndex.as_view(), name='shift_index'),
 ]

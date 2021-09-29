@@ -1,6 +1,7 @@
 import datetime
 import calendar
 from collections import deque
+from .models import Shift
 
 
 class BaseCalendarMixin:
@@ -49,6 +50,8 @@ class MonthCalendarMixin(BaseCalendarMixin):
         year = self.kwargs.get('year')
         if month and year:
             month = datetime.date(year=int(year), month=int(month), day=1)
+        elif Shift.objects.filter(pk=self.kwargs.get('pk')).exists():
+            month = Shift.objects.get(pk=self.kwargs.get('pk')).date
         else:
             month = datetime.date.today().replace(day=1)
         return month
@@ -72,7 +75,7 @@ from django import forms
 
 class MonthWithFormsMixin(MonthCalendarMixin):
     """スケジュール付きの、月間カレンダーを提供するMixin"""
- 
+
     def get_month_forms(self, start, end, days):
         """それぞれの日と紐づくフォームを作成する"""
         lookup = {

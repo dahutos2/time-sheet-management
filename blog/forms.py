@@ -1,9 +1,8 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
-from .models import User
+from .models import User, Post, Shift
 from django import forms
-from .models import Post
-
+import datetime as dt
 
 class SimpleScheduleForm(forms.ModelForm):
     """シンプルなスケジュール登録用フォーム"""
@@ -31,3 +30,34 @@ class SearchForm(forms.Form):
 
 class CSVUploadForm(forms.Form):
     file = forms.FileField(label='CSVファイル')
+
+class BS4ScheduleForm(forms.ModelForm):
+    """Bootstrapに対応するためのModelForm"""
+
+    class Meta:
+        model = Shift
+        fields = ('start_time', 'end_time','time','description')
+        widgets = {
+            'start_time': forms.TextInput(attrs={
+                'class': 'form-control',
+            }),
+            'end_time': forms.TextInput(attrs={
+                'class': 'form-control',
+            }),
+            'time': forms.TextInput(attrs={
+                'class': 'form-control',
+            }),
+            'description': forms.Textarea(attrs={
+                'class': 'form-control',
+            }),
+        }
+
+    def clean_end_time(self):
+        start_time = self.cleaned_data['start_time']
+        end_time = self.cleaned_data['end_time']
+        if end_time <= start_time:
+            if end_time > dt.time(hour=5):
+                raise forms.ValidationError(
+                    '終了時間は、開始時間よりも後にしてください'
+                    )
+        return end_time

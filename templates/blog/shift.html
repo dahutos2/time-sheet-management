@@ -51,6 +51,7 @@
        <div class="navbar-nav">
          <a class="nav-item nav-link" href="{% url 'index_post'  %}">希望シフト一覧</a>
          <a class="nav-item nav-link" href="{% url 'shift'  %}">完成シフト一覧</a>
+         <a class="nav-item nav-link" href="{% url 'shift_index'  %}">完成シフト確認</a>
      <a class="nav-item nav-link" href="{% url 'logout' %}"><font color="red">ログアウト</font></a>
     </div>
   </div>
@@ -144,11 +145,11 @@
     <th>開始〜終了</th>
     <th>勤務時間</th>
   </tr>
-  {% for field in date|day_admin_shift %}
+  {% for shift in date|day_admin_shift %}
   <tr>
-    {% for object in field %}
-      <td>{{ object }}</td>
-      {% endfor %}
+    <td>{{ shift.name }}</td>
+      <td>{{ shift.start_time }}〜{{ shift.end_time }}</td>
+      <td>{{ shift.time }}</td>
   {% endfor %}
 </tr>
  {% else %}
@@ -160,11 +161,10 @@
     <th>開始〜終了</th>
     <th>勤務時間</th>
   </tr>
-  {% for field in date|day_my_shift:user %}
+  {% for shift in date|day_my_shift:user %}
   <tr>
-    {% for object in field %}
-      <td>{{ object }}</td>
-      {% endfor %}
+    <td>{{ shift.start_time }}〜{{ shift.end_time }}</td>
+    <td>{{ shift.time }}</td>
   {% endfor %}
 </tr>
 </table>

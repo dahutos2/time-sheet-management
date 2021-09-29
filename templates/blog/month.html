@@ -1,0 +1,73 @@
+{% load tag_library %}
+    <a href="{% url 'shift' month_previous.year month_previous.month　month_previous.day %}">前月</a>
+{{ month_current | date:"Y年m月" }}
+<a href="{% url 'shift' month_next.year month_next.month month_next.day %}">次月</a>
+
+<table class="table" style="table-layout: fixed;">
+    <thead>
+    <tr>
+      {% for w in week_names %}
+              {% if w == '土' %}
+                  <td class="table-primary text-center">
+              {% elif w == '日' %}
+                  <td class="table-success text-center">
+              {% else %}
+              <th class="table-info text-center">
+              {% endif %}
+               {{ w }}</th>
+          {% endfor %}
+    </tr>
+    </thead>
+    <tbody>
+    {% for week in month_days %}
+        <tr>
+          <tr class="text-center">
+              {% for day in week %}
+              {% if day|jpholiday %}
+                       <td class='table-danger'>
+              {% elif day.weekday == 6 %}
+                       <td class='table-danger'>
+              {% elif day.weekday == 5 %}
+                       <td class='table-primary'>
+              {% else %}
+              <td>
+              {% endif %}
+          {% if user.is_staff %}
+            {% if day|day_shift_help %}
+            <div class="maru size_normal pink1">
+              <div class="letter3">
+            {% else %}
+            <div>
+              <div>
+            {% endif %}
+            {% if month_current.month != day.month %}
+               <a href="{% url 'shift' day.year day.month day.day %}">{{ day | date:"m/d" }}</a>
+            {% else %}
+              <a href="{% url 'shift' day.year day.month day.day %}">{{ day.day }}</a>
+            {% endif %}
+          </div>
+        </div>
+              </td>
+          {% else %}
+            {% if day|day_my_shift:user %}
+            <div class="maru size_normal pink1">
+              <div class="letter3">
+            {% else %}
+            <div>
+              <div>
+            {% endif %}
+            {% if month_current.month != day.month %}
+                 <a href="{% url 'shift' day.year day.month day.day %}">{{ day | date:"m/d" }}</a>
+            {% else %}
+                <a href="{% url 'shift' day.year day.month day.day %}">{{ day.day }}</a>
+            {% endif %}
+          </div>
+        </div>
+        </td>
+          {% endif %}
+
+            {% endfor %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

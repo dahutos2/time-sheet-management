@@ -1,0 +1,69 @@
+{% extends 'blog/base.html' %}
+{% block main %}
+{% load tag_library %}
+            {% include 'blog/month.html' %}
+            <hr>
+            <table border="1" class="table table-striped">
+              <tr>
+            <th>{{ object.date|date:"Y/m/d" }}({{ object.date | date:"l"}})
+              </table>
+            {% if object.end_time|date_comparison:object.date %}
+            <form action="" method="POST">
+              {{ form.non_field_errors }}
+              {% for field in form %}
+              {{ field.label_tag }}
+                          {{ field }}
+                          {{ field.errors }}
+              {% endfor %}
+              {% csrf_token %}
+              <button type="submit" class="btn btn-primary btn-block">変更</button>
+            </form>
+            {% else %}
+            <table border="1" class="table table-striped">
+            <tr>
+              <th>開始〜終了</th>
+              <th>勤務時間</th>
+            </tr>
+            {% for shift in object.date|day_my_shift:user %}
+            <tr>
+              <td>{{ shift.start_time }}〜{{ shift.end_time }}</td>
+              <td>{{ shift|work_time }}</td>
+            {% endfor %}
+            </tr>
+            </table>
+              <form action="" method="POST">
+                {% for field in form %}
+                {% if forloop.counter == 4 %}
+                {{ field.label_tag }}
+                            {{ field }}
+                {% endif %}
+                {% endfor %}
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary btn-block">変更</button>
+              </form>
+              {% endif %}
+{% endblock %}
+
+
+{% block extrajs %}
+<link rel="stylesheet" type="text/css"
+  href="https://cdnjs.cloudflare.com/ajax/libs/timedropper/1.0/timedropper.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/timedropper/1.0/timedropper.min.js"></script>
+<script>
+$(function () {
+    // timedropper
+    $("#id_start_time").timeDropper({
+        format: "H:mm",
+        setCurrentTime: false,
+    });
+    $("#id_end_time").timeDropper({
+        format: "H:mm",
+        setCurrentTime: false,
+    });
+    $("#id_time").timeDropper({
+        format: "H:mm",
+        setCurrentTime: false,
+    });
+});
+</script>
+{% endblock %}

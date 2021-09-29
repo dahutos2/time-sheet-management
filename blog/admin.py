@@ -102,7 +102,8 @@ class PostAdmin(ExportMixin,admin.ModelAdmin):
 @admin.register(models.Shift)
 class ShiftAdmin(admin.ModelAdmin):
     list_select_related = ('name',)
-    list_display = ('id','time','time_range','date','name')
+    list_display = ('id', 'start_time', 'end_time', 'time',
+                    'description', 'date','name')
     list_display_links = ('id',)
     ordering = ('-date',)
     list_filter = (('date', DateRangeFilter),'name__full_name')
