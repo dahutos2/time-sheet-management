@@ -23,6 +23,7 @@ class Index(ListView):
     # 一覧するモデルを指定 -> `object_list`で取得可能
     template_name="registration/index.html"
     model = Post
+    paginate_by = 5
 
     def get(self, request, **kwargs):
         help_user = User.objects.get(username=244)
@@ -86,7 +87,7 @@ class Complite(ListView):
     def post(self, request):
         post = Post.objects.filter(name=request.user).update(published=False)
         print(request.user,'がシフトを完了しました。')
-        
+
         return redirect('/')
 
 class UserUpdate(UpdateView):
@@ -103,34 +104,28 @@ class UserUpdate(UpdateView):
             return redirect('/shift/')
         return super().get(request)
 
-class IndexPost(ListView):
+class IndexPost(mixins.MonthCalendarMixin, ListView):
     # 一覧するモデルを指定 -> `object_list`で取得可能
-    template_name="blog/post_list.html"
+    template_name="blog/index_post.html"
     model = Post
-    paginate_by = 10
 
-    def get_queryset(self):
-        query_set = Post.objects.filter(
-            name=self.request.user).order_by('-date')
-
-        return query_set
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        month_calendar_context = self.get_month_calendar()
+        context.update(month_calendar_context)
+        month = self.kwargs.get('month')
+        year = self.kwargs.get('year')
+        day = self.kwargs.get('day')
+        if year:
+            context['date'] = datetime.date(year=int(year), month=int(month), day=int(day))
+        return context
 
     def get(self, request, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('/')
         help_user = User.objects.get(username=244)
         if request.user == help_user:
             return redirect('/shift/')
-        return super().get(request)
-
-# DetailViewは詳細を簡単に作るためのView
-class Detail(DetailView):
-    # 詳細表示するモデルを指定 -> `object`で取得可能
-    model = Post
-
-    def get(self, request, **kwargs):
-        if not Post.objects.get(id=self.kwargs['pk']).name==request.user:
-            return HttpResponse('不正なアクセスです。')
-        if not Post.objects.get(id=self.kwargs['pk']).published:
-            return HttpResponse('不正なアクセスです。')
         return super().get(request)
 
 class Update(UpdateView):
@@ -251,9 +246,18 @@ class ShiftImport(generic.FormView):
             return redirect('/dahutos-admin/')
         return super().get(request)
 
-class ShiftView(mixins.MonthCalendarMixin,ListView):
+class ShiftView(mixins.MonthCalendarMixin, ListView):
     template_name = 'blog/shift.html'
     model = Shift
+
+    def get(self, request, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('/')
+        help_user = User.objects.get(username=244)
+        if request.user == help_user:
+            return redirect('/shift/')
+        return super().get(request)
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

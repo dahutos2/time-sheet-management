@@ -11,6 +11,7 @@
     <link rel="icon" sizes="192x192" href="{% static 'icon_shift.png' %}"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'month_maru.css' %}" />
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
@@ -55,6 +56,7 @@
   </div>
 </nav>
 {% endif %}
+<div class="container mt-4">
 {% load tag_library %}
     <a href="{% url 'shift' month_previous.year month_previous.month　month_previous.day %}">前月</a>
 {{ month_current | date:"Y年m月" }}
@@ -63,45 +65,63 @@
 <table class="table" style="table-layout: fixed;">
     <thead>
     <tr>
-        {% for w in week_names %}
-                {% if w == '土' %}
-                    <td class="table-primary">
-                {% elif w == '日' %}
-                    <td class="table-success">
-                {% else %}
-                <th>
-                {% endif %}
-                 {{ w }}</th>
-            {% endfor %}
+      {% for w in week_names %}
+              {% if w == '土' %}
+                  <td class="table-primary text-center">
+              {% elif w == '日' %}
+                  <td class="table-success text-center">
+              {% else %}
+              <th class="table-info text-center">
+              {% endif %}
+               {{ w }}</th>
+          {% endfor %}
     </tr>
     </thead>
     <tbody>
     {% for week in month_days %}
         <tr>
-            {% for day in week %}
+          <tr class="text-center">
+              {% for day in week %}
+              {% if day|jpholiday %}
+                       <td class='table-danger'>
+              {% elif day.weekday == 6 %}
+                       <td class='table-danger'>
+              {% elif day.weekday == 5 %}
+                       <td class='table-primary'>
+              {% else %}
+              <td>
+              {% endif %}
           {% if user.is_staff %}
             {% if day|day_shift_help %}
-              <td class="table-danger">
+            <div class="maru size_normal pink1">
+              <div class="letter3">
             {% else %}
-            <td>
+            <div>
+              <div>
             {% endif %}
             {% if month_current.month != day.month %}
                <a href="{% url 'shift' day.year day.month day.day %}">{{ day | date:"m/d" }}</a>
             {% else %}
               <a href="{% url 'shift' day.year day.month day.day %}">{{ day.day }}</a>
             {% endif %}
+          </div>
+        </div>
               </td>
           {% else %}
             {% if day|day_my_shift:user %}
-              <td class="table-danger">
+            <div class="maru size_normal pink1">
+              <div class="letter3">
             {% else %}
-            <td>
+            <div>
+              <div>
             {% endif %}
             {% if month_current.month != day.month %}
                  <a href="{% url 'shift' day.year day.month day.day %}">{{ day | date:"m/d" }}</a>
             {% else %}
                 <a href="{% url 'shift' day.year day.month day.day %}">{{ day.day }}</a>
             {% endif %}
+          </div>
+        </div>
                 </td>
           {% endif %}
             {% endfor %}
@@ -151,3 +171,4 @@
  {% else %}
  {% endif %}
 {% endif %}
+</div>
