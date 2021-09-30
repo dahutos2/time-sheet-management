@@ -47,14 +47,16 @@
     </th>
     </tr>
     </table>
-{% if objects|date_filter:date_range%}
+{% if objects|date_filter:date_range %}
   <table class="table text-center">
     <tr>
+      <th>合計日数</th>
       <th>合計時間</th>
       <th>深夜合計</th>
       <th>残業合計</th>
     </tr>
     <tr>
+      <td>{{ objects|date_filter:date_range|count }}日</td>
       {% for object in objects|date_filter:date_range|work_time_sum %}
       <td>{{ object }}</td>
       {% endfor %}

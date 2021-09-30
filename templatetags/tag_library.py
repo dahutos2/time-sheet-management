@@ -12,6 +12,12 @@ def jpholiday_judge(day):
 
    return val
 
+@register.filter(name="count")
+def count(objects):
+    int = objects.count()
+
+    return int
+
 @register.filter(name="editable")
 def editable_count(object,arg):
     int = object.filter(published=arg).count()
