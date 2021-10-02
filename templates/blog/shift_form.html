@@ -7,7 +7,7 @@
               <tr>
             <th>{{ object.date|date:"Y/m/d" }}({{ object.date | date:"l"}})
               </table>
-            {% if object.end_time|date_comparison:object.date %}
+            {% if object.end_time|date_comparison:object.date or user.is_staff %}
             <form action="" method="POST">
               {{ form.non_field_errors }}
               {% for field in form %}
@@ -24,11 +24,9 @@
               <th>開始〜終了</th>
               <th>勤務時間</th>
             </tr>
-            {% for shift in object.date|day_my_shift:user %}
             <tr>
-              <td>{{ shift.start_time }}〜{{ shift.end_time }}</td>
-              <td>{{ shift|work_time }}</td>
-            {% endfor %}
+              <td>{{ object.start_time }}〜{{ object.end_time }}</td>
+              <td>{{ object|work_time }}</td>
             </tr>
             </table>
               <form action="" method="POST">

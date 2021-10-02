@@ -24,6 +24,12 @@ def editable_count(object,arg):
 
     return int
 
+@register.filter(name="shift_all")
+def shift_all(user):
+    shift_list = Shift.objects.filter(name=user).order_by('-date')
+
+    return shift_list
+
 @register.filter(name="three_months")
 def three_months_ago(object):
     startdate = dt.date.today() + relativedelta(months=-2)

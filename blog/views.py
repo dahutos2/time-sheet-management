@@ -83,12 +83,40 @@ class UserShift(DetailView):
     template_name="admin/user_shift.html"
     model = User
 
+    def post(self, request, *args, **kwargs):
+        form_value = [
+            self.request.POST.get('startdate', None),
+            self.request.POST.get('enddate', None),
+        ]
+        request.session['form_value'] = form_value
+
+        return self.get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        startdate = ''
+        enddate = ''
+        if 'form_value' in self.request.session:
+            form_value = self.request.session['form_value']
+            startdate = form_value[0]
+            enddate = form_value[1]
+        default_data = {'startdate': startdate,
+                        'enddate': enddate,
+                        }
+        test_form = SearchForm(initial=default_data) # 検索フォーム
+        context['test_form'] = test_form
+        context['date_range'] = ','.join([startdate,enddate])
+        context['range']= '〜'.join([startdate,enddate])
+
+        return context
+
+
     def get(self, request, **kwargs):
         if not request.user.is_superuser:
             return redirect('/dahutos-admin/')
         return super().get(request)
 
-class Complite(ListView):
+class Complite(ListView,):
     # 一覧するモデルを指定 -> `object_list`で取得可能
     template_name="blog/post_complite.html"
     model = Post

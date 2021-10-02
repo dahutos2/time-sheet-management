@@ -1,4 +1,8 @@
 {% load tag_library %}
+{% if user.is_staff %}
+<a href="/mypage/">管理者画面へ</a>
+{% endif %}
+<br>
     <a href="{% url 'shift' month_previous.year month_previous.month　month_previous.day %}">前月</a>
 {{ month_current | date:"Y年m月" }}
 <a href="{% url 'shift' month_next.year month_next.month month_next.day %}">次月</a>

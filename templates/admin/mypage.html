@@ -43,6 +43,7 @@
 {% for object in object_list %}
 <tr>
 <td>{{ forloop.counter }}:<br>{{ object }}
+  <br>
 <a href="{% url 'user_shift' object.id %}">シフト</a></td>
 <td><b>{{ object.last_login }}</b></td>
 <td><b>{{ object.date_joined }}</b></td>

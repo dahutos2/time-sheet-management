@@ -14,6 +14,7 @@
             <a class="navbar-brand" href="/dahutos-admin/">管理者画面</a>
             <a class="navbar-brand" href="/mypage/">マイページ</a>
         </nav>
+        <h1>{{ object }}様のシフト</h1>
         <table class="table table-striped">
           <thead>
         <tr>
@@ -21,13 +22,13 @@
         <th>時間</th>
         </tr>
         </thead>
-        {% for object in object_list %}
+        {% for shift in object|shift_all %}
         <tr>
-        <td>{{ object.date|date:"Y/m/d" }}({{ object.date | date:"l"}})
-        <div>{{ object.start_time }}〜{{ object.end_time }}
-        　<a href="{% url 'shift_update' object.id %}">シフト</a>
+        <td>{{ shift.date|date:"Y/m/d" }}({{ shift.date | date:"l"}})
+        <div>{{ shift.start_time }}〜{{ shift.end_time }}
+        　<a href="{% url 'shift_update' shift.id %}">編集</a>
         </div></td>
-        <td>{{ object|work_time }}</td>
+        <td>{{ shift|work_time }}</td>
         {% empty %}
         <td>勤務がありません</td><td></td>
         {% endfor %}
@@ -59,7 +60,7 @@
             </th>
             </tr>
             </table>
-        {% if objects|date_filter:date_range %}
+        {% if object|shift_all|date_filter:date_range %}
           <table class="table text-center">
             <tr>
               <th>合計日数</th>
@@ -68,9 +69,9 @@
               <th>残業合計</th>
             </tr>
             <tr>
-              <td>{{ objects|date_filter:date_range|count }}日</td>
-              {% for object in objects|date_filter:date_range|work_time_sum %}
-              <td>{{ object }}</td>
+              <td>{{ object|shift_all|date_filter:date_range|count }}日</td>
+              {% for shift in object|shift_all|date_filter:date_range|work_time_sum %}
+              <td>{{ shift }}</td>
               {% endfor %}
               </tr>
             </table>

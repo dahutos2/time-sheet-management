@@ -3,7 +3,6 @@ import calendar
 from collections import deque
 from .models import Shift
 
-
 class BaseCalendarMixin:
     """カレンダー関連Mixinの、基底クラス"""
     first_weekday = 6  # 0は月曜から、1は火曜から。6なら日曜日からになります。お望みなら、継承したビューで指定してください。
