@@ -11,30 +11,72 @@
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-info">
-            <a class="navbar-brand" href="/dahutos-admin/">管理者画面</a>
             <a class="navbar-brand" href="/mypage/">マイページ</a>
+            <a class="navbar-brand" href="/dahutos-admin/">管理者画面</a>
         </nav>
+        <div class="container mt-4">
         <h1>{{ object }}様のシフト</h1>
+        <table class="table table-striped">
+          <thead>
+        <tr>
+        <th>希望シフト</th>
+        </tr>
+        </thead>
+        {% for post in object|post_all %}
+        <tr class="text-center">
+        <td>
+          <div>
+          {{ post.date|date:"Y/m/d" }}({{ post.date | date:"l"}})
+        </div>
+        <div>
+          {{ post.get_start_time_display }}〜{{ post.get_end_time_display }}
+          </div>
+          <td>
+            <div>
+              <a class="btn  btn-primary btn-xs" href="{% url 'update' post.id %}">編集</a>
+          <a class="btn  btn-danger btn-xs" href="{% url 'delete' post.id %}">削除</a>
+        </div>
+          </td>
+        {% empty %}
+        <td>希望シフトがありません<。/td>
+        {% endfor %}
+        </tr>
+        </table>
+        {% include "admin/pagination.html" %}
         <table class="table table-striped">
           <thead>
         <tr>
         <th>完成シフト</th>
         <th>時間</th>
+        <th>
         </tr>
         </thead>
         {% for shift in object|shift_all %}
         <tr>
-        <td>{{ shift.date|date:"Y/m/d" }}({{ shift.date | date:"l"}})
-        <div>{{ shift.start_time }}〜{{ shift.end_time }}
-        　<a href="{% url 'shift_update' shift.id %}">編集</a>
+        <td>
+          <div>
+          {{ shift.date|date:"Y/m/d" }}({{ shift.date | date:"l"}})
+        </div>
+        <div>
+          {{ shift.start_time }}〜{{ shift.end_time }}
         </div></td>
-        <td>{{ shift|work_time }}</td>
+        <td>
+          <div>
+          {{ shift|work_time }}
+        </div>
+        </td>
+        <td>
+          <div>
+            <a class="btn  btn-primary btn-xs" href="{% url 'shift_update' shift.id %}">編集</a>
+        <a class="btn  btn-danger btn-xs" href="{% url 'shift_delete' shift.id %}">削除</a>
+      </div>
+        </td>
         {% empty %}
-        <td>勤務がありません</td><td></td>
+        <td>勤務がありません。</td><td></td><td></td>
         {% endfor %}
         </tr>
         </table>
-        {% include "blog/pagination.html" %}
+        {% include "admin/pagination.html" %}
         <table class="table">
           <thead>
         <tr>
@@ -82,3 +124,6 @@
             </tr>
           </table>
         {% endif %}
+      </div>
+      </body>
+      </html>

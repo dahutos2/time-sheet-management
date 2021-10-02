@@ -30,6 +30,12 @@ def shift_all(user):
 
     return shift_list
 
+@register.filter(name="post_all")
+def post_all(user):
+    post_list = Post.objects.filter(name=user).order_by('-date')
+
+    return post_list
+
 @register.filter(name="three_months")
 def three_months_ago(object):
     startdate = dt.date.today() + relativedelta(months=-2)

@@ -1,11 +1,11 @@
 {% extends "blog/base.html" %}
 
 {% block main %}
-<h2>削除確認</h2>
 {% if user.is_staff %}
 <a href="/mypage/">管理者画面へ</a>
 {% endif %}
 <br>
+<h2>削除確認</h2>
 <p>{{ object.title }}を本当に削除してもよろしいですか？</p>
 <form method="post">
     {% csrf_token %}

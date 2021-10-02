@@ -2,6 +2,10 @@
 
 {% block main %}
 <h2>編集</h2>
+{% if user.is_staff %}
+<a href="/mypage/">管理者画面へ</a>
+{% endif %}
+<br>
 <a>{{ object.date }}</a>
 <form method="post">
     {% csrf_token %}

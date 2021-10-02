@@ -70,7 +70,7 @@ class Mypage(ListView):
 
     def get(self, request, **kwargs):
         if not request.user.is_superuser:
-            return redirect('/dahutos-admin/')
+            return redirect('/')
         return super().get(request)
 
     def get_queryset(self):
@@ -82,6 +82,7 @@ class Mypage(ListView):
 class UserShift(DetailView):
     template_name="admin/user_shift.html"
     model = User
+    paginate_by = 1
 
     def post(self, request, *args, **kwargs):
         form_value = [
@@ -168,13 +169,14 @@ class IndexPost(mixins.MonthCalendarMixin, ListView):
 class Update(UpdateView):
     model = Post
     fields = ["start_time", "end_time",]
-    success_url = "/"
+    success_url = "/mypage/"
 
     def get(self, request, **kwargs):
-        if not Post.objects.get(id=self.kwargs['pk']).name==request.user:
-            return HttpResponse('不正なアクセスです。')
-        if not Post.objects.get(id=self.kwargs['pk']).published:
-            return HttpResponse('不正なアクセスです。')
+        if not request.user.is_superuser:
+            if not Post.objects.get(id=self.kwargs['pk']).name==request.user:
+                return HttpResponse('不正なアクセスです。')
+            if not Post.objects.get(id=self.kwargs['pk']).published:
+                return HttpResponse('不正なアクセスです。')
         return super().get(request)
 
 from django.views.generic.edit import DeleteView
@@ -182,13 +184,14 @@ from django.views.generic.edit import DeleteView
 class Delete(DeleteView):
     model = Post
     # 削除したあとに移動する先（トップページ）
-    success_url = "/"
+    success_url = "/mypage/"
 
     def get(self, request, **kwargs):
-        if not Post.objects.get(id=self.kwargs['pk']).name==request.user:
-            return HttpResponse('不正なアクセスです。')
-        if not Post.objects.get(id=self.kwargs['pk']).published:
-            return HttpResponse('不正なアクセスです。')
+        if not request.user.is_superuser:
+            if not Post.objects.get(id=self.kwargs['pk']).name==request.user:
+                return HttpResponse('不正なアクセスです。')
+            if not Post.objects.get(id=self.kwargs['pk']).published:
+                return HttpResponse('不正なアクセスです。')
         return super().get(request)
 
 # CreateViewは新規作成画面を簡単に作るためのView
@@ -358,6 +361,16 @@ class ShiftUpdate(mixins.MonthCalendarMixin, UpdateView):
         if not request.user.is_superuser:
             if not Shift.objects.get(id=self.kwargs['pk']).name==request.user:
                 return HttpResponse('不正なアクセスです。')
+        return super().get(request)
+
+class ShiftDelete(DeleteView):
+    model = Shift
+    # 削除したあとに移動する先（トップページ）
+    success_url = "/mypage/"
+
+    def get(self, request, **kwargs):
+        if not request.user.is_superuser:
+            return HttpResponse('不正なアクセスです。')
         return super().get(request)
 
 class ShiftIndex(ListView):
