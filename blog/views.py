@@ -327,8 +327,9 @@ class ShiftUpdate(mixins.MonthCalendarMixin, UpdateView):
         return context
 
     def get(self, request, **kwargs):
-        if not Shift.objects.get(id=self.kwargs['pk']).name==request.user:
-            return HttpResponse('不正なアクセスです。')
+        if not request.user.is_superuser:
+            if not Shift.objects.get(id=self.kwargs['pk']).name==request.user:
+                return HttpResponse('不正なアクセスです。')
         return super().get(request)
 
 class ShiftIndex(ListView):
