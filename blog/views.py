@@ -110,31 +110,6 @@ class UserShift(DetailView):
     template_name="admin/user_shift.html"
     model = User
 
-    def paginate_queryset(request, queryset, count):
-        """Pageオブジェクトを返す。
-
-        ページングしたい場合に利用してください。
-
-        countは、1ページに表示する件数です。
-        返却するPgaeオブジェクトは、以下のような感じで使えます。
-
-            {% if page_obj.has_previous %}
-              <a href="?page={{ page_obj.previous_page_number }}">Prev</a>
-            {% endif %}
-
-        また、page_obj.object_list で、count件数分の絞り込まれたquerysetが取得できます。
-
-        """
-        paginator = Paginator(queryset, count)
-        page = request.GET.get('page')
-        try:
-            page_obj = paginator.page(page)
-        except PageNotAnInteger:
-            page_obj = paginator.page(1)
-        except EmptyPage:
-            page_obj = paginator.page(paginator.num_pages)
-        return page_obj
-
     def post(self, request, *args, **kwargs):
         form_value = [
             self.request.POST.get('startdate', None),
@@ -175,14 +150,6 @@ class UserShift(DetailView):
         if not request.user.is_superuser:
             return redirect('/dahutos-admin/')
         return super().get(request)
-
-
-    def post_index(request):
-        page_obj = paginate_queryset(request, object, 1)
-        context = {
-            'page_obj': page_obj,
-            }
-        return render(request, template_name, context)
 
 class Complite(ListView,):
     # 一覧するモデルを指定 -> `object_list`で取得可能

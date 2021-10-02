@@ -42,6 +42,7 @@
         {% endfor %}
         </tr>
         </table>
+        {% if not page_post_obj.paginator.num_pages == 1 %}
         <nav aria-label="Page navigation">
           <ul class="pagination justify-content-center">
             {% if page_post_obj.has_previous %}
@@ -76,6 +77,7 @@
             {% endif %}
           </ul>
         </nav>
+        {% endif %}
         <table class="table table-striped">
           <thead>
         <tr>
@@ -109,6 +111,7 @@
         {% endfor %}
         </tr>
         </table>
+        {% if not page_shift_obj.paginator.num_pages == 1 %}
         <nav aria-label="Page navigation">
           <ul class="pagination justify-content-center">
             {% if page_shift_obj.has_previous %}
@@ -143,6 +146,7 @@
             {% endif %}
           </ul>
         </nav>
+        {% endif %}
         <table class="table">
           <thead>
         <tr>
