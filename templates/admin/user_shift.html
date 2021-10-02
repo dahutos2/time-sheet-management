@@ -1,0 +1,83 @@
+{% load tag_library %}
+{% load static %}
+<html>
+    <head>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+      <link rel="stylesheet" type="text/css" href="{% static 'mypage.css' %}" />
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+      <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=yes" />
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-info">
+            <a class="navbar-brand" href="/dahutos-admin/">管理者画面</a>
+            <a class="navbar-brand" href="/mypage/">マイページ</a>
+        </nav>
+        <table class="table table-striped">
+          <thead>
+        <tr>
+        <th>完成シフト</th>
+        <th>時間</th>
+        </tr>
+        </thead>
+        {% for object in object_list %}
+        <tr>
+        <td>{{ object.date|date:"Y/m/d" }}({{ object.date | date:"l"}})
+        <div>{{ object.start_time }}〜{{ object.end_time }}
+        　<a href="{% url 'shift_update' object.id %}">シフト</a>
+        </div></td>
+        <td>{{ object|work_time }}</td>
+        {% empty %}
+        <td>勤務がありません</td><td></td>
+        {% endfor %}
+        </tr>
+        </table>
+        {% include "blog/pagination.html" %}
+        <table class="table">
+          <thead>
+        <tr>
+        <th>勤務時間</th>
+        <th</th>
+        </tr>
+        </thead>
+          {% if not range == '〜'　%}
+          <tr class="table-info">
+            <th>{{ range }}</th><th></th>
+            </tr>
+          {% endif %}
+          <tr class="table-info">
+          <th>
+          <form method="POST">
+            {% csrf_token %}
+                <input type="date" class="form_desigh" id="startdate" name="startdate"　placeholder="年/月/日" >
+                〜
+                <input type="date" class="form_desigh" id="enddate" name="enddate" placeholder="年/月/日" >
+                <th>
+              <input type="submit" class="btn btn-info btn-lg" value="検索">
+            </form>
+            </th>
+            </tr>
+            </table>
+        {% if objects|date_filter:date_range %}
+          <table class="table text-center">
+            <tr>
+              <th>合計日数</th>
+              <th>合計時間</th>
+              <th>深夜合計</th>
+              <th>残業合計</th>
+            </tr>
+            <tr>
+              <td>{{ objects|date_filter:date_range|count }}日</td>
+              {% for object in objects|date_filter:date_range|work_time_sum %}
+              <td>{{ object }}</td>
+              {% endfor %}
+              </tr>
+            </table>
+        {% else %}
+        <table class="table text-center">
+          <tr>
+            <th class="table-danger">勤務がありません。</th>
+            </tr>
+          </table>
+        {% endif %}

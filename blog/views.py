@@ -79,6 +79,15 @@ class Mypage(ListView):
 
         return query_set
 
+class UserShift(DetailView):
+    template_name="admin/user_shift.html"
+    model = User
+
+    def get(self, request, **kwargs):
+        if not request.user.is_superuser:
+            return redirect('/dahutos-admin/')
+        return super().get(request)
+
 class Complite(ListView):
     # 一覧するモデルを指定 -> `object_list`で取得可能
     template_name="blog/post_complite.html"
