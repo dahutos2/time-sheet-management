@@ -82,7 +82,7 @@
 {% endfor %}
 <p>
 <table border="1" class="table table-striped">
-  <thead><h3>シフト数一覧(直近3ヶ月)</h3></thead>
+  <thead><h3>シフト数一覧</h3></thead>
   <tr>
     <th>名前</th>
     <th>編集可</th>
@@ -90,9 +90,9 @@
    </tr>
 {% for object in object_list %}
 <tr>
-<td>{{ forloop.counter }}、{{ object }}</td>
-<td><b><font size='4'>{{ object.related_user|three_months|editable:"True" }}</font></b></td>
-<td><b><font size='4'>{{ object.related_user|three_months|editable:"False" }}</font></b></td>
+<td>{{ forloop.counter }}　{{ object }}</td>
+<td><b><font size='4'>{{ object.related_user|date_filter:date_range|editable:"True" }}</font></b></td>
+<td><b><font size='4'>{{ object.related_user|date_filter:date_range|editable:"False" }}</font></b></td>
 {% endfor %}
 </tr>
 </table>
