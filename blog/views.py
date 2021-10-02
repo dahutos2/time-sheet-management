@@ -18,6 +18,7 @@ import csv
 import io
 import urllib
 from .forms import CSVUploadForm, BS4ScheduleForm
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 class Index(ListView):
     # 一覧するモデルを指定 -> `object_list`で取得可能
@@ -79,10 +80,60 @@ class Mypage(ListView):
 
         return query_set
 
+def paginate_queryset(request, queryset, count):
+    """Pageオブジェクトを返す。
+
+        ページングしたい場合に利用してください。
+
+        countは、1ページに表示する件数です。
+        返却するPgaeオブジェクトは、以下のような感じで使えます。
+
+            {% if page_obj.has_previous %}
+              <a href="?page={{ page_obj.previous_page_number }}">Prev</a>
+            {% endif %}
+
+        また、page_obj.object_list で、count件数分の絞り込まれたquerysetが取得できます。
+
+    """
+    paginator = Paginator(queryset, count)
+    page = request.GET.get('page')
+    try:
+        page_obj = paginator.page(page)
+    except PageNotAnInteger:
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        page_obj = paginator.page(paginator.num_pages)
+    return page_obj
+
+
 class UserShift(DetailView):
     template_name="admin/user_shift.html"
     model = User
-    paginate_by = 1
+
+    def paginate_queryset(request, queryset, count):
+        """Pageオブジェクトを返す。
+
+        ページングしたい場合に利用してください。
+
+        countは、1ページに表示する件数です。
+        返却するPgaeオブジェクトは、以下のような感じで使えます。
+
+            {% if page_obj.has_previous %}
+              <a href="?page={{ page_obj.previous_page_number }}">Prev</a>
+            {% endif %}
+
+        また、page_obj.object_list で、count件数分の絞り込まれたquerysetが取得できます。
+
+        """
+        paginator = Paginator(queryset, count)
+        page = request.GET.get('page')
+        try:
+            page_obj = paginator.page(page)
+        except PageNotAnInteger:
+            page_obj = paginator.page(1)
+        except EmptyPage:
+            page_obj = paginator.page(paginator.num_pages)
+        return page_obj
 
     def post(self, request, *args, **kwargs):
         form_value = [
@@ -93,10 +144,14 @@ class UserShift(DetailView):
 
         return self.get(request, *args, **kwargs)
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs,):
         context = super().get_context_data(**kwargs)
         startdate = ''
         enddate = ''
+        pk = self.kwargs.get('pk')
+        user = User.objects.get(pk=pk)
+        shift_objects = Shift.objects.filter(name=user).order_by('-date')
+        post_objects = Post.objects.filter(name=user).order_by('-date')
         if 'form_value' in self.request.session:
             form_value = self.request.session['form_value']
             startdate = form_value[0]
@@ -105,9 +160,13 @@ class UserShift(DetailView):
                         'enddate': enddate,
                         }
         test_form = SearchForm(initial=default_data) # 検索フォーム
+        page_shift_obj = paginate_queryset(self.request, shift_objects, 5)
+        page_post_obj = paginate_queryset(self.request, post_objects, 5)
         context['test_form'] = test_form
         context['date_range'] = ','.join([startdate,enddate])
         context['range']= '〜'.join([startdate,enddate])
+        context['page_shift_obj'] = page_shift_obj
+        context['page_post_obj'] = page_post_obj
 
         return context
 
@@ -116,6 +175,14 @@ class UserShift(DetailView):
         if not request.user.is_superuser:
             return redirect('/dahutos-admin/')
         return super().get(request)
+
+
+    def post_index(request):
+        page_obj = paginate_queryset(request, object, 1)
+        context = {
+            'page_obj': page_obj,
+            }
+        return render(request, template_name, context)
 
 class Complite(ListView,):
     # 一覧するモデルを指定 -> `object_list`で取得可能
