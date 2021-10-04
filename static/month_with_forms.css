@@ -1,12 +1,13 @@
-@media screen and (max-width: 479px)
+@media screen and (max-width:767.98px)
 { /*ウィンドウ幅が最大479pxまでの場合に適用*/
 .visibility_site{
   display: none;
 }
 }
-@media screen and (min-width: 479px)
+@media screen and (min-width:768px)
 { /*ウィンドウ幅が最小479pxまでの場合に適用*/
 .visibility_iphone{
   display: none;
+}
 }
 }
