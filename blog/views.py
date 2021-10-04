@@ -135,8 +135,8 @@ class UserShift(DetailView):
                         'enddate': enddate,
                         }
         test_form = SearchForm(initial=default_data) # 検索フォーム
-        page_shift_obj = paginate_queryset(self.request, shift_objects, 5)
-        page_post_obj = paginate_queryset(self.request, post_objects, 5)
+        page_shift_obj = paginate_queryset(self.request, shift_objects, 1)
+        page_post_obj = paginate_queryset(self.request, post_objects, 1)
         context['test_form'] = test_form
         context['date_range'] = ','.join([startdate,enddate])
         context['range']= '〜'.join([startdate,enddate])

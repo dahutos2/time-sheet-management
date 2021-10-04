@@ -9,21 +9,42 @@
       </a>
     </li>
     {% endif %}
-    {% for num in paginator.page_range %}
-    {% if page_obj.number == num %}
-    <li class="page-item active">
-      <span class="page-link">
-        {{ num }}
-        <span class="sr-only">(current)</span>
-      </span>
-    </li>
-    {% else %}
-    <li class="page-item">
-      <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-    </li>
-    {% endif %}
-    {% endfor %}
-    {% if page_obj.has_next %}
+    {% if page_obj.number > 3 %}
+     <li class="page-item">
+       <a class="page-link" href="?page=1" aria-label="First">1</a>
+     </li>
+     {% endif %}
+
+     {% if page_obj.number > 4 %}
+     <li class="page-item"><span class="page-link" aria-hidden="true">...</span></li>
+     {% endif %}
+
+     {% for link_page in page_obj.paginator.page_range %}
+     {% if link_page == page_obj.number %}
+     <li class="page-item active">
+       <a class="page-link" href="?page={{ link_page }}">
+         {{ link_page }}
+       </a>
+     </li>
+     {% elif link_page < page_obj.number|add:3 and link_page > page_obj.number|add:-3 %}
+     <li class="page-item">
+       <a class="page-link" href="?page={{ link_page }}">
+         {{ link_page }}
+       </a>
+     </li>
+     {% endif %}
+     {% endfor %}
+
+     {% if page_obj.number < page_obj.paginator.num_pages|add:-3 %}
+     <li class="page-item"><span class="page-link" aria-hidden="true">...</span></li>
+     {% endif %}
+
+     {% if page_obj.number < page_obj.paginator.num_pages|add:-2 %}
+     <li class="page-item">
+       <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">{{ page_obj.paginator.num_pages}}</a>
+     </li>
+     {% endif%}
+  {% if page_obj.has_next %}
     <li class="page-item">
       <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>

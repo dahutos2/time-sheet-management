@@ -19,7 +19,7 @@
         <table class="table table-striped">
           <thead>
         <tr>
-        <th>希望シフト</th>
+        <th>希望シフト</th><th></th>
         </tr>
         </thead>
         {% for post in page_post_obj %}
@@ -53,20 +53,41 @@
               </a>
             </li>
             {% endif %}
-            {% for num in page_post_obj.paginator.page_range %}
-            {% if page_post_obj.number == num %}
-            <li class="page-item active">
-              <span class="page-link">
-                {{ num }}
-                <span class="sr-only">(current)</span>
-              </span>
-            </li>
-            {% else %}
+            {% if page_post_obj.number > 3 %}
             <li class="page-item">
-              <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+              <a class="page-link" href="?page=1" aria-label="First">1</a>
+            </li>
+            {% endif %}
+
+            {% if page_post_obj.number > 4 %}
+            <li class="page-item"><span class="page-link" aria-hidden="true">...</span></li>
+            {% endif %}
+
+            {% for link_page in page_post_obj.paginator.page_range %}
+            {% if link_page == page_post_obj.number %}
+            <li class="page-item active">
+              <a class="page-link" href="?page={{ link_page }}">
+                {{ link_page }}
+              </a>
+            </li>
+            {% elif link_page < page_post_obj.number|add:3 and link_page > page_post_obj.number|add:-3 %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ link_page }}">
+                {{ link_page }}
+              </a>
             </li>
             {% endif %}
             {% endfor %}
+
+            {% if page_post_obj.number < page_post_obj.paginator.num_pages|add:-3 %}
+            <li class="page-item"><span class="page-link" aria-hidden="true">...</span></li>
+            {% endif %}
+
+            {% if page_post_obj.number < page_post_obj.paginator.num_pages|add:-2 %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_post_obj.paginator.num_pages }}" aria-label="Last">{{ page_post_obj.paginator.num_pages}}</a>
+            </li>
+            {% endif%}
             {% if page_post_obj.has_next %}
             <li class="page-item">
               <a class="page-link" href="?page={{ page_post_obj.next_page_number }}" aria-label="Next">
@@ -87,7 +108,7 @@
         </tr>
         </thead>
         {% for shift in page_shift_obj %}
-        <tr>
+        <tr class="text-center">
         <td>
           <div>
           {{ shift.date|date:"Y/m/d" }}({{ shift.date | date:"l"}})
@@ -116,26 +137,47 @@
           <ul class="pagination justify-content-center">
             {% if page_shift_obj.has_previous %}
             <li class="page-item">
-              <a class="page-link" href="?page={{ page_shift_obj.previous_page_number }}" aria-label="Previous">
+              <a class="page-link" href="?page=1" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
                 <span class="sr-only">Previous</span>
               </a>
             </li>
             {% endif %}
-            {% for num in page_shift_obj.paginator.page_range %}
-            {% if page_shift_obj.number == num %}
-            <li class="page-item active">
-              <span class="page-link">
-                {{ num }}
-                <span class="sr-only">(current)</span>
-              </span>
-            </li>
-            {% else %}
+            {% if page_shift_obj.number > 3 %}
             <li class="page-item">
-              <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+              <a class="page-link" href="?page={{ page_shift_obj.previous_page_number }}" aria-label="First">1</a>
+            </li>
+            {% endif %}
+
+            {% if page_shift_obj.number > 4 %}
+            <li class="page-item"><span class="page-link" aria-hidden="true">...</span></li>
+            {% endif %}
+
+            {% for link_page in page_shift_obj.paginator.page_range %}
+            {% if link_page == page_shift_obj.number %}
+            <li class="page-item active">
+              <a class="page-link" href="?page={{ link_page }}">
+                {{ link_page }}
+              </a>
+            </li>
+            {% elif link_page < page_shift_obj.number|add:3 and link_page > page_shift_obj.number|add:-3 %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ link_page }}">
+                {{ link_page }}
+              </a>
             </li>
             {% endif %}
             {% endfor %}
+
+            {% if page_shift_obj.number < page_shift_obj.paginator.num_pages|add:-3 %}
+            <li class="page-item"><span class="page-link" aria-hidden="true">...</span></li>
+            {% endif %}
+
+            {% if page_shift_obj.number < page_shift_obj.paginator.num_pages|add:-2 %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_shift_obj.paginator.num_pages }}" aria-label="Last">{{ page_shift_obj.paginator.num_pages}}</a>
+            </li>
+            {% endif%}
             {% if page_shift_obj.has_next %}
             <li class="page-item">
               <a class="page-link" href="?page={{ page_shift_obj.next_page_number }}" aria-label="Next">

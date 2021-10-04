@@ -11,6 +11,7 @@
     <link rel="icon" sizes="192x192" href="{% static 'icon_shift.png' %}"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+          <link rel="stylesheet" type="text/css" href="{% static 'month_with_forms.css' %}" />
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
@@ -38,7 +39,7 @@
   </div>
 </nav>
 {% load tag_library %}
-<font size="7"><a href="{% url 'month_with_forms' month_previous.year month_previous.month  %}">前月</a>
+<font size="5"><a href="{% url 'month_with_forms' month_previous.year month_previous.month  %}">前月</a>
 {{ month_current | date:"Y年m月" }}
 <a href="{% url 'month_with_forms' month_next.year month_next.month %}">次月</a></font>
 <br>
@@ -87,12 +88,11 @@
                     {% for field in forms %}
                     <br>
                     開始
-                    <br>
-                            {{ field.start_time }}
-                    <br>
+                          <div class="form-time">{{ field.start_time }}
+                          </div>
                     終了
-                    <br>
-                            {{ field.end_time }}
+                            <div class="form-time">{{ field.end_time }}
+                              </div>
                             {{ field.date }}
                     {% endfor %}
                 </td>
@@ -106,4 +106,5 @@
         <input type="submit" class="btn btn-primary btn-lg" value="送信"/>
       </div>
 </form>
-</body>
+<body>
+  </html>
