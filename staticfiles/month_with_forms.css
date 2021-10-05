@@ -1,10 +1,10 @@
-@media screen and (max-width:767.98px)
+@media screen and (max-width:991.98px)
 { /*PC用*/
   #pc{
     display: none;
   }
 }
-@media screen and (min-width:768px)
+@media screen and (min-width:992px)
 { /*タブレット用*/
   #sp{
     display: none;
