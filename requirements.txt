@@ -9,3 +9,4 @@ django-admin-rangefilter
 jpholiday
 python-dateutil
 django-import-export
+django-widget-tweaks

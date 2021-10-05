@@ -10,12 +10,8 @@ class SimpleScheduleForm(forms.ModelForm):
         model = Post
         fields = ('start_time','end_time','date',)
         widgets = {
-            'start_time': forms.Select(attrs={
-                'class': 'form-control',
-            }),
-            'end_time': forms.Select(attrs={
-                'class': 'form-control',
-            }),
+            'start_time': forms.Select,
+            'end_time': forms.Select,
             'date': forms.HiddenInput,}
 class SignUpForm(UserCreationForm):
     class Meta:

@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ["schedule-shift-dahutos.herokuapp.com"]
 
 INSTALLED_APPS = [
     'blog',
+    'widget_tweaks',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
