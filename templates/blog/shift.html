@@ -134,7 +134,7 @@
  {% if date %}
 <table border="1" class="table table-striped">
   <tr>
-<th>{{ date|date:"Y/m/d" }}({{ date | date:"l"}})
+<th>{{ date|date:"Y/m/d" }}{{ date | date:"l"|w_name}}
   </table>
  {% endif %}
 {% if user.is_staff %}

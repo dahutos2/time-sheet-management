@@ -11,7 +11,7 @@
 </thead>
 {% for object in object_list %}
 <tr>
-<td>{{ object.date|date:"Y/m/d" }}({{ object.date | date:"l"}})
+<td>{{ object.date|date:"Y/m/d" }}{{ object.date | date:"l"|w_name}}
 <div>{{ object.start_time }}〜{{ object.end_time }}
 　<a href="{% url 'shift_update' object.id %}">詳細</a>
 </div></td>

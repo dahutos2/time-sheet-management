@@ -94,11 +94,7 @@
               <tr>
               {% endif %}
               <td class="align-middle text-center">
-                  {% if month_current.month != day.month %}
-                       {{ day | date:"m/d" }}</td>
-                  {% else %}
-                       {{ day.day }}</td>
-                  {% endif %}
+                       {{ day | date:"m/d" }}{{ day | date:"l" | w_name }}</td>
                       {% for field in forms %}
                             <td>{{ field.start_time|add_class:"form-control" }}</td>
                               <td>{{ field.end_time|add_class:"form-control" }}

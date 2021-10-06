@@ -59,7 +59,7 @@
  {% if date %}
 <table border="1" class="table table-striped">
   <tr>
-<th>{{ date|date:"Y/m/d" }}({{ date | date:"l"}})</th>
+<th>{{ date|date:"Y/m/d" }}{{ date | date:"l" | w_name }}</th>
  {% endif %}
 {% if date|day_my_post:user %}
   <tr>

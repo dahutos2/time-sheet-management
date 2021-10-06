@@ -26,7 +26,7 @@
         <tr class="text-center">
         <td>
           <div>
-          {{ post.date|date:"Y/m/d" }}({{ post.date | date:"l"}})
+          {{ post.date|date:"Y/m/d" }}{{ post.date | date:"l"|w_name}}
         </div>
         <div>
           {{ post.get_start_time_display }}〜{{ post.get_end_time_display }}
@@ -111,7 +111,7 @@
         <tr class="text-center">
         <td>
           <div>
-          {{ shift.date|date:"Y/m/d" }}({{ shift.date | date:"l"}})
+          {{ shift.date|date:"Y/m/d" }}{{ shift.date | date:"l"|w_name}}
         </div>
         <div>
           {{ shift.start_time }}〜{{ shift.end_time }}

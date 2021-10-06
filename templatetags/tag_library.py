@@ -6,6 +6,12 @@ from blog.models import Shift, User, Post
 from dateutil.relativedelta import relativedelta
 register = template.Library()
 
+@register.filter(name="w_name")
+def w_change(w):
+   w_name = '(' + w[0] + ')'
+
+   return w_name
+
 @register.filter(name="jpholiday")
 def jpholiday_judge(day):
    val = jpholiday.is_holiday(day)
