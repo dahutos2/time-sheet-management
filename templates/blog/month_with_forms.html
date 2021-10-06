@@ -84,16 +84,16 @@
           <tbody>
           {% for week_day_forms in month_day_forms %}
               {% for day, forms in week_day_forms.items %}
-              <tr>
               {% if day|jpholiday %}
-                       <td class='table-danger text-center'>
+                       <tr class='table-danger'>
               {% elif day.weekday == 6 %}
-                       <td class='table-danger text-center'>
+                       <tr class='table-danger'>
               {% elif day.weekday == 5 %}
-                       <td class='table-primary text-center'>
+                       <tr class='table-primary'>
               {% else %}
-              <td class='text-center'>
+              <tr>
               {% endif %}
+              <td class="align-middle text-center">
                   {% if month_current.month != day.month %}
                        {{ day | date:"m/d" }}</td>
                   {% else %}
