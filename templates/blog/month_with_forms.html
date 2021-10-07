@@ -9,108 +9,122 @@
 <br>
 {% if helptext_day or helptext_time %}
 <a class="text-danger"><font face="serif">
-    <b><u><i>{{ helptext_day }}{{ helptext_time }}</i></u></b></font></a>
-{% elif helptext_input %}
-<a class="text-danger"><font face="serif">
+  <b><u><i>{{ helptext_day }}{{ helptext_time }}</i></u></b></font></a>
+  {% elif helptext_input %}
+  <a class="text-danger"><font face="serif">
     <b><u><i>{{ helptext_input }}</i></u></b></font></a>
-{% endif %}
-<form action="" method="POST" id="pc">
-{{ month_formset.management_form }}
-<table class="table table-bordered">
-    <thead>
-    <tr>
-    {% for w in week_names %}
-        {% if w == '土' %}
-        <th class="table-primary text-center">
-        {% elif w == '日' %}
-        <th class="table-danger text-center">
-        {% else %}
-        <th class="table-info text-center">
-        {% endif %}
-        {{ w }}</th>
-        {% endfor %}
-    </tr>
-        </thead>
-        <tbody>
-        {% for week_day_forms in month_day_forms %}
-        <tr>
-            {% for day, forms in week_day_forms.items %}
-            {% if day|jpholiday %}
-                     <td class='table-danger text-center'>
-            {% elif day.weekday == 6 %}
-                     <td class='table-danger text-center'>
-            {% elif day.weekday == 5 %}
-                     <td class='table-primary text-center'>
-            {% else %}
-            <td class='text-center'>
-            {% endif %}
-                {% if month_current.month != day.month %}
-                     {{ day | date:"m/d" }}
+    {% endif %}
+    <form method="POST" id="pc" onSubmit="return check()">
+      {{ month_formset.management_form }}
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            {% for w in week_names %}
+            {% if w == '土' %}
+            <th class="table-primary text-center">
+              {% elif w == '日' %}
+              <th class="table-danger text-center">
                 {% else %}
-                     <b>{{ day.day }}</b>
-                {% endif %}
-                    {% for field in forms %}
-                    <br>
-                    開始
-                    <br>
+                <th class="table-info text-center">
+                  {% endif %}
+                  {{ w }}</th>
+                  {% endfor %}
+                </tr>
+              </thead>
+              <tbody>
+                {% for week_day_forms in month_day_forms %}
+                <tr>
+                  {% for day, forms in week_day_forms.items %}
+                  {% if day|jpholiday %}
+                  <td class='table-danger text-center'>
+                    {% elif day.weekday == 6 %}
+                    <td class='table-danger text-center'>
+                      {% elif day.weekday == 5 %}
+                      <td class='table-primary text-center'>
+                        {% else %}
+                        <td class='text-center'>
+                          {% endif %}
+                          {% if month_current.month != day.month %}
+                          {{ day | date:"m/d" }}
+                          {% else %}
+                          <b>{{ day.day }}</b>
+                          {% endif %}
+                          {% for field in forms %}
+                          <br>
+                          開始
+                          <br>
                           {{ field.start_time }}
-                    <br>
-                    終了
-                    <br>
-                            {{ field.end_time }}
-                            {{ field.date }}
-                    {% endfor %}
-                </td>
-            {% endfor %}
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    {% csrf_token %}
-    <div class="text-center">
-        <input type="submit" class="btn btn-primary btn-lg" value="送信"/>
-      </div>
-</form>
-  <form action="" method="POST" id="sp">
-  {{ month_formset.management_form }}
-  <table class="table table-bordered">
-      <thead>
-      <tr>
-          <th>日付</th>
-          <th>開始</th>
-          <th>終了</th>
-      </tr>
-          </thead>
-          <tbody>
-          {% for week_day_forms in month_day_forms %}
-              {% for day, forms in week_day_forms.items %}
-              {% if day|jpholiday %}
-                       <tr class='table-danger'>
-              {% elif day.weekday == 6 %}
-                       <tr class='table-danger'>
-              {% elif day.weekday == 5 %}
-                       <tr class='table-primary'>
-              {% else %}
-              <tr>
-              {% endif %}
-              <td class="align-middle text-center">
-                       {{ day | date:"m/d" }}{{ day | date:"l" | w_name }}</td>
-                      {% for field in forms %}
-                            <td>{{ field.start_time|add_class:"form-control" }}</td>
-                              <td>{{ field.end_time|add_class:"form-control" }}
-                              {{ field.date }}
+                          <br>
+                          終了
+                          <br>
+                          {{ field.end_time }}
+                          {{ field.date }}
+                          {% endfor %}
+                        </td>
+                        {% endfor %}
+                      </tr>
                       {% endfor %}
-                      </td>
-                  </tr>
-              {% endfor %}
-          {% endfor %}
-          </tbody>
-      </table>
-      {% csrf_token %}
-          <input type="submit" class="btn btn-primary form-control" value="送信"/>
-  </form>
-  {% endblock %}
-  {% block extrajs %}
-      <script>
-      </script>
-  {% endblock %}
+                    </tbody>
+                  </table>
+                  {% csrf_token %}
+                  <div class="text-center">
+                    <input type="submit" class="btn btn-primary btn-lg" value="送信"/>
+                  </div>
+                </form>
+                <form method="POST" id="sp" name="myform" onSubmit="return check()" >
+                  {{ month_formset.management_form }}
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>日付</th>
+                        <th>開始</th>
+                        <th>終了</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for week_day_forms in month_day_forms %}
+                      {% for day, forms in week_day_forms.items %}
+                      {% if day|jpholiday %}
+                      <tr class='table-danger'>
+                        {% elif day.weekday == 6 %}
+                        <tr class='table-danger'>
+                          {% elif day.weekday == 5 %}
+                          <tr class='table-primary'>
+                            {% else %}
+                            <tr>
+                              {% endif %}
+                              <td class="align-middle text-center">
+                                {{ day | date:"m/d" }}{{ day | date:"l" | w_name }}</td>
+                                {% for field in forms %}
+                                <td>{{ field.start_time|add_class:"form-control" }}</td>
+                                <td>{{ field.end_time|add_class:"form-control" }}
+                                  {{ field.date }}
+                                  {% endfor %}
+                                </td>
+                              </tr>
+                              {% endfor %}
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                          {% csrf_token %}
+                          <input name="btn" type="submit" class="btn btn-primary form-control" value="送信"/>
+                        </form>
+                        <script type="text/javascript">
+
+                          function check(){
+
+                            if(window.confirm('シフトを送信してよろしいですか？')){ // 確認ダイアログを表示
+
+                              return true; // 「OK」時は送信を実行
+
+                            }
+                            else{ // 「キャンセル」時の処理
+
+                              window.alert('キャンセルされました'); // 警告ダイアログを表示
+                              return false; // 送信を中止
+
+                            }
+
+                          }
+                        </script>
+                        {% endblock %}

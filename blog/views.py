@@ -38,6 +38,12 @@ class Index(ListView):
 
         return query_set
 
+    def post(self, request):
+        post = Post.objects.filter(name=request.user).update(published=False)
+        print(request.user,'がシフトを完了しました。')
+
+        return redirect('/')
+
 class Mypage(ListView):
     template_name = 'admin/mypage.html'
     model = User
@@ -145,22 +151,10 @@ class UserShift(DetailView):
 
         return context
 
-
     def get(self, request, **kwargs):
         if not request.user.is_superuser:
             return redirect('/dahutos-admin/')
         return super().get(request)
-
-class Complite(ListView,):
-    # 一覧するモデルを指定 -> `object_list`で取得可能
-    template_name="blog/post_complite.html"
-    model = Post
-
-    def post(self, request):
-        post = Post.objects.filter(name=request.user).update(published=False)
-        print(request.user,'がシフトを完了しました。')
-
-        return redirect('/')
 
 class UserUpdate(UpdateView):
     template_name="registration/user_form.html"
@@ -229,7 +223,7 @@ class Delete(DeleteView):
         return super().get(request)
 
 # CreateViewは新規作成画面を簡単に作るためのView
-class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.View):
+class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.FormView):
     """フォーム付きの月間カレンダーを表示するビュー"""
     template_name = 'blog/month_with_forms.html'
     model = Post
@@ -243,9 +237,14 @@ class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.View):
         help_user = User.objects.get(username=244)
         if request.user == help_user:
             return redirect('/shift/')
-        return render(request,self.template_name,context,)
 
-    def post(self, request, **kwaegs):
+        return render(request, self.template_name, context)
+
+    def post(self, request, **kwargs):
+        time_dict = {'1':'9:00','2':'10:00','3':'11:00','4':'12:00','5':'13:00',
+                    '6':'14:00','7':'15:00','8':'16:00','9':'17:00','10':'18:00',
+                    '11':'19:00','12':'20:00','13':'21:00','14':'22:00','15':'23:00',
+                    '16':'24:00'}
         context = self.get_month_calendar()
         form_list = context['month_formset']
         forms = []
@@ -260,20 +259,27 @@ class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.View):
                         return render(request,self.template_name,context)
                     elif int(start_time)>=int(end_time):
                         context["helptext_time"] = '指定時間が間違ってます。'
-                        return render(request,self.template_name,context,)
+                        return render(request,self.template_name,context)
                     else:
-                        forms.append([start_time,end_time,date])
+                        forms.append({'date': date, 'start_time': start_time, 'end_time': end_time})
         if forms == []:
             context["helptext_input"] = '未入力の部分があります。'
-            return render(request,self.template_name,context,)
+            return render(request,self.template_name,context)
         else:
+            formset = []
+            for form in forms:
+                date = form['date']
+                start_time = time_dict[form['start_time']]
+                end_time = time_dict[form['end_time']]
+                formset.append({'date': date, 'start_time': start_time, 'end_time': end_time})
+            context['formset'] = formset
             for formset in forms:
-                start_time = formset[0]
-                end_time = formset[1]
-                date = formset[2]
+                start_time = formset['start_time']
+                end_time = formset['end_time']
+                date = formset['date']
                 Post.objects.create(start_time=start_time,
                                 end_time=end_time,date=date,name=request.user)
-            print(request.user,'がシフトを提出しました。')
+                print(request.user,'がシフトを提出しました。')
             return redirect('/')
 
 class SignUpView(CreateView):

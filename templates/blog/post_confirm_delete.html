@@ -6,7 +6,7 @@
 <a href="/mypage/">管理者画面へ</a>
 {% endif %}
 <br>
-<p>{{ object.title }}を本当に削除してもよろしいですか？</p>
+<p><strong>{{ object.date }}</strong>のシフトを本当に削除してもよろしいですか？</p>
 <form method="post">
     {% csrf_token %}
     <input type="submit" value="削除" class="btn btn-danger" />

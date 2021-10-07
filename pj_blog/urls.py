@@ -20,7 +20,6 @@ urlpatterns = [
     path('month_with_forms/<int:year>/<int:month>/', views.MonthWithFormsCalendar.as_view(), name="month_with_forms"),
     path('index/', views.IndexPost.as_view(), name="index_post"),
     path('index/<int:year>/<int:month>/<int:day>/', views.IndexPost.as_view(), name="index_post"),
-    path('comlite/', views.Complite.as_view(), name="complite"),
     path('update/<pk>', views.Update.as_view(), name="update"),
     path('delete/<pk>', views.Delete.as_view(), name="delete"),
     path('mypage/',views.Mypage.as_view(), name="mypage"),
