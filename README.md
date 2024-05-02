@@ -1,5 +1,5 @@
 ## アプリ紹介
-- このアプリは従業員の勤務時間を管理するアプリです。
+- このアプリは従業員のシフトを管理するアプリです。 
 - frontendとbackendは別れておらずDjangoのみで作成しています。
 ## 機能
 ### ユーザ登録
@@ -7,15 +7,21 @@
 ![login](images/login.png)
 #### ユーザ登録画面
 ![register](images/register.png)
-### 勤務時間の入力/確認
-#### 月毎の勤務の確認
-![detail](images/detail.png)
-#### 勤務時間の入力
-![update](images/update.png)
-#### 勤務一覧の確認
-![list](images/list.png)
+### 希望シフトの提出/確認
+#### シフトの提出
+![submit](images/submit.png)
+#### シフトの確認
+![wish](images/wish.png)
+### 希望シフトの完了(ユーザ側)
+![confirm](images/confirm.png)
+![completed](images/completed.png)
+### 希望シフトの完了(管理者側)
+![edit](images/edit.png)
+![active](images/active.png)
 ### 管理画面
 #### ユーザー
 ![user](images/user.png)
-#### 勤務時間
+#### 完成シフトのimport
+![import](images/import.png)
+#### 現在までのシフト状況の確認
 ![admin](images/admin.png)
