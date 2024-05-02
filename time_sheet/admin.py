@@ -7,7 +7,6 @@ from rangefilter.filters import DateRangeFilter
 import datetime
 from import_export import resources, fields
 from import_export.admin import ExportMixin
-from import_export.formats import base_formats
 
 
 class PostInline(admin.TabularInline):

@@ -1,6 +1,5 @@
 # ListViewとDetailViewを取り込み
 from django.views.generic import ListView, DetailView
-import datetime
 from django.shortcuts import redirect, render
 from django.views import generic
 from . import mixins
@@ -14,9 +13,7 @@ from django.views.generic.edit import CreateView
 from django.http import HttpResponse
 from django.views.generic.edit import UpdateView
 from django.utils.translation import gettext_lazy as _
-import csv
-import io
-import urllib
+import datetime, csv, io
 from .forms import CSVUploadForm, BS4ScheduleForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
@@ -28,7 +25,7 @@ class Index(ListView):
     paginate_by = 5
 
     def get(self, request, **kwargs):
-        help_user = User.objects.get(username=244)
+        help_user = User.get_help_user()
         if request.user == help_user:
             return redirect("/shift/")
         return super().get(request)
@@ -139,7 +136,7 @@ class UserShift(DetailView):
         startdate = ""
         enddate = ""
         pk = self.kwargs.get("pk")
-        user = User.objects.get(pk=pk)
+        user = User.get(pk=pk)
         shift_objects = Shift.objects.filter(name=user).order_by("-date")
         post_objects = Post.objects.filter(name=user).order_by("-date")
         if "form_value" in self.request.session:
@@ -174,9 +171,9 @@ class UserUpdate(UpdateView):
     success_url = "/"
 
     def get(self, request, **kwargs):
-        if User.objects.get(id=self.kwargs["pk"]) != request.user:
+        if User.get(id=self.kwargs["pk"]) != request.user:
             return HttpResponse("不正なアクセスです。")
-        help_user = User.objects.get(username=244)
+        help_user = User.get(username=244)
         if request.user == help_user:
             return redirect("/shift/")
         return super().get(request)
@@ -203,7 +200,7 @@ class IndexPost(mixins.MonthCalendarMixin, ListView):
     def get(self, request, **kwargs):
         if not request.user.is_authenticated:
             return redirect("/")
-        help_user = User.objects.get(username=244)
+        help_user = User.get(username=244)
         if request.user == help_user:
             return redirect("/shift/")
         return super().get(request)
@@ -256,7 +253,7 @@ class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.FormView):
         context = self.get_month_calendar()
         if not request.user.is_authenticated:
             return redirect("/")
-        help_user = User.objects.get(username=244)
+        help_user = User.get(username=244)
         if request.user == help_user:
             return redirect("/shift/")
 
@@ -418,7 +415,7 @@ class ShiftView(mixins.MonthCalendarMixin, ListView):
         month = self.kwargs.get("month")
         year = self.kwargs.get("year")
         day = self.kwargs.get("day")
-        help_user = User.objects.get(username=244)
+        help_user = User.get(username=244)
         if year:
             date = datetime.date(year=int(year), month=int(month), day=int(day))
             if request.user != help_user:
@@ -528,7 +525,7 @@ class ShiftIndex(ListView):
     def get(self, request, **kwargs):
         if not request.user.is_authenticated:
             return redirect("/")
-        help_user = User.objects.get(username=244)
+        help_user = User.get(username=244)
         if request.user == help_user:
             return redirect("/shift/")
         return super().get(request)

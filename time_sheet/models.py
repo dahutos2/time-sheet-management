@@ -1,9 +1,7 @@
 from django.db import models
-from django.apps.config import AppConfig
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractUser, UserManager
 import datetime
-from django.utils import timezone
 from django.urls import reverse_lazy
 
 
@@ -28,6 +26,18 @@ class User(AbstractUser):
     def __str__(self):
         return str(self.full_name)
 
+    @staticmethod
+    def get(username):
+        try:
+            user = User.objects.get(username=username)
+            return user
+        except User.DoesNotExist:
+            return None
+
+    @staticmethod
+    def get_help_user():
+        return User.get(username=244)
+
 
 class Post(models.Model):
     time_list = (
@@ -51,7 +61,6 @@ class Post(models.Model):
     start_time = models.CharField(
         "開始",
         blank=True,
-        null=True,
         choices=time_list,
         max_length=255,
     )
@@ -59,7 +68,6 @@ class Post(models.Model):
     end_time = models.CharField(
         "終了",
         blank=True,
-        null=True,
         choices=time_list,
         max_length=255,
     )

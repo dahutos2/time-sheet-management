@@ -32,7 +32,12 @@
     </button>
     <div class="collapse navbar-collapse" id="navmenu1">
        <div class="navbar-nav">
-         <a class="nav-item nav-link" href="{% url 'logout' %}"><font color="red">ログアウト</font></a>
+        <form action="{% url 'logout' %}" method="post" class="nav-item nav-link">
+          {% csrf_token %}
+          <button class="btn btn-link p-0 text-danger"type="submit">
+            ログアウト
+          </button>
+        </form>
        </div>
      </div>
   </nav>
@@ -52,7 +57,12 @@
          <a class="nav-item nav-link" href="{% url 'index_post'  %}">希望シフト一覧</a>
          <a class="nav-item nav-link" href="{% url 'shift'  %}">完成シフト一覧</a>
          <a class="nav-item nav-link" href="{% url 'shift_index'  %}">完成シフト確認</a>
-     <a class="nav-item nav-link" href="{% url 'logout' %}"><font color="red">ログアウト</font></a>
+         <form action="{% url 'logout' %}" method="post" class="nav-item nav-link">
+          {% csrf_token %}
+          <button class="btn btn-link p-0 text-danger"type="submit">
+            ログアウト
+          </button>
+        </form>
     </div>
   </div>
 </nav>

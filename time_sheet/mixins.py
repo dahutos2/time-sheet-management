@@ -99,15 +99,15 @@ class MonthWithFormsMixin(MonthCalendarMixin):
         # 例えば、Schedule.objects.filter(date__range=(1日, 31日)) になる
         queryset = self.model.objects.filter(**lookup)
         days_count = sum(len(week) for week in days)
-        FormClass = forms.modelformset_factory(
+        form_class = forms.modelformset_factory(
             self.model, self.form_class, extra=days_count
         )
         if self.request.method == "POST":
-            formset = self.month_formset = FormClass(
+            formset = self.month_formset = form_class(
                 self.request.POST, queryset=queryset
             )
         else:
-            formset = self.month_formset = FormClass(queryset=queryset)
+            formset = self.month_formset = form_class(queryset=queryset)
 
         # {1日のdatetime: 1日に関連するフォーム, 2日のdatetime: 2日のフォーム...}のような辞書を作る
         day_forms = {day: [] for week in days for day in week}

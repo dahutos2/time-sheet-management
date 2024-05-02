@@ -2,7 +2,9 @@
     "cSpell.words": [
         "anymail",
         "ASGI",
+        "csvdownload",
         "dahutos",
+        "dateutil",
         "dotenv",
         "ECURE",
         "enddate",
@@ -13,6 +15,7 @@
         "mywork",
         "pbonspuxakfennjg",
         "rangefilter",
+        "relativedelta",
         "showall",
         "signin",
         "startdate",

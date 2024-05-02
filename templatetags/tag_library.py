@@ -25,16 +25,14 @@ def jpholiday_judge(day):
 
 @register.filter(name="count")
 def count(objects):
-    int = objects.count()
-
-    return int
+    num = objects.count()
+    return num
 
 
 @register.filter(name="editable")
 def editable_count(object, arg):
-    int = object.filter(published=arg).count()
-
-    return int
+    num = object.filter(published=arg).count()
+    return num
 
 
 @register.filter(name="shift_all")
@@ -99,7 +97,7 @@ def day_admin_shift(object):
 
 @register.filter(name="day_shift_help")
 def day_shift_help(object):
-    help_stuff = User.objects.get(username=244)
+    help_stuff = User.get_help_user()
     if Shift.objects.filter(date=object, name=help_stuff).exists():
         return True
     else:

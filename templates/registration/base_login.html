@@ -19,9 +19,11 @@
             <a class="navbar-brand" href="/">ログイン画面</a>
           <a class="navbar-brand" href="{% url 'signup' %}">新規登録</a>
         </nav>
-        {% block main %}
+        <div class="container mt-4">
+            {% block main %}
         <p>※コンテンツがありません。</p>
         {% endblock %}
+        </div>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

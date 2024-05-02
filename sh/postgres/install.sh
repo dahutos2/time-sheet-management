@@ -1,0 +1,2 @@
+# Homebrewを使ってPostgreSQLのインストール
+brew install postgresql
