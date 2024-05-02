@@ -136,7 +136,7 @@ class UserShift(DetailView):
         startdate = ""
         enddate = ""
         pk = self.kwargs.get("pk")
-        user = User.get(pk=pk)
+        user = User.objects.get(pk=pk)
         shift_objects = Shift.objects.filter(name=user).order_by("-date")
         post_objects = Post.objects.filter(name=user).order_by("-date")
         if "form_value" in self.request.session:
@@ -171,9 +171,9 @@ class UserUpdate(UpdateView):
     success_url = "/"
 
     def get(self, request, **kwargs):
-        if User.get(id=self.kwargs["pk"]) != request.user:
+        if User.objects.get(id=self.kwargs["pk"]) != request.user:
             return HttpResponse("不正なアクセスです。")
-        help_user = User.get(username=244)
+        help_user = User.get_help_user()
         if request.user == help_user:
             return redirect("/shift/")
         return super().get(request)
@@ -200,7 +200,7 @@ class IndexPost(mixins.MonthCalendarMixin, ListView):
     def get(self, request, **kwargs):
         if not request.user.is_authenticated:
             return redirect("/")
-        help_user = User.get(username=244)
+        help_user = User.get_help_user()
         if request.user == help_user:
             return redirect("/shift/")
         return super().get(request)
@@ -253,7 +253,7 @@ class MonthWithFormsCalendar(mixins.MonthWithFormsMixin, generic.FormView):
         context = self.get_month_calendar()
         if not request.user.is_authenticated:
             return redirect("/")
-        help_user = User.get(username=244)
+        help_user = User.get_help_user()
         if request.user == help_user:
             return redirect("/shift/")
 
@@ -415,7 +415,7 @@ class ShiftView(mixins.MonthCalendarMixin, ListView):
         month = self.kwargs.get("month")
         year = self.kwargs.get("year")
         day = self.kwargs.get("day")
-        help_user = User.get(username=244)
+        help_user = User.get_help_user()
         if year:
             date = datetime.date(year=int(year), month=int(month), day=int(day))
             if request.user != help_user:
@@ -525,7 +525,7 @@ class ShiftIndex(ListView):
     def get(self, request, **kwargs):
         if not request.user.is_authenticated:
             return redirect("/")
-        help_user = User.get(username=244)
+        help_user = User.get_help_user()
         if request.user == help_user:
             return redirect("/shift/")
         return super().get(request)
