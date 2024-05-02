@@ -1,0 +1,17 @@
+{% extends "time_sheet/base.html" %}
+
+{% block main %}
+{% load tag_library %}
+<h2>編集</h2>
+{% if user.is_staff %}
+<a href="/mypage/">管理者画面へ</a>
+<p>
+{% endif %}
+<a>{{ object.date|date:"Y/m/d" }}{{ object.date|date:"l"|w_name }}</a>
+<p>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="更新" class="btn btn-primary" />
+</form>
+{% endblock %}

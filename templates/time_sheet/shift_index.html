@@ -1,0 +1,72 @@
+{% extends "time_sheet/base.html" %}
+{% block main %}
+{% load tag_library %}
+<table class="table table-striped">
+  <thead>
+<tr>
+<th>完成シフト　
+<a href="{% url 'shift'  %}">一覧へ</a></th>
+<th>時間</th>
+</tr>
+</thead>
+{% for object in object_list %}
+<tr>
+<td>{{ object.date|date:"Y/m/d" }}{{ object.date | date:"l"|w_name}}
+<div>{{ object.start_time }}〜{{ object.end_time }}
+　<a href="{% url 'shift_update' object.id %}">詳細</a>
+</div></td>
+<td>{{ object|work_time }}</td>
+{% empty %}
+<td>勤務がありません</td><td></td>
+{% endfor %}
+</tr>
+</table>
+{% include "time_sheet/pagination.html" %}
+<table class="table">
+  <thead>
+<tr>
+<th>勤務時間</th>
+<th</th>
+</tr>
+</thead>
+  {% if not range == '〜'　%}
+  <tr class="table-info">
+    <th>{{ range }}</th><th></th>
+    </tr>
+  {% endif %}
+  <tr class="table-info">
+  <th>
+  <form method="POST">
+    {% csrf_token %}
+        <input type="date" class="form_desigh" id="startdate" name="startdate"　placeholder="年/月/日" >
+        〜
+        <input type="date" class="form_desigh" id="enddate" name="enddate" placeholder="年/月/日" >
+        <th>
+      <input type="submit" class="btn btn-info btn-lg" value="検索">
+    </form>
+    </th>
+    </tr>
+    </table>
+{% if objects|date_filter:date_range %}
+  <table class="table text-center">
+    <tr>
+      <th>合計日数</th>
+      <th>合計時間</th>
+      <th>深夜合計</th>
+      <th>残業合計</th>
+    </tr>
+    <tr>
+      <td>{{ objects|date_filter:date_range|count }}日</td>
+      {% for object in objects|date_filter:date_range|work_time_sum %}
+      <td>{{ object }}</td>
+      {% endfor %}
+      </tr>
+    </table>
+{% else %}
+<table class="table text-center">
+  <tr>
+    <th class="table-danger">勤務がありません。</th>
+    </tr>
+  </table>
+{% endif %}
+{% endblock %}

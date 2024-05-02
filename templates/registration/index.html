@@ -30,7 +30,7 @@
 {% endfor %}
 </tr>
 </table>
-{% include "blog/pagination.html" %}
+{% include "time_sheet/pagination.html" %}
 <p>
   <form method="post" onSubmit="return check()">
   <div class="btn-group">
@@ -41,7 +41,7 @@
   </form>
 {% if user.is_staff %}
 <p>
-<a href="/dahutos-admin/">管理画面へ</a>
+<a href="/admin/">管理画面へ</a>
 {% endif %}
 <script type="text/javascript">
 
